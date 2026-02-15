@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    position: relative;
+    min-height: 100vh;
+}
+
+.category-card {
+    transition: transform 0.3s;
+    border-radius: 10px;
+    color: white;
+    font-size: x-large;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+}
+
+
+.card {
+    border-radius: 30px;
+}
+
+.order {
+    border: 0;
+    border-radius: 15px;
+    color: white;
+    background-color: red;
+}
+
+
+/* Animation for cart button */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.cart-pulse {
+    animation: pulse 1s infinite;
+}
