@@ -4,12 +4,11 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.jpeg,
-  WEBLib.Controls, WEBLib.ExtCtrls,
-  Vcl.StdCtrls, WEBLib.StdCtrls;
+  WEBLib.Controls, WEBLib.ExtCtrls, WEBLib.Forms, WEBLib.Graphics,
+  WEBLib.StdCtrls, Vcl.StdCtrls, Vcl.Controls, Vcl.Imaging.jpeg;
 
 type
-  TFrame1 = class(TFrame)
+  TFrame1 = class(TWebFrame)
     WebImageControl1: TWebImageControl;
     WebPanel1: TWebPanel;
     WebButton1: TWebButton;

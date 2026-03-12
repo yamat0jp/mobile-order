@@ -49,7 +49,7 @@ end;
 procedure TForm1.ChangeFrameCount(FrameCount: integer);
 var
   i: integer;
-  obj: TFrame1;
+  obj: TWebFrame;
 begin
   List.Clear;
   for i := 0 to FrameCount - 1 do
