@@ -16,7 +16,6 @@ type
     WebLabel1: TWebLabel;
     WebLabel2: TWebLabel;
     WebLabel3: TWebLabel;
-    WebPanel2: TWebPanel;
   private
     { Private éŒ¾ }
   public

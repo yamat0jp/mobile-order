@@ -2,7 +2,6 @@ object Form1: TForm1
   Width = 959
   Height = 959
   Caption = 'sushi'
-  Color = 16571646
   OnCreate = WebFormCreate
   object WebLabel2: TWebLabel
     Left = 0
@@ -11,7 +10,6 @@ object Form1: TForm1
     Height = 54
     Align = alTop
     Caption = #20154#27671#12513#12491#12517#12540
-    Color = 16571646
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -40
@@ -47,8 +45,7 @@ object Form1: TForm1
       Height = 15
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
-      OnClick = WebLinkLabel1Click
-      Caption = #21033#29992#35215#32004
+      Caption = '<a href="rule.html">'#21033#29992#35215#32004'</a>'
     end
     object WebLinkLabel2: TWebLinkLabel
       Left = 578
@@ -57,8 +54,7 @@ object Form1: TForm1
       Height = 15
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
-      OnClick = WebLinkLabel2Click
-      Caption = #12362#21839#12356#21512#12431#12379
+      Caption = '<a  href="qanda.html">'#12362#21839#12356#21512#12431#12379'</a>'
     end
     object WebLinkLabel3: TWebLinkLabel
       Left = 320
@@ -67,8 +63,7 @@ object Form1: TForm1
       Height = 15
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
-      OnClick = WebLinkLabel3Click
-      Caption = #12503#12521#12452#12496#12471#12540#12509#12522#12471#12540
+      Caption = '<a href="policy.html">'#12503#12521#12452#12496#12471#12540#12509#12522#12471#12540'</a>'
     end
     object WebLabel3: TWebLabel
       Left = 448
@@ -79,35 +74,6 @@ object Form1: TForm1
       HeightStyle = ssAuto
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
-    end
-  end
-  inline Frame11: TFrame1
-    Left = 0
-    Top = 351
-    Width = 389
-    Height = 520
-    Align = alLeft
-    TabOrder = 1
-    ExplicitTop = 351
-    ExplicitHeight = 520
-    inherited WebPanel2: TWebPanel
-      Height = 520
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitHeight = 520
-      inherited WebImageControl1: TWebImageControl
-        Height = 344
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitHeight = 344
-      end
-      inherited WebPanel1: TWebPanel
-        Top = 344
-        ExplicitTop = 344
-        inherited WebButton1: TWebButton
-          ChildOrder = 3
-        end
-      end
     end
   end
   object WebResponsiveGridPanel1: TWebResponsiveGridPanel
@@ -268,5 +234,16 @@ object Form1: TForm1
       ChildOrder = 4
       Role = ''
     end
+  end
+  object WebScrollBox1: TWebScrollBox
+    Left = 0
+    Top = 351
+    Width = 959
+    Height = 520
+    Align = alClient
+    BorderStyle = bsSingle
+    ChildOrder = 3
+    Color = clWhite
+    ScrollBars = ssHorizontal
   end
 end

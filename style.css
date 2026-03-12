@@ -29,6 +29,11 @@ body {
     background-color: red;
 }
 
+a {
+    -moz-text-decoration-line: none;
+    color: white;
+}
+
 
 /* Animation for cart button */
 @keyframes pulse {

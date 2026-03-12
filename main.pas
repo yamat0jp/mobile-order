@@ -5,8 +5,8 @@ interface
 uses
   System.SysUtils, System.Classes, JS, Web, WEBLib.Graphics,
   WEBLib.Forms, WEBLib.Dialogs, WEBLib.ExtCtrls, WEBLib.CSS,
-  WEBLib.Controls, WEBLib.StdCtrls, WEBLib.WebCtrls, Vcl.Controls, Vcl.StdCtrls,
-  WEBLib.Slider, Vcl.Forms, Unit1;
+  WEBLib.Controls, WEBLib.StdCtrls, WEBLib.WebCtrls,
+  WEBLib.Slider, Unit1, Vcl.Controls, Vcl.StdCtrls, System.Generics.Collections;
 
 type
   TForm1 = class(TWebForm)
@@ -20,16 +20,15 @@ type
     WebPanel7: TWebPanel;
     WebLinkLabel1: TWebLinkLabel;
     WebLinkLabel2: TWebLinkLabel;
-    WebLinkLabel3: TWebLinkLabel;
     WebLabel3: TWebLabel;
-    Frame11: TFrame1;
     WebHTMLDiv2: TWebHTMLDiv;
+    WebScrollBox1: TWebScrollBox;
+    WebLinkLabel3: TWebLinkLabel;
     procedure WebFormCreate(Sender: TObject);
-    procedure WebLinkLabel3Click(Sender: TObject);
-    procedure WebLinkLabel2Click(Sender: TObject);
-    procedure WebLinkLabel1Click(Sender: TObject);
   private
     { Private declarations }
+    List: TObjectList<TWebFrame>;
+    procedure ChangeFrameCount(FrameCount: integer);
   public
     { Public declarations }
   end;
@@ -41,15 +40,26 @@ implementation
 
 {$R *.dfm}
 
-uses policy, qanda, rule;
-
-var
-  Frames: TArray<TFrame1>;
-
 function NativeIntToCssColor(AColor: NativeInt): string;
 begin
   Result := Format('#%.2x%.2x%.2x', [GetRValue(AColor), GetGValue(AColor),
     GetBValue(AColor)]);
+end;
+
+procedure TForm1.ChangeFrameCount(FrameCount: integer);
+var
+  i: integer;
+  obj: TFrame1;
+begin
+  List.Clear;
+  for i := 0 to FrameCount - 1 do
+  begin
+    obj := TFrame1.Create(Self);
+    List.Add(obj);
+    obj.LoadFromForm;
+    obj.Parent := WebScrollBox1;
+    obj.Align := alLeft;
+  end;
 end;
 
 procedure TForm1.WebFormCreate(Sender: TObject);
@@ -70,32 +80,8 @@ begin
       panel.ElementHandle.style.setProperty('background-color', color);
     end;
 
-//  Frame11.Hide;
-  SetLength(Frames, FRAME_COUNT);
-  for i := 0 to High(Frames) do
-  begin
-    Frames[i] := TFrame1.Create(Self);
-    with Frames[i] do
-    begin
-      Parent := Self;
-      Align := alLeft;
-    end;
-  end;
-end;
-
-procedure TForm1.WebLinkLabel1Click(Sender: TObject);
-begin
-  Form4.Show;
-end;
-
-procedure TForm1.WebLinkLabel2Click(Sender: TObject);
-begin
-  Form3.Show;
-end;
-
-procedure TForm1.WebLinkLabel3Click(Sender: TObject);
-begin
-  Form2.Show;
+  List := TObjectList<TWebFrame>.Create;
+  ChangeFrameCount(5);
 end;
 
 end.
