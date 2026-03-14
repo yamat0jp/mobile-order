@@ -15616,6 +15616,7 @@ object Frame1: TFrame1
       ElementClassName = 'order'
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
+      OnClick = WebButton1Click
     end
   end
 end

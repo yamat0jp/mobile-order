@@ -3,6 +3,7 @@ object Form1: TForm1
   Height = 959
   Caption = 'sushi'
   OnCreate = WebFormCreate
+  OnDestroy = WebFormDestroy
   object WebLabel2: TWebLabel
     Left = 0
     Top = 297

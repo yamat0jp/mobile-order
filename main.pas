@@ -5,8 +5,8 @@ interface
 uses
   System.SysUtils, System.Classes, JS, Web, WEBLib.Graphics,
   WEBLib.Forms, WEBLib.Dialogs, WEBLib.ExtCtrls, WEBLib.CSS,
-  WEBLib.Controls, WEBLib.StdCtrls, WEBLib.WebCtrls,
-  WEBLib.Slider, Unit1, Vcl.Controls, Vcl.StdCtrls, System.Generics.Collections;
+  WEBLib.Controls, WEBLib.StdCtrls, WEBLib.WebCtrls, WEBLib.JSON,
+  WEBLib.Slider, Unit1, Vcl.Controls, Vcl.StdCtrls;
 
 type
   TForm1 = class(TWebForm)
@@ -25,9 +25,9 @@ type
     WebScrollBox1: TWebScrollBox;
     WebLinkLabel3: TWebLinkLabel;
     procedure WebFormCreate(Sender: TObject);
+    procedure WebFormDestroy(Sender: TObject);
   private
     { Private declarations }
-    List: TObjectList<TWebFrame>;
     procedure ChangeFrameCount(FrameCount: integer);
   public
     { Public declarations }
@@ -40,6 +40,11 @@ implementation
 
 {$R *.dfm}
 
+uses Unit2, System.Generics.Collections, data;
+
+var
+  List: TObjectList<TWebFrame>;
+
 function NativeIntToCssColor(AColor: NativeInt): string;
 begin
   Result := Format('#%.2x%.2x%.2x', [GetRValue(AColor), GetGValue(AColor),
@@ -49,12 +54,12 @@ end;
 procedure TForm1.ChangeFrameCount(FrameCount: integer);
 var
   i: integer;
-  obj: TWebFrame;
+  obj: TFrame1;
 begin
   List.Clear;
   for i := 0 to FrameCount - 1 do
   begin
-    obj := TFrame1.Create(Self);
+    obj := TFrame1.Create(Application);
     List.Add(obj);
     obj.LoadFromForm;
     obj.Parent := WebScrollBox1;
@@ -63,14 +68,12 @@ begin
 end;
 
 procedure TForm1.WebFormCreate(Sender: TObject);
-const
-  FRAME_COUNT = 5;
 var
   panel: TWebPanel;
   color: string;
   i: integer;
 begin
-  for i := 0 to WebResponsiveGridPanel1.ControlCollection.count - 1 do
+  for i := 0 to WebResponsiveGridPanel1.ControlCollection.Count - 1 do
     if WebResponsiveGridPanel1.ControlCollection.Items[i].Control is TWebPanel
     then
     begin
@@ -82,6 +85,11 @@ begin
 
   List := TObjectList<TWebFrame>.Create;
   ChangeFrameCount(5);
+end;
+
+procedure TForm1.WebFormDestroy(Sender: TObject);
+begin
+  List.Free;
 end;
 
 end.

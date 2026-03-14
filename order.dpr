@@ -4,7 +4,10 @@ uses
   Vcl.Forms,
   WEBLib.Forms,
   main in 'main.pas' {Form1: TWebForm} {*.html},
-  Unit1 in 'Unit1.pas' {Frame1: TFrame};
+  Unit1 in 'Unit1.pas' {Frame1: TFrame},
+  Unit2 in 'Unit2.pas' {Form2: TWebForm} {*.html},
+  Unit3 in 'Unit3.pas' {Frame2: TWebFrame} {*.html},
+  data in 'data.pas';
 
 {$R *.res}
 
