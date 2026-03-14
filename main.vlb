@@ -19,9 +19,6 @@ Coordinates=212,10,103,58
 [WebLabel3]
 Coordinates=10,78,79,58
 
-[WebLinkLabel3]
-Coordinates=243,78,103,58
-
 [WebPanel3]
 Coordinates=425,146,81,36
 
@@ -35,6 +32,6 @@ Coordinates=10,10,103,58
 Coordinates=243,146,81,36
 
 []
-Coordinates=10,214,101,36
+Coordinates=243,78,103,58
 Visible=True
 

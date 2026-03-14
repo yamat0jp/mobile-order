@@ -13,7 +13,7 @@ type
     FCount: integer;
     FId: string;
   public
-    constructor Create(ajson: TJSONObject); virtual;
+    constructor Create(AJson: TJSONObject); overload;
     function toJson: TJSONObject;
     procedure Assign(AData: TOrderData);
     property Id: string read FId write FId;
@@ -29,21 +29,21 @@ implementation
 
 procedure TOrderData.Assign(AData: TOrderData);
 begin
-  FId:=AData.Id;
-  FName:=AData.name;
-  FQty:=AData.qty;
-  FPrice:=AData.price;
-  FCount:=AData.count;
+  FId := AData.Id;
+  FName := AData.name;
+  FQty := AData.qty;
+  FPrice := AData.price;
+  FCount := AData.count;
 end;
 
-constructor TOrderData.Create(ajson: TJSONObject);
+constructor TOrderData.Create(AJson: TJSONObject);
 begin
   inherited Create;
-  FId := ajson.Values['Id'].ToString;
-  FName := ajson.Values['name'].ToString;
-  FQty := ajson.Values['qty'].ToString;
-  FPrice := (ajson.Values['price'] as TJSONNumber).AsInt;
-  FCount := (ajson.Values['count'] as TJSONNumber).AsInt;
+  FId := AJson.GetValue('id').ToString;
+  FName := AJson.GetValue('name').ToString;
+  FQty := AJson.GetValue('qty').ToString;
+  FPrice := (AJson.GetValue('price') as TJSONNumber).AsInt;
+  FCount := (AJson.GetValue('count') as TJSONNumber).AsInt;
 end;
 
 function TOrderData.toJson: TJSONObject;

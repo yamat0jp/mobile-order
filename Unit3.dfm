@@ -14,10 +14,6 @@ object Frame2: TFrame2
     Caption = 'WebPanel1'
     ChildOrder = 3
     TabOrder = 0
-    ExplicitLeft = 128
-    ExplicitTop = 128
-    ExplicitWidth = 150
-    ExplicitHeight = 60
     object WebLabel1: TWebLabel
       Left = 64
       Top = 64

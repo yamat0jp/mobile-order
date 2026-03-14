@@ -18,24 +18,38 @@ type
     WebLabel3: TWebLabel;
     procedure WebButton1Click(Sender: TObject);
   private
+    FOnOrder: TNotifyEvent;
+    FOrder: TOrderData;
     { Private êÈåæ }
   public
     { Public êÈåæ }
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
     procedure RegisterItem(AData: TOrderData);
+    property OnOrder: TNotifyEvent read FOnOrder write FOnOrder;
+    property Order: TOrderData read FOrder write FOrder;
   end;
+
 
 implementation
 
 {$R *.dfm}
 
-uses Unit2;
+constructor TFrame1.Create(AOwner: TComponent);
+begin
+  inherited;
+  FOrder:=TOrderData.Create;
+end;
 
-var
-  order: TOrderData;
+destructor TFrame1.Destroy;
+begin
+  FOrder.Free;
+  inherited;
+end;
 
 procedure TFrame1.RegisterItem(AData: TOrderData);
 begin
-  order.Assign(AData);
+  FOrder.Assign(AData);
   WebLabel1.Caption := AData.name;
   WebLabel2.Caption := AData.qty;
   WebLabel3.Caption := AData.price.ToString;
@@ -43,10 +57,8 @@ end;
 
 procedure TFrame1.WebButton1Click(Sender: TObject);
 begin
-  Form2 := TForm2.Create(Application);
-  Form2.AddItem(order);
-  Form2.Load;
-  Form2.Execute;
+  if Assigned(FOnOrder) then
+    FOnOrder(Self);
 end;
 
 end.

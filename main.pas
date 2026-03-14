@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Classes, JS, Web, WEBLib.Graphics,
   WEBLib.Forms, WEBLib.Dialogs, WEBLib.ExtCtrls, WEBLib.CSS,
   WEBLib.Controls, WEBLib.StdCtrls, WEBLib.WebCtrls, WEBLib.JSON,
-  WEBLib.Slider, Unit1, Vcl.Controls, Vcl.StdCtrls;
+  WEBLib.Slider, Unit1, Vcl.Controls, Vcl.StdCtrls, WEBLib.REST;
 
 type
   TForm1 = class(TWebForm)
@@ -24,11 +24,14 @@ type
     WebHTMLDiv2: TWebHTMLDiv;
     WebScrollBox1: TWebScrollBox;
     WebLinkLabel3: TWebLinkLabel;
+    WebHttpRequest1: TWebHttpRequest;
     procedure WebFormCreate(Sender: TObject);
-    procedure WebFormDestroy(Sender: TObject);
+    procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
+    procedure WebPanel1Click(Sender: TObject);
+    procedure WebPanel4Click(Sender: TObject);
   private
     { Private declarations }
-    procedure ChangeFrameCount(FrameCount: integer);
+    procedure Order(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -42,29 +45,19 @@ implementation
 
 uses Unit2, System.Generics.Collections, data;
 
-var
-  List: TObjectList<TWebFrame>;
-
 function NativeIntToCssColor(AColor: NativeInt): string;
 begin
   Result := Format('#%.2x%.2x%.2x', [GetRValue(AColor), GetGValue(AColor),
     GetBValue(AColor)]);
 end;
 
-procedure TForm1.ChangeFrameCount(FrameCount: integer);
-var
-  i: integer;
-  obj: TFrame1;
+procedure TForm1.Order(Sender: TObject);
 begin
-  List.Clear;
-  for i := 0 to FrameCount - 1 do
-  begin
-    obj := TFrame1.Create(Application);
-    List.Add(obj);
-    obj.LoadFromForm;
-    obj.Parent := WebScrollBox1;
-    obj.Align := alLeft;
-  end;
+  Form2 := TForm2.CreateNew(Self);
+  Form2.Load;
+  Form2.Parent := Self;
+  Form2.AddItem(TFrame1(Sender).Order);
+  Form2.Show;
 end;
 
 procedure TForm1.WebFormCreate(Sender: TObject);
@@ -83,13 +76,58 @@ begin
       panel.ElementHandle.style.setProperty('background-color', color);
     end;
 
-  List := TObjectList<TWebFrame>.Create;
-  ChangeFrameCount(5);
+  WebHttpRequest1.Execute;
 end;
 
-procedure TForm1.WebFormDestroy(Sender: TObject);
+procedure TForm1.WebHttpRequest1Response(Sender: TObject; AResponse: string);
+var
+  JSON: TJSONObject;
+  arr: TJSONArray;
+  i: integer;
+  data: TOrderData;
+  obj: TFrame1;
+  old: TObject;
 begin
-  List.Free;
+  for i := WebScrollBox1.ControlCount - 1 downto 0 do
+    if WebScrollBox1.Controls[i] is TFrame1 then
+    begin
+      old := WebScrollBox1.Controls[i];
+      old.Free;
+    end;
+
+  JSON := TJSONObject.ParseJSONValue(AResponse) as TJSONObject;
+  arr := JSON.GetValue('items') as TJSONArray;
+  for i := 0 to arr.Count - 1 do
+  begin
+    data := TOrderData.Create(arr[i] as TJSONObject);
+    obj := TFrame1.Create(Self);
+    obj.LoadFromForm;
+    obj.RegisterItem(data);
+    obj.Parent := WebScrollBox1;
+    obj.Align := alLeft;
+    obj.OnOrder := @Order;
+    data.Free;
+  end;
+end;
+
+procedure TForm1.WebPanel1Click(Sender: TObject);
+var
+  url: string;
+begin
+  if Sender = WebPanel1 then
+    url := 'http://'
+  else if Sender = WebPanel2 then
+    url := 'http://'
+  else if Sender = WebPanel3 then
+    url := 'http://';
+  WebHttpRequest1.url := url;
+  WebHttpRequest1.Execute;
+end;
+
+procedure TForm1.WebPanel4Click(Sender: TObject);
+begin
+  WebHttpRequest1.url := 'http://';
+  WebHttpRequest1.Execute;
 end;
 
 end.

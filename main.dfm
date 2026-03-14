@@ -3,7 +3,6 @@ object Form1: TForm1
   Height = 959
   Caption = 'sushi'
   OnCreate = WebFormCreate
-  OnDestroy = WebFormDestroy
   object WebLabel2: TWebLabel
     Left = 0
     Top = 297
@@ -165,6 +164,7 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
       TabOrder = 0
+      OnClick = WebPanel1Click
     end
     object WebPanel4: TWebPanel
       Left = 480
@@ -185,6 +185,7 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
       TabOrder = 1
+      OnClick = WebPanel4Click
     end
     object WebPanel2: TWebPanel
       Left = 0
@@ -205,6 +206,7 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
       TabOrder = 2
+      OnClick = WebPanel1Click
     end
     object WebPanel3: TWebPanel
       Left = 480
@@ -225,6 +227,7 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
       TabOrder = 3
+      OnClick = WebPanel1Click
     end
     object WebHTMLDiv2: TWebHTMLDiv
       Left = 480
@@ -246,5 +249,12 @@ object Form1: TForm1
     ChildOrder = 3
     Color = clWhite
     ScrollBars = ssHorizontal
+    ExplicitTop = 345
+  end
+  object WebHttpRequest1: TWebHttpRequest
+    URL = 'http://'
+    OnResponse = WebHttpRequest1Response
+    Left = 376
+    Top = 376
   end
 end

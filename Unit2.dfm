@@ -1,18 +1,20 @@
 object Form2: TForm2
-  Width = 640
-  Height = 480
+  Width = 838
+  Height = 608
   OnCreate = WebFormCreate
   OnDestroy = WebFormDestroy
   OnShow = WebFormShow
   object WebPanel1: TWebPanel
     Left = 0
     Top = 0
-    Width = 392
-    Height = 480
+    Width = 480
+    Height = 608
     Align = alClient
     Caption = 'WebPanel1'
     ChildOrder = 1
     TabOrder = 0
+    ExplicitLeft = -6
+    ExplicitHeight = 596
     object WebImageControl1: TWebImageControl
       Left = 184
       Top = 48
@@ -75,33 +77,49 @@ object Form2: TForm2
       Value = 1
       OnChange = WebSpinEdit1Change
     end
+    object WebButton4: TWebButton
+      Left = 160
+      Top = 408
+      Width = 96
+      Height = 25
+      Caption = 'WebButton4'
+      ChildOrder = 6
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      OnClick = WebButton4Click
+    end
   end
   object WebPanel2: TWebPanel
-    Left = 392
+    Left = 480
     Top = 0
-    Width = 248
-    Height = 480
+    Width = 358
+    Height = 608
     Align = alRight
     Caption = 'WebPanel2'
     ChildOrder = 2
     TabOrder = 1
-    object WebScrollBox1: TWebScrollBox
+    ExplicitHeight = 596
+    object Frame2Parent: TWebScrollBox
       Left = 0
       Top = 0
-      Width = 248
-      Height = 368
+      Width = 358
+      Height = 496
       Align = alClient
       BorderStyle = bsSingle
+      ExplicitLeft = 6
+      ExplicitTop = -6
     end
     object WebPanel3: TWebPanel
       Left = 0
-      Top = 368
-      Width = 248
+      Top = 496
+      Width = 358
       Height = 112
       Align = alBottom
       Caption = 'WebPanel3'
       ChildOrder = 1
       TabOrder = 1
+      ExplicitTop = 368
+      ExplicitWidth = 248
       object WebLabel4: TWebLabel
         Left = 32
         Top = 16
