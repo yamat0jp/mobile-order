@@ -406,7 +406,7 @@ object Form1: TForm1
   end
   object WebHttpRequest1: TWebHttpRequest
     Headers.Strings = (
-      'Accept:application/json')
+      'Accept=application/json')
     URL = 'http://localhost:8080/'
     OnResponse = WebHttpRequest1Response
     Left = 376

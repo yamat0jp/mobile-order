@@ -59,15 +59,25 @@ end;
 
 procedure TForm1.N1Click(Sender: TObject);
 begin
-  Form2.Execute;
+  Form2.Parent := Self;
+  Form2.ShowModal(
+    procedure(ModalResult: TModalResult)
+    begin
+      if ModalResult = mrOK then
+        Showmessage('‰ïŒvˆ—’†');
+    end);
 end;
 
 procedure TForm1.Order(Sender: TObject);
 begin
-  Form3 := TForm3.CreateNew(Self, TFrame1(Sender).Order);
-  Form3.Parent := Self;
-  Form3.Load;
-  Form3.Execute;
+  Form3 := TForm3.Create(Self, TFrame1(Sender).Order);
+//  Form3.Parent := Self;
+  Form3.ShowModal(
+    procedure(ModalResult: TModalResult)
+    begin
+      if ModalResult = mrOK then
+        Showmessage('’•¶‚ªŠ®—¹‚µ‚Ü‚µ‚½');
+    end);
 end;
 
 procedure TForm1.WebFormCreate(Sender: TObject);

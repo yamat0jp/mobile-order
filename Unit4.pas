@@ -24,11 +24,17 @@ type
     procedure WebButton2Click(Sender: TObject);
     procedure WebButton1Click(Sender: TObject);
     procedure WebSpinEdit1Change(Sender: TObject);
+    procedure WebFormDestroy(Sender: TObject);
+    procedure WebFormShow(Sender: TObject);
+    procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
+    procedure WebFormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
+    function GetTotalCost: integer;
     { Private declarations }
   public
     { Public declarations }
-    constructor CreateNew(Sender: TComponent; AOrder: TOrderData); overload;
+    constructor Create(Sender: TComponent; AOrder: TOrderData); overload;
+    property TotalCost: integer read GetTotalCost;
   end;
 
 var
@@ -39,30 +45,63 @@ implementation
 
 {$R *.dfm}
 
-constructor TForm3.CreateNew(Sender: TComponent; AOrder: TOrderData);
+uses Unit2;
+
+constructor TForm3.Create(Sender: TComponent; AOrder: TOrderData);
 begin
   inherited Create(Sender);
+  Order := TOrderData.Create;
   Order.Assign(AOrder);
-  WebLabel1.Caption:=Order.name;
-  WebLabel1.Caption:=Order.qty;
-  WebLabel1.Caption:=Order.price.ToString;
-  WebSpinEdit1.Value:=Order.count;
+end;
+
+function TForm3.GetTotalCost: integer;
+begin
+  result := Order.count * Order.price;
 end;
 
 procedure TForm3.WebButton1Click(Sender: TObject);
 begin
+  WebHttpRequest1.PostData := Order.toJson.ToString;
   WebHttpRequest1.Execute;
+  ModalResult := mrOK;
+  Close;
 end;
 
 procedure TForm3.WebButton2Click(Sender: TObject);
 begin
+  ModalResult := mrCancel;
   Close;
+end;
+
+procedure TForm3.WebFormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := false;
+  Hide;
+end;
+
+procedure TForm3.WebFormDestroy(Sender: TObject);
+begin
+  Order.Free;
+end;
+
+procedure TForm3.WebFormShow(Sender: TObject);
+begin
+  WebLabel1.Caption := Order.name;
+  WebLabel2.Caption := Order.qty;
+  WebLabel3.Caption := Order.price.ToString;
+  WebSpinEdit1.Value := Order.count;
+  WebLabel5.Caption := TotalCost.ToString;
+end;
+
+procedure TForm3.WebHttpRequest1Response(Sender: TObject; AResponse: string);
+begin
+  Unit2.List.Add(Order);
 end;
 
 procedure TForm3.WebSpinEdit1Change(Sender: TObject);
 begin
-  Order.count:=WebSpinEdit1.Value;
-  WebLabel5.Caption:=(Order.count*Order.price).ToString;
+  Order.count := WebSpinEdit1.Value;
+  WebLabel5.Caption := TotalCost.ToString;
 end;
 
 end.

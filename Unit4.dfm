@@ -1,17 +1,17 @@
 object Form3: TForm3
   Width = 640
   Height = 480
+  OnCloseQuery = WebFormCloseQuery
+  OnDestroy = WebFormDestroy
+  OnShow = WebFormShow
   object WebPanel1: TWebPanel
     Left = 490
     Top = 0
     Width = 150
     Height = 480
     Align = alRight
-    Caption = 'WebPanel1'
     TabOrder = 0
-    ExplicitLeft = 248
-    ExplicitTop = 208
-    ExplicitHeight = 60
+    ExplicitLeft = 496
     object WebLabel5: TWebLabel
       Left = 48
       Top = 232
@@ -26,7 +26,7 @@ object Form3: TForm3
       Top = 316
       Width = 96
       Height = 25
-      Caption = 'WebButton1'
+      Caption = #27770#23450
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
       OnClick = WebButton1Click
@@ -52,7 +52,7 @@ object Form3: TForm3
       Top = 384
       Width = 96
       Height = 25
-      Caption = 'WebButton2'
+      Caption = #12461#12515#12531#12475#12523
       ChildOrder = 2
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
@@ -65,7 +65,6 @@ object Form3: TForm3
     Width = 490
     Height = 480
     Align = alClient
-    Caption = 'WebPanel2'
     ChildOrder = 1
     TabOrder = 1
     ExplicitLeft = 248
@@ -120,6 +119,7 @@ object Form3: TForm3
   object WebHttpRequest1: TWebHttpRequest
     Command = httpPOST
     URL = 'lhttp://localhost:8080/order'
+    OnResponse = WebHttpRequest1Response
     Left = 432
     Top = 208
   end

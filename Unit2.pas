@@ -4,9 +4,10 @@ interface
 
 uses
   WEBLib.JSON, System.SysUtils, System.Classes, Web, WEBLib.Graphics,
+  System.Generics.Collections,
   WEBLib.Controls,
   WEBLib.Forms, WEBLib.Dialogs, WEBLib.ExtCtrls,
-  WEBLib.StdCtrls, Vcl.StdCtrls, Vcl.Controls, WEBLib.REST, WEBLib.Lists;
+  WEBLib.StdCtrls, Vcl.StdCtrls, Vcl.Controls, WEBLib.REST, WEBLib.Lists, data;
 
 type
   TForm2 = class(TWebForm)
@@ -39,17 +40,15 @@ type
 
 var
   Form2: TForm2;
+  List: TObjectList<TOrderData>;
 
 implementation
 
 {$R *.dfm}
 
-uses System.IOUtils, System.Generics.Collections, data;
+uses System.IOUtils;
 
-var
-  List: TObjectList<TOrderData>;
-
-  { TForm2 }
+{ TForm2 }
 
 function TForm2.GetTotalPrice: integer;
 var
