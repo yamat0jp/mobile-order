@@ -6,7 +6,8 @@ uses
   System.SysUtils, System.Classes, JS, Web, WEBLib.Graphics,
   WEBLib.Forms, WEBLib.Dialogs, WEBLib.ExtCtrls, WEBLib.CSS,
   WEBLib.Controls, WEBLib.StdCtrls, WEBLib.WebCtrls, WEBLib.JSON,
-  WEBLib.Slider, Unit1, Vcl.Controls, Vcl.StdCtrls, WEBLib.REST;
+  WEBLib.Slider, Unit1, Vcl.Controls, Vcl.StdCtrls, WEBLib.REST, Vcl.Menus,
+  WEBLib.Menus, Vcl.Imaging.GIFImg;
 
 type
   TForm1 = class(TWebForm)
@@ -25,10 +26,15 @@ type
     WebScrollBox1: TWebScrollBox;
     WebLinkLabel3: TWebLinkLabel;
     WebHttpRequest1: TWebHttpRequest;
+    WebWaitMessage1: TWebWaitMessage;
+    WebMainMenu1: TWebMainMenu;
+    N1: TMenuItem;
+    N2: TMenuItem;
     procedure WebFormCreate(Sender: TObject);
     procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
     procedure WebPanel1Click(Sender: TObject);
     procedure WebPanel4Click(Sender: TObject);
+    procedure N1Click(Sender: TObject);
   private
     { Private declarations }
     procedure Order(Sender: TObject);
@@ -43,7 +49,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit2, System.Generics.Collections, data;
+uses Unit2, System.Generics.Collections, data, Unit4;
 
 function NativeIntToCssColor(AColor: NativeInt): string;
 begin
@@ -51,13 +57,17 @@ begin
     GetBValue(AColor)]);
 end;
 
+procedure TForm1.N1Click(Sender: TObject);
+begin
+  Form2.Execute;
+end;
+
 procedure TForm1.Order(Sender: TObject);
 begin
-  Form2 := TForm2.CreateNew(Self);
-  Form2.Load;
-  Form2.Parent := Self;
-  Form2.AddItem(TFrame1(Sender).Order);
-  Form2.Show;
+  Form3 := TForm3.CreateNew(Self, TFrame1(Sender).Order);
+  Form3.Parent := Self;
+  Form3.Load;
+  Form3.Execute;
 end;
 
 procedure TForm1.WebFormCreate(Sender: TObject);
@@ -88,7 +98,6 @@ var
   obj: TFrame1;
   old: TObject;
 begin
-  Showmessage('A');
   for i := WebScrollBox1.ControlCount - 1 downto 0 do
     if WebScrollBox1.Controls[i] is TFrame1 then
     begin
@@ -106,7 +115,7 @@ begin
     obj.LoadFromForm;
     obj.RegisterItem(data);
     obj.Align := alLeft;
-    obj.OnOrder := @Order;
+    obj.OnOrder := @Form1.Order;
     data.Free;
   end;
 end;
@@ -116,18 +125,18 @@ var
   url: string;
 begin
   if Sender = WebPanel1 then
-    url := 'http://'
+    url := 'http://localhost:8080/drink'
   else if Sender = WebPanel2 then
-    url := 'http://'
+    url := 'http://localhost:8080/setmenu'
   else if Sender = WebPanel3 then
-    url := 'http://localhost:8080/';
+    url := 'http://localhost:8080/popular';
   WebHttpRequest1.url := url;
   WebHttpRequest1.Execute;
 end;
 
 procedure TForm1.WebPanel4Click(Sender: TObject);
 begin
-  WebHttpRequest1.url := 'http://';
+  WebHttpRequest1.url := 'http://localhost:8080/test';
   WebHttpRequest1.Execute;
 end;
 

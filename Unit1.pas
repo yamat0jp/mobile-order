@@ -27,7 +27,7 @@ type
     destructor Destroy; override;
     procedure RegisterItem(AData: TOrderData);
     property OnOrder: TNotifyEvent read FOnOrder write FOnOrder;
-    property Order: TOrderData read FOrder write FOrder;
+    property Order: TOrderData read FOrder;
   end;
 
 

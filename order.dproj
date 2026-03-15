@@ -149,12 +149,12 @@
             <FormType>dfm</FormType>
             <DesignClass>TWebForm</DesignClass>
         </DCCReference>
-        <DCCReference Include="Unit3.pas">
-            <Form>Frame2</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TWebFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="data.pas"/>
+        <DCCReference Include="Unit4.pas">
+            <Form>Form3</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TWebForm</DesignClass>
+        </DCCReference>
         <None Include="style.css"/>
         <None Include="index.html"/>
         <None Include="Unit1.html"/>

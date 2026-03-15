@@ -12,6 +12,7 @@ type
     FQty: string;
     FCount: integer;
     FId: string;
+    FCategory: string;
   public
     constructor Create(AJson: TJSONObject); overload;
     function toJson: TJSONObject;
@@ -21,6 +22,7 @@ type
     property qty: string read FQty write FQty;
     property price: integer read FPrice write FPrice;
     property count: integer read FCount write FCount;
+    property category: string read FCategory write FCategory;
   end;
 
 implementation
@@ -29,6 +31,7 @@ implementation
 
 procedure TOrderData.Assign(AData: TOrderData);
 begin
+  FCategory := AData.category;
   FId := AData.Id;
   FName := AData.name;
   FQty := AData.qty;
@@ -39,6 +42,7 @@ end;
 constructor TOrderData.Create(AJson: TJSONObject);
 begin
   inherited Create;
+  FCategory := AJson.GetValue('category').ToString;
   FId := AJson.GetValue('id').ToString;
   FName := AJson.GetValue('name').ToString;
   FQty := AJson.GetValue('qty').ToString;
@@ -49,6 +53,7 @@ end;
 function TOrderData.toJson: TJSONObject;
 begin
   result := TJSONObject.Create;
+  result.AddPair('category', FCategory);
   result.AddPair('id', FId);
   result.AddPair('name', FName);
   result.AddPair('qty', FQty);

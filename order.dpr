@@ -6,8 +6,8 @@ uses
   main in 'main.pas' {Form1: TWebForm} {*.html},
   Unit1 in 'Unit1.pas' {Frame1: TFrame},
   Unit2 in 'Unit2.pas' {Form2: TWebForm} {*.html},
-  Unit3 in 'Unit3.pas' {Frame2: TWebFrame} {*.html},
-  data in 'data.pas';
+  data in 'data.pas',
+  Unit4 in 'Unit4.pas' {Form3: TWebForm} {*.html};
 
 {$R *.res}
 
@@ -15,6 +15,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TForm2, Form2);
   Application.Run;
 
 end.
