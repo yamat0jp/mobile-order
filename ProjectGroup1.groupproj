@@ -1,12 +1,12 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{029C6295-9C43-4C09-9AEE-C80AFFBD4945}</ProjectGuid>
+        <ProjectGuid>{16F20B4B-31FB-44E5-B55B-FC2CB3283453}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
         <Projects Include="order.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="mobile.dproj">
+        <Projects Include="Project1.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -26,23 +26,23 @@
     <Target Name="order:Make">
         <MSBuild Projects="order.dproj" Targets="Make"/>
     </Target>
-    <Target Name="mobile">
-        <MSBuild Projects="mobile.dproj"/>
+    <Target Name="Project1">
+        <MSBuild Projects="Project1.dproj"/>
     </Target>
-    <Target Name="mobile:Clean">
-        <MSBuild Projects="mobile.dproj" Targets="Clean"/>
+    <Target Name="Project1:Clean">
+        <MSBuild Projects="Project1.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="mobile:Make">
-        <MSBuild Projects="mobile.dproj" Targets="Make"/>
+    <Target Name="Project1:Make">
+        <MSBuild Projects="Project1.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="order;mobile"/>
+        <CallTarget Targets="order;Project1"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="order:Clean;mobile:Clean"/>
+        <CallTarget Targets="order:Clean;Project1:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="order:Make;mobile:Make"/>
+        <CallTarget Targets="order:Make;Project1:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

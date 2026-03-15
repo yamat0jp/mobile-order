@@ -88,6 +88,7 @@ var
   obj: TFrame1;
   old: TObject;
 begin
+  Showmessage('A');
   for i := WebScrollBox1.ControlCount - 1 downto 0 do
     if WebScrollBox1.Controls[i] is TFrame1 then
     begin
@@ -101,9 +102,9 @@ begin
   begin
     data := TOrderData.Create(arr[i] as TJSONObject);
     obj := TFrame1.Create(Self);
+    obj.Parent := WebScrollBox1;
     obj.LoadFromForm;
     obj.RegisterItem(data);
-    obj.Parent := WebScrollBox1;
     obj.Align := alLeft;
     obj.OnOrder := @Order;
     data.Free;
@@ -119,7 +120,7 @@ begin
   else if Sender = WebPanel2 then
     url := 'http://'
   else if Sender = WebPanel3 then
-    url := 'http://';
+    url := 'http://localhost:8080/';
   WebHttpRequest1.url := url;
   WebHttpRequest1.Execute;
 end;

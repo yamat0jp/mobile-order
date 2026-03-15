@@ -2,7 +2,6 @@
 
 body {
     font-family: 'Noto Sans JP', sans-serif;
-    position: relative;
     min-height: 100vh;
 }
 
@@ -27,6 +26,15 @@ body {
     border-radius: 15px;
     color: white;
     background-color: red;
+}
+
+.scrollbox {
+    width: 100%;
+    z-index: 1;
+}
+
+.topbar {
+    z-index: 100;
 }
 
 a {

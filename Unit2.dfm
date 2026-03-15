@@ -13,8 +13,6 @@ object Form2: TForm2
     Caption = 'WebPanel1'
     ChildOrder = 1
     TabOrder = 0
-    ExplicitLeft = -6
-    ExplicitHeight = 596
     object WebImageControl1: TWebImageControl
       Left = 184
       Top = 48
@@ -98,7 +96,6 @@ object Form2: TForm2
     Caption = 'WebPanel2'
     ChildOrder = 2
     TabOrder = 1
-    ExplicitHeight = 596
     object Frame2Parent: TWebScrollBox
       Left = 0
       Top = 0
@@ -106,8 +103,7 @@ object Form2: TForm2
       Height = 496
       Align = alClient
       BorderStyle = bsSingle
-      ExplicitLeft = 6
-      ExplicitTop = -6
+      ScrollBars = ssVertical
     end
     object WebPanel3: TWebPanel
       Left = 0
@@ -118,8 +114,6 @@ object Form2: TForm2
       Caption = 'WebPanel3'
       ChildOrder = 1
       TabOrder = 1
-      ExplicitTop = 368
-      ExplicitWidth = 248
       object WebLabel4: TWebLabel
         Left = 32
         Top = 16

@@ -22,65 +22,12 @@ object Form1: TForm1
     WidthPercent = 100.000000000000000000
     ExplicitWidth = 212
   end
-  object WebPanel7: TWebPanel
-    Left = 0
-    Top = 871
-    Width = 959
-    Height = 88
-    Align = alBottom
-    ChildOrder = 3
-    Color = 8404992
-    ElementFont = efCSS
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWhite
-    Font.Height = -12
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 0
-    object WebLinkLabel1: TWebLinkLabel
-      Left = 464
-      Top = 24
-      Width = 52
-      Height = 15
-      HeightPercent = 100.000000000000000000
-      WidthPercent = 100.000000000000000000
-      Caption = '<a href="rule.html">'#21033#29992#35215#32004'</a>'
-    end
-    object WebLinkLabel2: TWebLinkLabel
-      Left = 578
-      Top = 24
-      Width = 70
-      Height = 15
-      HeightPercent = 100.000000000000000000
-      WidthPercent = 100.000000000000000000
-      Caption = '<a  href="qanda.html">'#12362#21839#12356#21512#12431#12379'</a>'
-    end
-    object WebLinkLabel3: TWebLinkLabel
-      Left = 320
-      Top = 24
-      Width = 102
-      Height = 15
-      HeightPercent = 100.000000000000000000
-      WidthPercent = 100.000000000000000000
-      Caption = '<a href="policy.html">'#12503#12521#12452#12496#12471#12540#12509#12522#12471#12540'</a>'
-    end
-    object WebLabel3: TWebLabel
-      Left = 448
-      Top = 56
-      Width = 38
-      Height = 15
-      Caption = #169' 2025'
-      HeightStyle = ssAuto
-      HeightPercent = 100.000000000000000000
-      WidthPercent = 100.000000000000000000
-    end
-  end
   object WebResponsiveGridPanel1: TWebResponsiveGridPanel
     Left = 0
     Top = 0
     Width = 959
     Height = 297
+    ElementClassName = 'topbar'
     WidthStyle = ssPercent
     HeightPercent = 25.000000000000000000
     Align = alTop
@@ -239,12 +186,68 @@ object Form1: TForm1
       Role = ''
     end
   end
+  object WebPanel7: TWebPanel
+    Left = 0
+    Top = 871
+    Width = 959
+    Height = 88
+    Align = alBottom
+    ChildOrder = 3
+    Color = 8404992
+    ElementFont = efCSS
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    object WebLinkLabel1: TWebLinkLabel
+      Left = 464
+      Top = 24
+      Width = 52
+      Height = 15
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      Caption = '<a href="rule.html">'#21033#29992#35215#32004'</a>'
+    end
+    object WebLinkLabel2: TWebLinkLabel
+      Left = 578
+      Top = 24
+      Width = 70
+      Height = 15
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      Caption = '<a  href="qanda.html">'#12362#21839#12356#21512#12431#12379'</a>'
+    end
+    object WebLinkLabel3: TWebLinkLabel
+      Left = 320
+      Top = 24
+      Width = 102
+      Height = 15
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      Caption = '<a href="policy.html">'#12503#12521#12452#12496#12471#12540#12509#12522#12471#12540'</a>'
+    end
+    object WebLabel3: TWebLabel
+      Left = 448
+      Top = 56
+      Width = 38
+      Height = 15
+      Caption = #169' 2025'
+      HeightStyle = ssAuto
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+    end
+  end
   object WebScrollBox1: TWebScrollBox
     Left = 0
     Top = 351
     Width = 959
     Height = 520
+    ElementClassName = 'scrollbox'
     Align = alClient
+    AutoScroll = True
     BorderStyle = bsSingle
     ChildOrder = 3
     Color = clWhite
@@ -252,7 +255,9 @@ object Form1: TForm1
     ExplicitTop = 345
   end
   object WebHttpRequest1: TWebHttpRequest
-    URL = 'http://'
+    Headers.Strings = (
+      'Content-Type:application/json')
+    URL = 'http://localhost:8080/'
     OnResponse = WebHttpRequest1Response
     Left = 376
     Top = 376
