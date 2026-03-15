@@ -35,6 +35,7 @@ type
     procedure WebPanel1Click(Sender: TObject);
     procedure WebPanel4Click(Sender: TObject);
     procedure N1Click(Sender: TObject);
+    procedure WebFormShow(Sender: TObject);
   private
     { Private declarations }
     procedure Order(Sender: TObject);
@@ -59,7 +60,6 @@ end;
 
 procedure TForm1.N1Click(Sender: TObject);
 begin
-  Form2.Parent := Self;
   Form2.ShowModal(
     procedure(ModalResult: TModalResult)
     begin
@@ -70,8 +70,6 @@ end;
 
 procedure TForm1.Order(Sender: TObject);
 begin
-  Form3 := TForm3.Create(Self, TFrame1(Sender).Order);
-//  Form3.Parent := Self;
   Form3.ShowModal(
     procedure(ModalResult: TModalResult)
     begin
@@ -97,6 +95,12 @@ begin
     end;
 
   WebHttpRequest1.Execute;
+end;
+
+procedure TForm1.WebFormShow(Sender: TObject);
+begin
+  Form2.CreateNew(Application);
+  Form3.CreateNew(APplication);
 end;
 
 procedure TForm1.WebHttpRequest1Response(Sender: TObject; AResponse: string);
