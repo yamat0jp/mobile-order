@@ -35,7 +35,6 @@ type
     procedure WebPanel1Click(Sender: TObject);
     procedure WebPanel4Click(Sender: TObject);
     procedure N1Click(Sender: TObject);
-    procedure WebFormShow(Sender: TObject);
   private
     { Private declarations }
     procedure Order(Sender: TObject);
@@ -60,21 +59,25 @@ end;
 
 procedure TForm1.N1Click(Sender: TObject);
 begin
-  Form2.ShowModal(
-    procedure(ModalResult: TModalResult)
-    begin
-      if ModalResult = mrOK then
-        Showmessage('âÔåvèàóùíÜ');
-    end);
+  TForm2.CreateNew;
 end;
 
 procedure TForm1.Order(Sender: TObject);
 begin
-  Form3.ShowModal(
-    procedure(ModalResult: TModalResult)
+  Unit4.Order.Assign(TFrame1(Sender).Order);
+  Form3 := TForm3.CreateNew(
+    procedure(AForm: TObject)
     begin
-      if ModalResult = mrOK then
-        Showmessage('íçï∂Ç™äÆóπÇµÇ‹ÇµÇΩ');
+      with AForm as TWebForm do
+      begin
+        Popup := true;
+        ShowModal(
+          procedure(mr: TModalResult)
+          begin
+            if mr = mrOK then
+              Showmessage('íçï∂ÇµÇ‹ÇµÇΩ');
+          end);
+      end;
     end);
 end;
 
@@ -95,12 +98,6 @@ begin
     end;
 
   WebHttpRequest1.Execute;
-end;
-
-procedure TForm1.WebFormShow(Sender: TObject);
-begin
-  Form2.CreateNew(Application);
-  Form3.CreateNew(APplication);
 end;
 
 procedure TForm1.WebHttpRequest1Response(Sender: TObject; AResponse: string);

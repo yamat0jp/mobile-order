@@ -4,7 +4,6 @@ object Form1: TForm1
   Caption = 'sushi'
   Menu = WebMainMenu1
   OnCreate = WebFormCreate
-  OnShow = WebFormShow
   object WebLabel2: TWebLabel
     Left = 0
     Top = 297

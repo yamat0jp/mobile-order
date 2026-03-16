@@ -27,7 +27,6 @@ type
     procedure WebFormDestroy(Sender: TObject);
     procedure WebFormShow(Sender: TObject);
     procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
-    procedure WebFormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
     function GetTotalCost: integer;
     { Private declarations }
@@ -50,7 +49,6 @@ uses Unit2;
 constructor TForm3.Create(Sender: TComponent; AOrder: TOrderData);
 begin
   inherited Create(Sender);
-  Order := TOrderData.Create;
   Order.Assign(AOrder);
 end;
 
@@ -71,12 +69,6 @@ procedure TForm3.WebButton2Click(Sender: TObject);
 begin
   ModalResult := mrCancel;
   Close;
-end;
-
-procedure TForm3.WebFormCloseQuery(Sender: TObject; var CanClose: Boolean);
-begin
-  CanClose := false;
-  Hide;
 end;
 
 procedure TForm3.WebFormDestroy(Sender: TObject);
@@ -103,5 +95,9 @@ begin
   Order.count := WebSpinEdit1.Value;
   WebLabel5.Caption := TotalCost.ToString;
 end;
+
+initialization
+
+Order := TOrderData.Create;
 
 end.

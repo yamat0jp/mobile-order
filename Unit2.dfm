@@ -1,7 +1,6 @@
 object Form2: TForm2
   Width = 733
   Height = 608
-  OnCloseQuery = WebFormCloseQuery
   OnCreate = WebFormCreate
   OnDestroy = WebFormDestroy
   object WebPanel2: TWebPanel
@@ -13,7 +12,6 @@ object Form2: TForm2
     Caption = 'WebPanel2'
     ChildOrder = 2
     TabOrder = 0
-    ExplicitLeft = 480
     object WebPanel3: TWebPanel
       Left = 0
       Top = 496
@@ -73,8 +71,6 @@ object Form2: TForm2
       Caption = 'WebPanel1'
       ChildOrder = 1
       TabOrder = 1
-      ExplicitWidth = 480
-      ExplicitHeight = 608
       object WebImageControl1: TWebImageControl
         Left = 144
         Top = 81
@@ -177,10 +173,6 @@ object Form2: TForm2
         Items = <>
       end>
     OnItemClick = WebListControl1ItemClick
-    ExplicitLeft = 32
-    ExplicitTop = 248
-    ExplicitWidth = 300
-    ExplicitHeight = 60
   end
   object WebHttpRequest1: TWebHttpRequest
     Command = httpPOST

@@ -1,7 +1,6 @@
 object Form3: TForm3
   Width = 640
   Height = 480
-  OnCloseQuery = WebFormCloseQuery
   OnDestroy = WebFormDestroy
   OnShow = WebFormShow
   object WebPanel1: TWebPanel
@@ -11,7 +10,6 @@ object Form3: TForm3
     Height = 480
     Align = alRight
     TabOrder = 0
-    ExplicitLeft = 496
     object WebLabel5: TWebLabel
       Left = 48
       Top = 232
@@ -67,10 +65,6 @@ object Form3: TForm3
     Align = alClient
     ChildOrder = 1
     TabOrder = 1
-    ExplicitLeft = 248
-    ExplicitTop = 208
-    ExplicitWidth = 150
-    ExplicitHeight = 60
     object WebImageControl1: TWebImageControl
       Left = 304
       Top = 80

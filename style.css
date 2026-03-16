@@ -5,6 +5,10 @@ body {
     min-height: 100vh;
 }
 
+.modal-form {
+    z-index: 2000;
+}
+
 .category-card {
     transition: transform 0.3s;
     border-radius: 10px;

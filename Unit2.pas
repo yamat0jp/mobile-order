@@ -30,7 +30,6 @@ type
     procedure WebFormDestroy(Sender: TObject);
     procedure WebButton2Click(Sender: TObject);
     procedure WebListControl1ItemClick(Sender: TObject; AListItem: TListItem);
-    procedure WebFormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
     { Private declarations }
     function GetTotalPrice: integer;
@@ -90,13 +89,7 @@ end;
 
 procedure TForm2.WebButton2Click(Sender: TObject);
 begin
-  Hide;
-end;
-
-procedure TForm2.WebFormCloseQuery(Sender: TObject; var CanClose: Boolean);
-begin
-  CanClose := false;
-  Hide;
+  Close;
 end;
 
 procedure TForm2.WebFormCreate(Sender: TObject);
