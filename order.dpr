@@ -1,5 +1,7 @@
 program order;
 
+{$R *.dres}
+
 uses
   Vcl.Forms,
   WEBLib.Forms,

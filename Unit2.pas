@@ -19,17 +19,21 @@ type
     WebPanel2: TWebPanel;
     WebPanel3: TWebPanel;
     WebLabel4: TWebLabel;
-    WebButton1: TWebButton;
+    CashButton: TWebButton;
     WebLabel5: TWebLabel;
     WebHttpRequest1: TWebHttpRequest;
     WebLabel6: TWebLabel;
-    WebButton2: TWebButton;
+    CancelButton: TWebButton;
     WebListControl1: TWebListControl;
-    procedure WebButton1Click(Sender: TObject);
+    procedure CashButtonClick(Sender: TObject);
     procedure WebFormCreate(Sender: TObject);
     procedure WebFormDestroy(Sender: TObject);
-    procedure WebButton2Click(Sender: TObject);
+    procedure CancelButtonClick(Sender: TObject);
     procedure WebListControl1ItemClick(Sender: TObject; AListItem: TListItem);
+    procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
+    procedure WebHttpRequest1Error(Sender: TObject;
+      ARequest: TJSXMLHttpRequestRecord; Event: TJSEventRecord;
+      var Handled: Boolean);
   private
     { Private declarations }
     function GetTotalPrice: integer;
@@ -45,7 +49,7 @@ implementation
 
 {$R *.dfm}
 
-uses System.IOUtils;
+uses System.IOUtils, System.DateUtils;
 
 { TForm2 }
 
@@ -55,14 +59,14 @@ var
   order: TOrderData;
 begin
   result := 0;
-  for I := 0 to WebListControl1.Items.count - 1 do
+  for I := 0 to List.Count - 1 do
   begin
-    order := List[WebListControl1.ItemIndex];
-    inc(result, order.price * order.count);
+    order := List[I];
+    inc(result, order.price * order.Count);
   end;
 end;
 
-procedure TForm2.WebButton1Click(Sender: TObject);
+procedure TForm2.CashButtonClick(Sender: TObject);
 var
   order: TJSONObject;
   Items: TJSONArray;
@@ -73,35 +77,51 @@ begin
     order.AddPair('orderID', '00000-001');
     order.AddPair('userID', '');
     Items := TJSONArray.Create;
-    for I := 0 to List.count - 1 do
-      Items.Add(List[I].toJson);
+    for I := 0 to List.Count - 1 do
+      Items.AddElement(List[I].toJson);
     order.AddPair('items', Items);
-    order.AddPair('total', GetTotalPrice);
-    order.AddPair('timestamp', Now);
+    order.AddPair('total', TJSONNumber.Create(GetTotalPrice));
+    order.AddPair('timestamp', DateToISO8601(Now, False));
     order.AddPair('status', 'pending');
     WebHttpRequest1.PostData := order.ToString;
     WebHttpRequest1.Execute;
   finally
     order.Free;
   end;
-  Close;
 end;
 
-procedure TForm2.WebButton2Click(Sender: TObject);
+procedure TForm2.CancelButtonClick(Sender: TObject);
 begin
+  ModalResult := mrCancel;
   Close;
 end;
 
 procedure TForm2.WebFormCreate(Sender: TObject);
+var
+  I: integer;
 begin
-  List := TObjectList<TOrderData>.Create;
   Name := '';
+  for I := 0 to List.Count - 1 do
+    WebListControl1.Items.Add.Text := List[I].name;
   WebLabel5.Caption := GetTotalPrice.ToString;
 end;
 
 procedure TForm2.WebFormDestroy(Sender: TObject);
 begin
   List.Free;
+end;
+
+procedure TForm2.WebHttpRequest1Error(Sender: TObject;
+  ARequest: TJSXMLHttpRequestRecord; Event: TJSEventRecord;
+  var Handled: Boolean);
+begin
+  CancelButtonClick(Sender);
+end;
+
+procedure TForm2.WebHttpRequest1Response(Sender: TObject; AResponse: string);
+begin
+  ModalResult := mrOK;
+  Close;
 end;
 
 procedure TForm2.WebListControl1ItemClick(Sender: TObject;

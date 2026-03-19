@@ -1,20 +1,27 @@
 object Form3: TForm3
   Width = 640
   Height = 480
-  OnDestroy = WebFormDestroy
+  Color = clNone
+  ElementClassName = 'dummy'
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -19
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  ParentFont = False
   OnShow = WebFormShow
   object WebPanel1: TWebPanel
-    Left = 490
+    Left = 448
     Top = 0
-    Width = 150
+    Width = 192
     Height = 480
     Align = alRight
     TabOrder = 0
     object WebLabel5: TWebLabel
       Left = 48
       Top = 232
-      Width = 58
-      Height = 15
+      Width = 93
+      Height = 25
       Caption = 'WebLabel5'
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
@@ -22,8 +29,8 @@ object Form3: TForm3
     object WebButton1: TWebButton
       Left = 32
       Top = 316
-      Width = 96
-      Height = 25
+      Width = 113
+      Height = 37
       Caption = #27770#23450
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
@@ -33,7 +40,7 @@ object Form3: TForm3
       Left = 64
       Top = 169
       Width = 54
-      Height = 22
+      Height = 31
       AutoSize = False
       BorderStyle = bsSingle
       ChildOrder = 1
@@ -48,8 +55,8 @@ object Form3: TForm3
     object WebButton2: TWebButton
       Left = 32
       Top = 384
-      Width = 96
-      Height = 25
+      Width = 113
+      Height = 41
       Caption = #12461#12515#12531#12475#12523
       ChildOrder = 2
       HeightPercent = 100.000000000000000000
@@ -60,11 +67,13 @@ object Form3: TForm3
   object WebPanel2: TWebPanel
     Left = 0
     Top = 0
-    Width = 490
+    Width = 448
     Height = 480
     Align = alClient
     ChildOrder = 1
     TabOrder = 1
+    ExplicitLeft = -6
+    ExplicitWidth = 490
     object WebImageControl1: TWebImageControl
       Left = 304
       Top = 80
@@ -76,8 +85,8 @@ object Form3: TForm3
     object WebLabel1: TWebLabel
       Left = 160
       Top = 176
-      Width = 58
-      Height = 15
+      Width = 93
+      Height = 25
       Caption = 'WebLabel1'
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
@@ -85,8 +94,8 @@ object Form3: TForm3
     object WebLabel2: TWebLabel
       Left = 160
       Top = 211
-      Width = 58
-      Height = 15
+      Width = 93
+      Height = 25
       Caption = 'WebLabel2'
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
@@ -94,8 +103,8 @@ object Form3: TForm3
     object WebLabel3: TWebLabel
       Left = 160
       Top = 253
-      Width = 58
-      Height = 15
+      Width = 93
+      Height = 25
       Caption = 'WebLabel3'
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
@@ -103,17 +112,22 @@ object Form3: TForm3
     object WebLabel4: TWebLabel
       Left = 288
       Top = 248
-      Width = 58
-      Height = 15
+      Width = 93
+      Height = 25
       Caption = 'WebLabel4'
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
     end
   end
   object WebHttpRequest1: TWebHttpRequest
-    Command = httpPOST
-    URL = 'lhttp://localhost:8080/order'
+    Command = httpPUT
+    Headers.Strings = (
+      'Content-Type:application/json')
+    Timeout = 3500
+    URL = 'http://localhost:8080/order'
+    OnError = WebHttpRequest1Error
     OnResponse = WebHttpRequest1Response
+    OnTimeout = WebHttpRequest1Timeout
     Left = 432
     Top = 208
   end

@@ -24,9 +24,12 @@ type
     procedure WebButton2Click(Sender: TObject);
     procedure WebButton1Click(Sender: TObject);
     procedure WebSpinEdit1Change(Sender: TObject);
-    procedure WebFormDestroy(Sender: TObject);
     procedure WebFormShow(Sender: TObject);
+    procedure WebHttpRequest1Timeout(Sender: TObject);
     procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
+    procedure WebHttpRequest1Error(Sender: TObject;
+      ARequest: TJSXMLHttpRequestRecord; Event: TJSEventRecord;
+      var Handled: Boolean);
   private
     function GetTotalCost: integer;
     { Private declarations }
@@ -61,19 +64,14 @@ procedure TForm3.WebButton1Click(Sender: TObject);
 begin
   WebHttpRequest1.PostData := Order.toJson.ToString;
   WebHttpRequest1.Execute;
-  ModalResult := mrOK;
-  Close;
+  Enabled := false;
+  WebButton1.Caption := '処理中';
 end;
 
 procedure TForm3.WebButton2Click(Sender: TObject);
 begin
   ModalResult := mrCancel;
   Close;
-end;
-
-procedure TForm3.WebFormDestroy(Sender: TObject);
-begin
-  Order.Free;
 end;
 
 procedure TForm3.WebFormShow(Sender: TObject);
@@ -85,9 +83,27 @@ begin
   WebLabel5.Caption := TotalCost.ToString;
 end;
 
+procedure TForm3.WebHttpRequest1Error(Sender: TObject;
+  ARequest: TJSXMLHttpRequestRecord; Event: TJSEventRecord;
+  var Handled: Boolean);
+begin
+  WebButton2Click(Sender);
+  Showmessage('通信エラー');
+end;
+
 procedure TForm3.WebHttpRequest1Response(Sender: TObject; AResponse: string);
 begin
   Unit2.List.Add(Order);
+  ModalResult := mrOK;
+  Close;
+  Showmessage(AResponse);
+end;
+
+procedure TForm3.WebHttpRequest1Timeout(Sender: TObject);
+begin
+  Showmessage('エラー： 混雑中');
+  ModalResult := mrCancel;
+  Close;
 end;
 
 procedure TForm3.WebSpinEdit1Change(Sender: TObject);
@@ -95,9 +111,5 @@ begin
   Order.count := WebSpinEdit1.Value;
   WebLabel5.Caption := TotalCost.ToString;
 end;
-
-initialization
-
-Order := TOrderData.Create;
 
 end.

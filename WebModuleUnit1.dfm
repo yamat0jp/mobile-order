@@ -19,6 +19,18 @@ object WebModule1: TWebModule1
     item
       Name = 'WebActionItem3'
       PathInfo = '/drink'
+    end
+    item
+      MethodType = mtPut
+      Name = 'WebActionItem4'
+      PathInfo = '/order'
+      OnAction = WebModule1WebActionItem4Action
+    end
+    item
+      MethodType = mtPost
+      Name = 'WebActionItem5'
+      PathInfo = '/checkout'
+      OnAction = WebModule1WebActionItem5Action
     end>
   BeforeDispatch = WebModuleBeforeDispatch
   Height = 230

@@ -2,8 +2,8 @@ object Form1: TForm1
   Width = 959
   Height = 979
   Caption = 'sushi'
-  Menu = WebMainMenu1
   OnCreate = WebFormCreate
+  OnDestroy = WebFormDestroy
   object WebLabel2: TWebLabel
     Left = 0
     Top = 297
@@ -97,7 +97,7 @@ object Form1: TForm1
     end
     object WebPanel1: TWebPanel
       Left = 0
-      Top = 40
+      Top = 41
       Width = 480
       Height = 125
       ElementClassName = 'category-card'
@@ -116,7 +116,7 @@ object Form1: TForm1
     end
     object WebPanel4: TWebPanel
       Left = 480
-      Top = 165
+      Top = 166
       Width = 480
       Height = 125
       ElementClassName = 'category-card'
@@ -137,7 +137,7 @@ object Form1: TForm1
     end
     object WebPanel2: TWebPanel
       Left = 0
-      Top = 165
+      Top = 166
       Width = 480
       Height = 125
       ElementClassName = 'category-card'
@@ -158,7 +158,7 @@ object Form1: TForm1
     end
     object WebPanel3: TWebPanel
       Left = 480
-      Top = 40
+      Top = 41
       Width = 480
       Height = 125
       ElementClassName = 'category-card'
@@ -181,15 +181,41 @@ object Form1: TForm1
       Left = 480
       Top = 0
       Width = 100
-      Height = 40
+      Height = 41
+      ElementClassName = 'topbar'
       Anchors = []
       ChildOrder = 4
+      HTML.Strings = (
+        
+          '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">'#10'  <div' +
+          ' class="container-fluid">'#10'    <a class="navbar-brand" href="#">'#12424 +
+          #12358#12371#12381'</a>'#10#10'    <!-- '#12371#12371
+        #12364#12496#12540
+        
+          #12460#12540#12450#12452#12467#12531' -->'#10'    <button class="navbar-toggler" type="button" data' +
+          '-bs-toggle="collapse"'#10'      data-bs-target="#navbarMenu" aria-'
+        
+          'controls="navbarMenu"'#10'      aria-expanded="false" aria-label="To' +
+          'ggle navigation">'#10'      <span class="navbar-toggler-icon"></span' +
+          '>'#10'    </button>'#10#10'    <!-- '
+        #12513
+        
+          #12491#12517#12540#26412#20307' -->'#10'    <div class="collapse navbar-collapse" id="navbarMe' +
+          'nu">'#10'      <ul class="navbar-nav me-auto mb-2 mb-lg-0">'#10#10'       ' +
+          ' <li class="nav-'
+        
+          'item">'#10'          <a class="nav-link" href="#" id="menuHome">Home' +
+          '</a>'#10'        </li>'#10#10'        <li class="nav-item">'#10'          <a c' +
+          'lass="nav-link" href="#" '
+        
+          'id="menuAbout">About</a>'#10'        </li>'#10#10'      </ul>'#10'    </div>'#10' ' +
+          ' </div>'#10'</nav>')
       Role = ''
     end
   end
   object WebPanel7: TWebPanel
     Left = 0
-    Top = 871
+    Top = 891
     Width = 959
     Height = 88
     Align = alBottom
@@ -245,7 +271,7 @@ object Form1: TForm1
     Left = 0
     Top = 351
     Width = 959
-    Height = 520
+    Height = 540
     ElementClassName = 'scrollbox'
     Align = alClient
     AutoScroll = True
@@ -254,10 +280,12 @@ object Form1: TForm1
     Color = clWhite
     ScrollBars = ssHorizontal
     object WebWaitMessage1: TWebWaitMessage
-      Left = 848
-      Top = 112
+      Left = 467
+      Top = 258
       Width = 24
       Height = 24
+      Center.Horizontal = True
+      Center.Vertical = True
       Opacity = 0.200000000000000000
       Picture.Data = {
         0954474946496D61676547494638396190012C01A20000FFFFFFDDDDDDBBBBBB
@@ -402,6 +430,7 @@ object Form1: TForm1
         F719F3395126F7F8D2D2FCFD03D843E04082380CC643C843A13A86091D8E8348
         43E2448A332C6AC358D11422C7880A3FE6082972A4C0920517A24CB9D1440200
         3B}
+      TimeOut = 3500
     end
   end
   object WebHttpRequest1: TWebHttpRequest
@@ -411,23 +440,5 @@ object Form1: TForm1
     OnResponse = WebHttpRequest1Response
     Left = 376
     Top = 376
-  end
-  object WebMainMenu1: TWebMainMenu
-    Appearance.HamburgerMenu.Caption = 'Menu'
-    Appearance.SubmenuIndicator = '&#9658;'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    Left = 848
-    Top = 376
-    object N2: TMenuItem
-      Caption = #12513#12491#12517#12540
-      object N1: TMenuItem
-        Caption = #12362#25903#25173#12356#20250#35336
-        OnClick = N1Click
-      end
-    end
   end
 end

@@ -27,16 +27,16 @@ type
     WebLinkLabel3: TWebLinkLabel;
     WebHttpRequest1: TWebHttpRequest;
     WebWaitMessage1: TWebWaitMessage;
-    WebMainMenu1: TWebMainMenu;
-    N1: TMenuItem;
-    N2: TMenuItem;
     procedure WebFormCreate(Sender: TObject);
     procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
     procedure WebPanel1Click(Sender: TObject);
     procedure WebPanel4Click(Sender: TObject);
     procedure N1Click(Sender: TObject);
+    procedure WebFormDestroy(Sender: TObject);
+    procedure WebHTMLDiv1Click(Sender: TObject);
   private
     { Private declarations }
+    procedure ModalForm(Sender: TObject);
     procedure Order(Sender: TObject);
   public
     { Public declarations }
@@ -57,28 +57,26 @@ begin
     GetBValue(AColor)]);
 end;
 
+procedure TForm1.ModalForm(Sender: TObject);
+var
+  form: TWebForm;
+begin
+  form := Sender as TWebForm;
+  form.Popup := true;
+  form.Left := (Width - form.Width) div 2;
+  form.Top := (Height - form.Height) div 2;
+  form.Execute;
+end;
+
 procedure TForm1.N1Click(Sender: TObject);
 begin
-  TForm2.CreateNew;
+  TForm2.CreateNew(@ModalForm);
 end;
 
 procedure TForm1.Order(Sender: TObject);
 begin
   Unit4.Order.Assign(TFrame1(Sender).Order);
-  Form3 := TForm3.CreateNew(
-    procedure(AForm: TObject)
-    begin
-      with AForm as TWebForm do
-      begin
-        Popup := true;
-        ShowModal(
-          procedure(mr: TModalResult)
-          begin
-            if mr = mrOK then
-              Showmessage('íçï∂ÇµÇ‹ÇµÇΩ');
-          end);
-      end;
-    end);
+  TForm3.CreateNew(@ModalForm);
 end;
 
 procedure TForm1.WebFormCreate(Sender: TObject);
@@ -97,7 +95,28 @@ begin
       panel.ElementHandle.style.setProperty('background-color', color);
     end;
 
+  Unit4.Order := TOrderData.Create;
+  Unit2.List := TObjectList<TOrderData>.Create;
   WebHttpRequest1.Execute;
+end;
+
+procedure TForm1.WebFormDestroy(Sender: TObject);
+begin
+  Unit4.Order.Free;
+  Unit2.List.Free;
+end;
+
+procedure TForm1.WebHTMLDiv1Click(Sender: TObject);
+begin
+  if (Sender is TWebHTMLDiv) then
+    asm
+      if (event.target.id === 'menuHome') {
+      pas.Unit1.Form1.ShowMessage('Home clicked');
+       }
+      if (event.target.id === 'menuAbout') {
+      pas.Unit1.Form1.ShowMessage('About clicked');
+       }
+    end;
 end;
 
 procedure TForm1.WebHttpRequest1Response(Sender: TObject; AResponse: string);
@@ -109,6 +128,7 @@ var
   obj: TFrame1;
   old: TObject;
 begin
+  WebWaitMessage1.Hide;
   for i := WebScrollBox1.ControlCount - 1 downto 0 do
     if WebScrollBox1.Controls[i] is TFrame1 then
     begin
@@ -142,6 +162,7 @@ begin
   else if Sender = WebPanel3 then
     url := 'http://localhost:8080/popular';
   WebHttpRequest1.url := url;
+  WebWaitMessage1.Show;
   WebHttpRequest1.Execute;
 end;
 
