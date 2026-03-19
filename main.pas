@@ -31,9 +31,8 @@ type
     procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
     procedure WebPanel1Click(Sender: TObject);
     procedure WebPanel4Click(Sender: TObject);
-    procedure N1Click(Sender: TObject);
     procedure WebFormDestroy(Sender: TObject);
-    procedure WebHTMLDiv1Click(Sender: TObject);
+    procedure WebHTMLDiv2Click(Sender: TObject);
   private
     { Private declarations }
     procedure ModalForm(Sender: TObject);
@@ -66,11 +65,6 @@ begin
   form.Left := (Width - form.Width) div 2;
   form.Top := (Height - form.Height) div 2;
   form.Execute;
-end;
-
-procedure TForm1.N1Click(Sender: TObject);
-begin
-  TForm2.CreateNew(@ModalForm);
 end;
 
 procedure TForm1.Order(Sender: TObject);
@@ -106,17 +100,11 @@ begin
   Unit2.List.Free;
 end;
 
-procedure TForm1.WebHTMLDiv1Click(Sender: TObject);
+procedure TForm1.WebHTMLDiv2Click(Sender: TObject);
 begin
-  if (Sender is TWebHTMLDiv) then
-    asm
-      if (event.target.id === 'menuHome') {
-      pas.Unit1.Form1.ShowMessage('Home clicked');
-       }
-      if (event.target.id === 'menuAbout') {
-      pas.Unit1.Form1.ShowMessage('About clicked');
-       }
-    end;
+  if Unit2.List.Count > 0 then
+    WebHTMLDiv2.ElementHandle.querySelector('#menuHome')
+      .addEventListener('click', TForm2.CreateNew(@ModalForm));
 end;
 
 procedure TForm1.WebHttpRequest1Response(Sender: TObject; AResponse: string);

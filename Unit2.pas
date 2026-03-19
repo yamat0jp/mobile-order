@@ -25,6 +25,7 @@ type
     WebLabel6: TWebLabel;
     CancelButton: TWebButton;
     WebListControl1: TWebListControl;
+    WebPanel4: TWebPanel;
     procedure CashButtonClick(Sender: TObject);
     procedure WebFormCreate(Sender: TObject);
     procedure WebFormDestroy(Sender: TObject);

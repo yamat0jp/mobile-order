@@ -211,6 +211,7 @@ object Form1: TForm1
           'id="menuAbout">About</a>'#10'        </li>'#10#10'      </ul>'#10'    </div>'#10' ' +
           ' </div>'#10'</nav>')
       Role = ''
+      OnClick = WebHTMLDiv2Click
     end
   end
   object WebPanel7: TWebPanel

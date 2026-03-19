@@ -72,8 +72,6 @@ object Form3: TForm3
     Align = alClient
     ChildOrder = 1
     TabOrder = 1
-    ExplicitLeft = -6
-    ExplicitWidth = 490
     object WebImageControl1: TWebImageControl
       Left = 304
       Top = 80

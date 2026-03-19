@@ -96,7 +96,7 @@ begin
   Unit2.List.Add(Order);
   ModalResult := mrOK;
   Close;
-  Showmessage(AResponse);
+  Showmessage('íçï∂ÇµÇ‹ÇµÇΩ');
 end;
 
 procedure TForm3.WebHttpRequest1Timeout(Sender: TObject);

@@ -1,7 +1,7 @@
 object Form2: TForm2
   Width = 733
   Height = 608
-  ElementClassName = 'modal-form'
+  ElementClassName = 'topbar'
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -16
@@ -125,17 +125,31 @@ object Form2: TForm2
       end
     end
   end
-  object WebListControl1: TWebListControl
+  object WebPanel4: TWebPanel
     Left = 0
     Top = 0
     Width = 375
     Height = 608
-    HeightPercent = 100.000000000000000000
-    WidthPercent = 100.000000000000000000
     Align = alClient
+    Caption = 'WebPanel4'
     ChildOrder = 2
-    Items = <>
-    OnItemClick = WebListControl1ItemClick
+    TabOrder = 1
+    ExplicitLeft = 288
+    ExplicitTop = 272
+    ExplicitWidth = 150
+    ExplicitHeight = 60
+    object WebListControl1: TWebListControl
+      Left = 0
+      Top = 0
+      Width = 375
+      Height = 608
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      Align = alClient
+      ChildOrder = 2
+      Items = <>
+      OnItemClick = WebListControl1ItemClick
+    end
   end
   object WebHttpRequest1: TWebHttpRequest
     Command = httpPOST
