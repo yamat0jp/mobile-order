@@ -26,6 +26,7 @@ type
     CancelButton: TWebButton;
     WebListControl1: TWebListControl;
     WebPanel4: TWebPanel;
+    WebPanel5: TWebPanel;
     procedure CashButtonClick(Sender: TObject);
     procedure WebFormCreate(Sender: TObject);
     procedure WebFormDestroy(Sender: TObject);
@@ -35,6 +36,7 @@ type
     procedure WebHttpRequest1Error(Sender: TObject;
       ARequest: TJSXMLHttpRequestRecord; Event: TJSEventRecord;
       var Handled: Boolean);
+    procedure WebFormShow(Sender: TObject);
   private
     { Private declarations }
     function GetTotalPrice: integer;
@@ -110,12 +112,29 @@ begin
     WebListControl1.Items.Add.Text :=
       Format(detail, [order.name, order.Count, order.Count * order.price]);
   end;
+  WebLabel1.Caption := '';
+  WebLabel2.Caption := '';
+  WebLabel6.Caption := '-';
   WebLabel5.Caption := GetTotalPrice.ToString;
 end;
 
 procedure TForm2.WebFormDestroy(Sender: TObject);
 begin
   List.Free;
+end;
+
+procedure TForm2.WebFormShow(Sender: TObject);
+begin
+  if List.Count = 0 then
+  begin
+    CashButton.Enabled:=false;
+    WebPanel5.Visible:=true;
+  end
+  else
+  begin
+    CashButton.Enabled:=true;
+    WebPanel5.Visible:=false;
+  end;
 end;
 
 procedure TForm2.WebHttpRequest1Error(Sender: TObject;
@@ -145,12 +164,7 @@ begin
       WebLabel1.Caption := order.name;
       WebLabel2.Caption := order.qty;
       WebLabel6.Caption := order.price.ToString;
-
-      Exit;
     end;
-  WebLabel1.Caption := '';
-  WebLabel2.Caption := '';
-  WebLabel6.Caption := '';
 end;
 
 end.

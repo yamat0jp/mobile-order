@@ -32,11 +32,12 @@ type
     procedure WebPanel1Click(Sender: TObject);
     procedure WebPanel4Click(Sender: TObject);
     procedure WebFormDestroy(Sender: TObject);
-    procedure WebHTMLDiv2Click(Sender: TObject);
   private
     { Private declarations }
     procedure ModalForm(Sender: TObject);
     procedure Order(Sender: TObject);
+    procedure About;
+    procedure Home;
   public
     { Public declarations }
   end;
@@ -54,6 +55,16 @@ function NativeIntToCssColor(AColor: NativeInt): string;
 begin
   Result := Format('#%.2x%.2x%.2x', [GetRValue(AColor), GetGValue(AColor),
     GetBValue(AColor)]);
+end;
+
+procedure TForm1.About;
+begin
+  Showmessage('version 0.1.0');
+end;
+
+procedure TForm1.Home;
+begin
+  TForm2.CreateNew(@ModalForm);
 end;
 
 procedure TForm1.ModalForm(Sender: TObject);
@@ -91,6 +102,10 @@ begin
 
   Unit4.Order := TOrderData.Create;
   Unit2.List := TObjectList<TOrderData>.Create;
+
+  document.getElementById('menuHome').addEventListener('click', @Home);
+  document.getElementById('menuAbout').addEventListener('click', @About);
+
   WebHttpRequest1.Execute;
 end;
 
@@ -98,13 +113,6 @@ procedure TForm1.WebFormDestroy(Sender: TObject);
 begin
   Unit4.Order.Free;
   Unit2.List.Free;
-end;
-
-procedure TForm1.WebHTMLDiv2Click(Sender: TObject);
-begin
-  if Unit2.List.Count > 0 then
-    WebHTMLDiv2.ElementHandle.querySelector('#menuHome')
-      .addEventListener('click', TForm2.CreateNew(@ModalForm));
 end;
 
 procedure TForm1.WebHttpRequest1Response(Sender: TObject; AResponse: string);

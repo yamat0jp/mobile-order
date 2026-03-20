@@ -10,6 +10,7 @@ object Form2: TForm2
   ParentFont = False
   OnCreate = WebFormCreate
   OnDestroy = WebFormDestroy
+  OnShow = WebFormShow
   object WebPanel2: TWebPanel
     Left = 287
     Top = 0
@@ -18,7 +19,6 @@ object Form2: TForm2
     Align = alRight
     ChildOrder = 2
     TabOrder = 0
-    ExplicitLeft = 375
     object WebPanel3: TWebPanel
       Left = 0
       Top = 464
@@ -78,7 +78,6 @@ object Form2: TForm2
       Align = alClient
       ChildOrder = 1
       TabOrder = 1
-      ExplicitHeight = 496
       object WebImageControl1: TWebImageControl
         Left = 144
         Top = 81
@@ -133,7 +132,6 @@ object Form2: TForm2
     Align = alClient
     ChildOrder = 2
     TabOrder = 1
-    ExplicitWidth = 375
     object WebListControl1: TWebListControl
       Left = 0
       Top = 0
@@ -147,9 +145,17 @@ object Form2: TForm2
       DefaultItemClassName = 'list-group-item'
       Items = <>
       OnItemClick = WebListControl1ItemClick
-      ExplicitLeft = 48
-      ExplicitWidth = 327
+      ExplicitLeft = -6
     end
+  end
+  object WebPanel5: TWebPanel
+    Left = 248
+    Top = 272
+    Width = 150
+    Height = 60
+    Caption = #12372#27880#25991#12364#12354#12426#12414#12379#12435
+    ChildOrder = 2
+    TabOrder = 2
   end
   object WebHttpRequest1: TWebHttpRequest
     Command = httpPOST

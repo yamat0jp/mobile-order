@@ -186,32 +186,40 @@ object Form1: TForm1
       Anchors = []
       ChildOrder = 4
       HTML.Strings = (
+        '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">'
+        '  <div class="container-fluid">'
+        '    <a class="navbar-brand" href="#">'#12424#12358#12371#12381'</a>'
+        ''
+        '    <!-- '#12371#12371#12364#12496#12540#12460#12540#12450#12452#12467#12531' -->'
         
-          '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">'#10'  <div' +
-          ' class="container-fluid">'#10'    <a class="navbar-brand" href="#">'#12424 +
-          #12358#12371#12381'</a>'#10#10'    <!-- '#12371#12371
-        #12364#12496#12540
+          '    <button class="navbar-toggler" type="button" data-bs-toggle=' +
+          '"collapse"'
+        '      data-bs-target="#navbarMenu" aria-controls="navbarMenu"'
+        '      aria-expanded="false" aria-label="Toggle navigation">'
+        '      <span class="navbar-toggler-icon"></span>'
+        '    </button>'
+        ''
+        '    <!-- '#12513#12491#12517#12540#26412#20307' -->'
+        '    <div class="collapse navbar-collapse" id="navbarMenu">'
+        '      <ul class="navbar-nav me-auto mb-2 mb-lg-0">'
+        ''
+        '        <li class="nav-item">'
         
-          #12460#12540#12450#12452#12467#12531' -->'#10'    <button class="navbar-toggler" type="button" data' +
-          '-bs-toggle="collapse"'#10'      data-bs-target="#navbarMenu" aria-'
+          '          <a class="nav-link" href="javascript:void(0);" id="men' +
+          'uHome">Home</a>'
+        '        </li>'
+        ''
+        '        <li class="nav-item">'
         
-          'controls="navbarMenu"'#10'      aria-expanded="false" aria-label="To' +
-          'ggle navigation">'#10'      <span class="navbar-toggler-icon"></span' +
-          '>'#10'    </button>'#10#10'    <!-- '
-        #12513
-        
-          #12491#12517#12540#26412#20307' -->'#10'    <div class="collapse navbar-collapse" id="navbarMe' +
-          'nu">'#10'      <ul class="navbar-nav me-auto mb-2 mb-lg-0">'#10#10'       ' +
-          ' <li class="nav-'
-        
-          'item">'#10'          <a class="nav-link" href="#" id="menuHome">Home' +
-          '</a>'#10'        </li>'#10#10'        <li class="nav-item">'#10'          <a c' +
-          'lass="nav-link" href="#" '
-        
-          'id="menuAbout">About</a>'#10'        </li>'#10#10'      </ul>'#10'    </div>'#10' ' +
-          ' </div>'#10'</nav>')
+          '          <a class="nav-link" href="javascript:void(0);" id="men' +
+          'uAbout">About</a>'
+        '        </li>'
+        ''
+        '      </ul>'
+        '    </div>'
+        '  </div>'
+        '</nav>')
       Role = ''
-      OnClick = WebHTMLDiv2Click
     end
   end
   object WebPanel7: TWebPanel
