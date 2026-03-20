@@ -35,4 +35,22 @@ object WebModule1: TWebModule1
   BeforeDispatch = WebModuleBeforeDispatch
   Height = 230
   Width = 415
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=E:\fuke\GitHub\mobile-order\data.sdb'
+      'OpenMode=ReadWrite'
+      'DriverID=SQLite')
+    Connected = True
+    Left = 160
+    Top = 40
+  end
+  object FDTable1: TFDTable
+    Active = True
+    IndexFieldNames = 'id'
+    Connection = FDConnection1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'item'
+    Left = 72
+    Top = 40
+  end
 end

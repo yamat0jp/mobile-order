@@ -145,7 +145,6 @@ object Form2: TForm2
       DefaultItemClassName = 'list-group-item'
       Items = <>
       OnItemClick = WebListControl1ItemClick
-      ExplicitLeft = -6
     end
   end
   object WebPanel5: TWebPanel

@@ -65,7 +65,7 @@ begin
   for I := 0 to List.Count - 1 do
   begin
     order := List[I];
-    inc(result, order.price * order.Count);
+    inc(result, order.price * order.qty);
   end;
 end;
 
@@ -110,7 +110,7 @@ begin
   begin
     order := List[I];
     WebListControl1.Items.Add.Text :=
-      Format(detail, [order.name, order.Count, order.Count * order.price]);
+      Format(detail, [order.name, order.qty, order.qty * order.price]);
   end;
   WebLabel1.Caption := '';
   WebLabel2.Caption := '';
@@ -134,6 +134,7 @@ begin
   begin
     CashButton.Enabled:=true;
     WebPanel5.Visible:=false;
+    WebListControl1ItemClick(nil,WebListControl1.Items[0]);
   end;
 end;
 
@@ -162,8 +163,9 @@ begin
       WebListControl1.ItemIndex := I;
       order := List[I];
       WebLabel1.Caption := order.name;
-      WebLabel2.Caption := order.qty;
+      WebLabel2.Caption := order.comment;
       WebLabel6.Caption := order.price.ToString;
+      WebImageControl1.URL := order.ImageBase64;
     end;
 end;
 

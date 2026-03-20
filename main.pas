@@ -133,17 +133,22 @@ begin
     end;
 
   JSON := TJSONObject.ParseJSONValue(AResponse) as TJSONObject;
-  arr := JSON.GetValue('items') as TJSONArray;
-  for i := 0 to arr.Count - 1 do
-  begin
-    data := TOrderData.Create(arr[i] as TJSONObject);
-    obj := TFrame1.Create(Self);
-    obj.Parent := WebScrollBox1;
-    obj.LoadFromForm;
-    obj.RegisterItem(data);
-    obj.Align := alLeft;
-    obj.OnOrder := @Form1.Order;
-    data.Free;
+  try
+    arr := JSON.GetValue('items') as TJSONArray;
+    for i := 0 to arr.Count - 1 do
+    begin
+      data := TOrderData.Create(arr[i] as TJSONObject);
+      obj := TFrame1.Create(Self);
+      obj.Parent := WebScrollBox1;
+      obj.LoadFromForm;
+      obj.RegisterItem(data);
+      obj.WebImageControl1.URL := data.ImageBase64;
+      obj.Align := alLeft;
+      obj.OnOrder := @Form1.Order;
+      data.Free;
+    end;
+  finally
+    JSON.Free;
   end;
 end;
 

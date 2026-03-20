@@ -3,10 +3,19 @@ unit WebModuleUnit1;
 interface
 
 uses
-  System.SysUtils, System.Classes, Web.HTTPApp;
+  System.SysUtils, System.Classes, Web.HTTPApp, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
+  FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  FireDAC.Phys.IB, FireDAC.Phys.IBDef, FireDAC.Phys.SQLite,
+  FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
+  FireDAC.Phys.SQLiteWrapper.Stat;
 
 type
   TWebModule1 = class(TWebModule)
+    FDConnection1: TFDConnection;
+    FDTable1: TFDTable;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModule1WebActionItem1Action(Sender: TObject;
@@ -19,6 +28,7 @@ type
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
   private
     { private êÈåæ }
+    function BlobImageString: string;
   public
     { public êÈåæ }
   end;
@@ -31,29 +41,55 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 {$R *.dfm}
 
-uses System.JSON;
+uses System.JSON, System.IOUtils, System.NetEncoding;
+
+function TWebModule1.BlobImageString: string;
+var
+  blob, stream: TStream;
+  bytes: TBytes;
+begin
+  blob := FDTable1.CreateBlobStream(FDTable1.FieldByName('image'), bmRead);
+  try
+    SetLength(bytes, blob.Size);
+    blob.ReadBuffer(bytes, 0, blob.Size);
+    Result := 'data:image/png;base64,' +
+      TNetEncoding.Base64.EncodeBytesToString(bytes);
+  finally
+    blob.Free;
+  end;
+end;
 
 procedure TWebModule1.WebModule1DefaultHandlerAction(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
   JSON, item: TJSONObject;
-  data: TJSONArray;
+  Data: TJSONArray;
+  s, na, img: string;
 begin
   JSON := TJSONObject.Create;
   try
-    data := TJSONArray.Create;
-    for var i := 1 to 5 do
+    Data := TJSONArray.Create;
+    FDTable1.First;
+    while not FDTable1.Eof do
     begin
+      na := FDTable1.FieldByName('name').AsString;
+      s := Format('%.5d_%s', [FDTable1.FieldByName('id').AsInteger, na]);
+      img := BlobImageString;
+
       item := TJSONObject.Create;
-      item.AddPair('category', 'popular');
-      item.AddPair('id', 'ice');
-      item.AddPair('name', 'ice cup');
-      item.AddPair('qty', 'test');
-      item.AddPair('price', TJSONNumber.Create(380));
-      item.AddPair('count', TJSONNumber.Create(1));
-      data.Add(item);
+      item.AddPair('category', FDTable1.FieldByName('category').AsString);
+      item.AddPair('id', s);
+      item.AddPair('name', na);
+      item.AddPair('comment', FDTable1.FieldByName('comment').AsString);
+      item.AddPair('qty', TJSONNumber.Create(FDTable1.FieldByName('qty')
+        .AsInteger));
+      item.AddPair('price', TJSONNumber.Create(FDTable1.FieldByName('price')
+        .AsInteger));
+      item.AddPair('image', img);
+      Data.Add(item);
+      FDTable1.Next;
     end;
-    JSON.AddPair('items', data);
+    JSON.AddPair('items', Data);
     Response.ContentType := 'applicatrion/json; charset=utf-8';
     Response.Content := JSON.ToJSON;
   finally

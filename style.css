@@ -36,8 +36,8 @@ body {
     z-index: 100;
 }
 
-a {
-    -moz-text-decoration-line: none;
+a, a:hover {
+    text-decoration: none;
     color: white;
 }
 

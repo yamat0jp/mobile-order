@@ -57,7 +57,7 @@ end;
 
 function TForm3.GetTotalCost: integer;
 begin
-  result := Order.count * Order.price;
+  result := Order.qty * Order.price;
 end;
 
 procedure TForm3.WebButton1Click(Sender: TObject);
@@ -77,9 +77,10 @@ end;
 procedure TForm3.WebFormShow(Sender: TObject);
 begin
   WebLabel1.Caption := Order.name;
-  WebLabel2.Caption := Order.qty;
+  WebLabel2.Caption := Order.comment;
   WebLabel3.Caption := Order.price.ToString;
-  WebSpinEdit1.Value := Order.count;
+  WebSpinEdit1.Value := Order.qty;
+  WebImageControl1.URL := Order.ImageBase64;
   WebLabel5.Caption := TotalCost.ToString;
 end;
 
@@ -100,7 +101,7 @@ begin
   Unit2.List.Add(obj);
   ModalResult := mrOK;
   Close;
-  Showmessage('íçï∂ÇµÇ‹ÇµÇΩ');
+  Showmessage(AResponse);
 end;
 
 procedure TForm3.WebHttpRequest1Timeout(Sender: TObject);
@@ -112,7 +113,7 @@ end;
 
 procedure TForm3.WebSpinEdit1Change(Sender: TObject);
 begin
-  Order.count := WebSpinEdit1.Value;
+  Order.qty := WebSpinEdit1.Value;
   WebLabel5.Caption := TotalCost.ToString;
 end;
 

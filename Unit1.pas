@@ -51,8 +51,9 @@ procedure TFrame1.RegisterItem(AData: TOrderData);
 begin
   FOrder.Assign(AData);
   WebLabel1.Caption := AData.name;
-  WebLabel2.Caption := AData.qty;
+  WebLabel2.Caption := AData.comment;
   WebLabel3.Caption := AData.price.ToString;
+  WebImageControl1.URL := AData.ImageBase64;
 end;
 
 procedure TFrame1.WebButton1Click(Sender: TObject);

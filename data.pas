@@ -9,20 +9,22 @@ type
   private
     FName: string;
     FPrice: integer;
-    FQty: string;
-    FCount: integer;
+    FQty: integer;
     FId: string;
     FCategory: string;
+    FImageBase64: string;
+    FComment: string;
   public
     constructor Create(AJson: TJSONObject); overload;
     function toJson: TJSONObject;
     procedure Assign(AData: TOrderData);
     property Id: string read FId write FId;
     property name: string read FName write FName;
-    property qty: string read FQty write FQty;
+    property qty: integer read FQty write FQty;
     property price: integer read FPrice write FPrice;
-    property count: integer read FCount write FCount;
+    property comment: string read FComment write FComment;
     property category: string read FCategory write FCategory;
+    property ImageBase64: string read FImageBase64 write FImageBase64;
   end;
 
 implementation
@@ -36,7 +38,8 @@ begin
   FName := AData.name;
   FQty := AData.qty;
   FPrice := AData.price;
-  FCount := AData.count;
+  FComment := AData.comment;
+  FImageBase64 := AData.ImageBase64;
 end;
 
 constructor TOrderData.Create(AJson: TJSONObject);
@@ -45,9 +48,10 @@ begin
   FCategory := AJson.GetValue('category').ToString;
   FId := AJson.GetValue('id').ToString;
   FName := AJson.GetValue('name').ToString;
-  FQty := AJson.GetValue('qty').ToString;
+  FQty := (AJson.GetValue('qty') as TJSONNumber).AsInt;
   FPrice := (AJson.GetValue('price') as TJSONNumber).AsInt;
-  FCount := (AJson.GetValue('count') as TJSONNumber).AsInt;
+  FComment := AJson.GetValue('comment').ToString;
+  FImageBase64 := AJson.GetValue('image').Value;
 end;
 
 function TOrderData.toJson: TJSONObject;
@@ -58,7 +62,8 @@ begin
   result.AddPair('name', FName);
   result.AddPair('qty', FQty);
   result.AddPair('price', FPrice);
-  result.AddPair('count', FCount);
+  result.AddPair('comment', FComment);
+  result.AddPair('image', FImageBase64);
 end;
 
 end.

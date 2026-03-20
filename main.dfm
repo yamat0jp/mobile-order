@@ -6,7 +6,7 @@ object Form1: TForm1
   OnDestroy = WebFormDestroy
   object WebLabel2: TWebLabel
     Left = 0
-    Top = 297
+    Top = 313
     Width = 959
     Height = 54
     Align = alTop
@@ -27,7 +27,7 @@ object Form1: TForm1
     Left = 0
     Top = 0
     Width = 959
-    Height = 297
+    Height = 313
     ElementClassName = 'topbar'
     WidthStyle = ssPercent
     HeightPercent = 25.000000000000000000
@@ -78,7 +78,7 @@ object Form1: TForm1
       end>
     DesignSize = (
       959
-      297)
+      313)
     object WebLabel1: TWebLabel
       Left = 0
       Top = 0
@@ -97,7 +97,7 @@ object Form1: TForm1
     end
     object WebPanel1: TWebPanel
       Left = 0
-      Top = 41
+      Top = 28
       Width = 480
       Height = 125
       ElementClassName = 'category-card'
@@ -116,7 +116,7 @@ object Form1: TForm1
     end
     object WebPanel4: TWebPanel
       Left = 480
-      Top = 166
+      Top = 153
       Width = 480
       Height = 125
       ElementClassName = 'category-card'
@@ -137,7 +137,7 @@ object Form1: TForm1
     end
     object WebPanel2: TWebPanel
       Left = 0
-      Top = 166
+      Top = 153
       Width = 480
       Height = 125
       ElementClassName = 'category-card'
@@ -158,7 +158,7 @@ object Form1: TForm1
     end
     object WebPanel3: TWebPanel
       Left = 480
-      Top = 41
+      Top = 28
       Width = 480
       Height = 125
       ElementClassName = 'category-card'
@@ -180,10 +180,11 @@ object Form1: TForm1
     object WebHTMLDiv2: TWebHTMLDiv
       Left = 480
       Top = 0
-      Width = 100
-      Height = 41
+      Width = 145
+      Height = 28
       ElementClassName = 'topbar'
-      Anchors = []
+      HeightStyle = ssAuto
+      WidthStyle = ssAuto
       ChildOrder = 4
       HTML.Strings = (
         '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">'
@@ -278,9 +279,9 @@ object Form1: TForm1
   end
   object WebScrollBox1: TWebScrollBox
     Left = 0
-    Top = 351
+    Top = 367
     Width = 959
-    Height = 540
+    Height = 524
     ElementClassName = 'scrollbox'
     Align = alClient
     AutoScroll = True
@@ -290,7 +291,7 @@ object Form1: TForm1
     ScrollBars = ssHorizontal
     object WebWaitMessage1: TWebWaitMessage
       Left = 467
-      Top = 258
+      Top = 250
       Width = 24
       Height = 24
       Center.Horizontal = True
