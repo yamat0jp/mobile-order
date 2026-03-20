@@ -39,6 +39,8 @@ object WebModule1: TWebModule1
     Params.Strings = (
       'Database=E:\fuke\GitHub\mobile-order\data.sdb'
       'OpenMode=ReadWrite'
+      'LockingMode=Normal'
+      'JournalMode=WAL'
       'DriverID=SQLite')
     Connected = True
     Left = 160

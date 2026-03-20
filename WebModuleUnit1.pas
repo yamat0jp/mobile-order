@@ -52,7 +52,7 @@ begin
   try
     SetLength(bytes, blob.Size);
     blob.ReadBuffer(bytes, 0, blob.Size);
-    Result := 'data:image/png;base64,' +
+    Result := Format('data:image/%s;base64,',[FDTable1.FieldByName('fileext').AsString]) +
       TNetEncoding.Base64.EncodeBytesToString(bytes);
   finally
     blob.Free;

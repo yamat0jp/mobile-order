@@ -1,58 +1,52 @@
 ﻿[]
-Coordinates=0,0,75,36
+Coordinates=267,167,130,36
 Visible=True
 
 [DBNavigator1]
-Coordinates=95,684,82,51
+Coordinates=95,684,94,58
 
 [DataSource1]
 Coordinates=116,263,89,36
 
-[OpenPictureDialog1]
-Coordinates=267,167,112,33
-
 [Button1]
-Coordinates=10,684,53,51
-
-[Label1]
-Coordinates=318,10,46,51
-Visible=True
+Coordinates=10,684,59,58
 
 [Memo1]
-Coordinates=228,482,53,51
+Coordinates=228,482,64,58
 
 [Button2]
-Coordinates=215,684,53,51
+Coordinates=215,684,59,58
 
 [DataModule3.DataSource1]
 Visible=False
-Coordinates=98,328,144,33
+Coordinates=98,328,169,36
 
 [DataModule3.FDQuery1]
-Coordinates=397,10,130,51
+Coordinates=397,10,153,58
 
 [DataModule3.FDTable1]
-Coordinates=390,110,127,33
+Coordinates=390,110,151,36
 Visible=False
 
 [BindSourceDB1]
-Coordinates=10,217,115,195
+Coordinates=10,217,138,256
 
 [BindingsList1]
-Coordinates=194,87,82,33
+Coordinates=194,87,91,36
 
 [Edit1]
-Coordinates=238,128,40,51
+Coordinates=238,128,44,58
 
 [Edit2]
-Coordinates=238,364,40,51
+Coordinates=238,364,44,58
 
 [Edit3]
-Coordinates=238,246,40,51
+Coordinates=238,246,44,58
 
 [Edit4]
-Coordinates=238,600,40,51
+Coordinates=238,600,44,58
 
 [Image1]
-Coordinates=232,10,49,51
+Coordinates=232,10,57,58
+Visible=True
 

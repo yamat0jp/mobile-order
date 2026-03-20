@@ -4,16 +4,18 @@ object DataModule3: TDataModule3
   object FDQuery1: TFDQuery
     Connection = FDConnection1
     SQL.Strings = (
-      ''
+      'drop table item;'
       'create table item(id INTEGER PRIMARY KEY AUTOINCREMENT,'
       '  category text, name text, comment text,'
-      '  price integer, qty integer, image blob);'
+      '  price integer, qty integer, '
+      '  fileext text, image blob);'
       '  ')
     Left = 520
     Top = 72
   end
   object FDTable1: TFDTable
     Active = True
+    BeforePost = FDTable1BeforePost
     IndexFieldNames = 'id'
     Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
@@ -49,6 +51,11 @@ object DataModule3: TDataModule3
       FieldName = 'qty'
       Origin = 'qty'
     end
+    object FDTable1fileext: TWideMemoField
+      FieldName = 'fileext'
+      Origin = 'fileext'
+      BlobType = ftWideMemo
+    end
     object FDTable1image: TBlobField
       FieldName = 'image'
       Origin = 'image'
@@ -58,6 +65,9 @@ object DataModule3: TDataModule3
     Params.Strings = (
       'Database=E:\fuke\GitHub\mobile-order\data.sdb'
       'OpenMode=ReadWrite'
+      'JournalMode=WAL'
+      'BusyTimeout=30000'
+      'LockingMode=Normal'
       'DriverID=SQLite')
     Connected = True
     Left = 160

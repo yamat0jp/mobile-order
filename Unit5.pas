@@ -14,14 +14,12 @@ uses
   Vcl.ExtCtrls, FireDAC.Comp.Client, Data.DB, FireDAC.Comp.DataSet,
   Data.Bind.Components, Data.Bind.DBScope, Data.Bind.EngExt, Vcl.Bind.DBEngExt,
   Vcl.Mask, Vcl.DBCtrls, Vcl.Buttons, System.Rtti, System.Bindings.Outputs,
-  Vcl.Bind.Editors;
+  Vcl.Bind.Editors, Vcl.Imaging.pngimage;
 
 type
   TForm5 = class(TForm)
-    Label1: TLabel;
     Button1: TButton;
     Button2: TButton;
-    OpenPictureDialog1: TOpenPictureDialog;
     DBNavigator1: TDBNavigator;
     BindSourceDB1: TBindSourceDB;
     BindingsList1: TBindingsList;
@@ -37,8 +35,8 @@ type
     Image1: TImage;
     LinkControlToField5: TLinkControlToField;
     LinkControlToField6: TLinkControlToField;
+    OpenPictureDialog1: TOpenPictureDialog;
     procedure Button2Click(Sender: TObject);
-    procedure FDTable1AfterPost(DataSet: TDataSet);
     procedure Button1Click(Sender: TObject);
   private
     { Private êÈåæ }
@@ -53,23 +51,36 @@ implementation
 
 {$R *.dfm}
 
-uses Unit3;
+uses Unit3, Jpeg;
 
 procedure TForm5.Button1Click(Sender: TObject);
+var
+  s: string;
+  png: TPngImage;
+  pic: TPicture;
+  bmp: TBitmap;
 begin
   if OpenPictureDialog1.Execute then
-    Image1.Picture.LoadFromFile(OpenPictureDialog1.FileName);
+  begin
+    pic := TPicture.Create;
+    bmp := TBitmap.Create;
+    png := TPngImage.Create;
+    try
+      pic.LoadFromFile(OpenPictureDialog1.FileName);
+      bmp.Assign(pic.Graphic);
+      png.Assign(bmp);
+      Image1.Picture.Assign(png);
+    finally
+      png.Free;
+      bmp.Free;
+      pic.Free;
+    end;
+  end;
 end;
 
 procedure TForm5.Button2Click(Sender: TObject);
 begin
   Close;
-end;
-
-procedure TForm5.FDTable1AfterPost(DataSet: TDataSet);
-begin
-  Label1.Caption := Format('%.5d_%s',
-    [DataModule3.FDTable1.FieldByName('id').AsInteger, Edit2.Text]);
 end;
 
 end.

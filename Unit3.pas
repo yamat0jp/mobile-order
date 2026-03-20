@@ -23,7 +23,9 @@ type
     FDTable1comment: TWideMemoField;
     FDTable1price: TIntegerField;
     FDTable1qty: TIntegerField;
+    FDTable1fileext: TWideMemoField;
     FDTable1image: TBlobField;
+    procedure FDTable1BeforePost(DataSet: TDataSet);
   private
     { Private êÈåæ }
   public
@@ -37,6 +39,13 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
+uses Unit5;
+
 {$R *.dfm}
+
+procedure TDataModule3.FDTable1BeforePost(DataSet: TDataSet);
+begin
+  FDTable1.FieldByName('fileext').AsString := 'png';
+end;
 
 end.
