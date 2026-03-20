@@ -1,5 +1,5 @@
 object Form2: TForm2
-  Width = 733
+  Width = 645
   Height = 608
   ElementClassName = 'topbar'
   Font.Charset = DEFAULT_CHARSET
@@ -11,29 +11,28 @@ object Form2: TForm2
   OnCreate = WebFormCreate
   OnDestroy = WebFormDestroy
   object WebPanel2: TWebPanel
-    Left = 375
+    Left = 287
     Top = 0
     Width = 358
     Height = 608
     Align = alRight
-    Caption = 'WebPanel2'
     ChildOrder = 2
     TabOrder = 0
+    ExplicitLeft = 375
     object WebPanel3: TWebPanel
       Left = 0
-      Top = 496
+      Top = 464
       Width = 358
-      Height = 112
+      Height = 144
       Align = alBottom
-      Caption = 'WebPanel3'
       ChildOrder = 1
       TabOrder = 0
       object WebLabel4: TWebLabel
         Left = 32
         Top = 16
-        Width = 77
+        Width = 82
         Height = 21
-        Caption = 'WebLabel4'
+        Caption = #12362#25903#25173#38989#65306
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
       end
@@ -48,10 +47,10 @@ object Form2: TForm2
       end
       object CashButton: TWebButton
         Left = 200
-        Top = 56
+        Top = 64
         Width = 96
         Height = 25
-        Caption = 'CashButton'
+        Caption = #12362#20250#35336
         ChildOrder = 1
         Default = True
         HeightPercent = 100.000000000000000000
@@ -60,11 +59,11 @@ object Form2: TForm2
       end
       object CancelButton: TWebButton
         Left = 48
-        Top = 56
+        Top = 64
         Width = 96
         Height = 25
         Cancel = True
-        Caption = 'CancelButton'
+        Caption = #25147#12427
         ChildOrder = 3
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
@@ -75,10 +74,11 @@ object Form2: TForm2
       Left = 0
       Top = 0
       Width = 358
-      Height = 496
+      Height = 464
       Align = alClient
       ChildOrder = 1
       TabOrder = 1
+      ExplicitHeight = 496
       object WebImageControl1: TWebImageControl
         Left = 144
         Top = 81
@@ -108,9 +108,9 @@ object Form2: TForm2
       object WebLabel3: TWebLabel
         Left = 88
         Top = 328
-        Width = 77
+        Width = 34
         Height = 21
-        Caption = 'WebLabel3'
+        Caption = #21336#20385
         HeightPercent = 100.000000000000000000
         WidthPercent = 100.000000000000000000
       end
@@ -128,27 +128,27 @@ object Form2: TForm2
   object WebPanel4: TWebPanel
     Left = 0
     Top = 0
-    Width = 375
+    Width = 287
     Height = 608
     Align = alClient
-    Caption = 'WebPanel4'
     ChildOrder = 2
     TabOrder = 1
-    ExplicitLeft = 288
-    ExplicitTop = 272
-    ExplicitWidth = 150
-    ExplicitHeight = 60
+    ExplicitWidth = 375
     object WebListControl1: TWebListControl
       Left = 0
       Top = 0
-      Width = 375
+      Width = 287
       Height = 608
+      ElementClassName = 'list-group'
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
       Align = alClient
       ChildOrder = 2
+      DefaultItemClassName = 'list-group-item'
       Items = <>
       OnItemClick = WebListControl1ItemClick
+      ExplicitLeft = 48
+      ExplicitWidth = 327
     end
   end
   object WebHttpRequest1: TWebHttpRequest

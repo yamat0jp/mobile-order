@@ -161,7 +161,6 @@
         <None Include="policy.html"/>
         <None Include="qanda.html"/>
         <None Include="rule.html"/>
-        <None Include="modal.css"/>
         <RcItem Include="FavIcon.ico">
             <ResourceType>ICON</ResourceType>
             <ResourceId>Icon_1</ResourceId>
@@ -223,12 +222,6 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="index.html" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="modal.css" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

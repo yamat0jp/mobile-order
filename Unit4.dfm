@@ -38,7 +38,7 @@ object Form3: TForm3
     end
     object WebSpinEdit1: TWebSpinEdit
       Left = 64
-      Top = 169
+      Top = 170
       Width = 54
       Height = 31
       AutoSize = False

@@ -92,8 +92,12 @@ begin
 end;
 
 procedure TForm3.WebHttpRequest1Response(Sender: TObject; AResponse: string);
+var
+  obj: TOrderData;
 begin
-  Unit2.List.Add(Order);
+  obj := TOrderData.Create;
+  obj.Assign(Order);
+  Unit2.List.Add(obj);
   ModalResult := mrOK;
   Close;
   Showmessage('íçï∂ÇµÇ‹ÇµÇΩ');

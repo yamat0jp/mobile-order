@@ -98,12 +98,18 @@ begin
 end;
 
 procedure TForm2.WebFormCreate(Sender: TObject);
+const
+  detail = '%s x %d  Åè%d';
 var
   I: integer;
+  order: TOrderData;
 begin
-  Name := '';
   for I := 0 to List.Count - 1 do
-    WebListControl1.Items.Add.Text := List[I].name;
+  begin
+    order := List[I];
+    WebListControl1.Items.Add.Text :=
+      Format(detail, [order.name, order.Count, order.Count * order.price]);
+  end;
   WebLabel5.Caption := GetTotalPrice.ToString;
 end;
 
@@ -129,10 +135,22 @@ procedure TForm2.WebListControl1ItemClick(Sender: TObject;
   AListItem: TListItem);
 var
   order: TOrderData;
+  I: integer;
 begin
-  order := List[WebListControl1.ItemIndex];
-  WebLabel1.Caption := order.name;
-  WebLabel2.Caption := order.qty;
+  for I := 0 to WebListControl1.Items.Count - 1 do
+    if AListItem = WebListControl1.Items[I] then
+    begin
+      WebListControl1.ItemIndex := I;
+      order := List[I];
+      WebLabel1.Caption := order.name;
+      WebLabel2.Caption := order.qty;
+      WebLabel6.Caption := order.price.ToString;
+
+      Exit;
+    end;
+  WebLabel1.Caption := '';
+  WebLabel2.Caption := '';
+  WebLabel6.Caption := '';
 end;
 
 end.
