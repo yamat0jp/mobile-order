@@ -55,4 +55,9 @@ object WebModule1: TWebModule1
     Left = 72
     Top = 40
   end
+  object FDTable2: TFDTable
+    Connection = FDConnection1
+    Left = 72
+    Top = 120
+  end
 end

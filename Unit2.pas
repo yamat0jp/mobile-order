@@ -7,7 +7,8 @@ uses
   System.Generics.Collections,
   WEBLib.Controls,
   WEBLib.Forms, WEBLib.Dialogs, WEBLib.ExtCtrls,
-  WEBLib.StdCtrls, Vcl.StdCtrls, Vcl.Controls, WEBLib.REST, WEBLib.Lists, data;
+  WEBLib.StdCtrls, Vcl.StdCtrls, Vcl.Controls, WEBLib.REST, WEBLib.Lists,
+  webdata;
 
 type
   TForm2 = class(TWebForm)
@@ -127,14 +128,14 @@ procedure TForm2.WebFormShow(Sender: TObject);
 begin
   if List.Count = 0 then
   begin
-    CashButton.Enabled:=false;
-    WebPanel5.Visible:=true;
+    CashButton.Enabled := False;
+    WebPanel5.Visible := true;
   end
   else
   begin
-    CashButton.Enabled:=true;
-    WebPanel5.Visible:=false;
-    WebListControl1ItemClick(nil,WebListControl1.Items[0]);
+    CashButton.Enabled := true;
+    WebPanel5.Visible := False;
+    WebListControl1ItemClick(nil, WebListControl1.Items[0]);
   end;
 end;
 

@@ -120,7 +120,7 @@ object Form3: TForm3
   object WebHttpRequest1: TWebHttpRequest
     Command = httpPUT
     Headers.Strings = (
-      'Content-Type:application/json')
+      'Content-Type=application/json')
     Timeout = 3500
     URL = 'http://localhost:8080/order'
     OnError = WebHttpRequest1Error

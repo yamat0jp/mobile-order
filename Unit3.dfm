@@ -60,6 +60,10 @@ object DataModule3: TDataModule3
       FieldName = 'image'
       Origin = 'image'
     end
+    object FDTable1cnt: TIntegerField
+      FieldName = 'cnt'
+      Origin = 'cnt'
+    end
   end
   object FDConnection1: TFDConnection
     Params.Strings = (

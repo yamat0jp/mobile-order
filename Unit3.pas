@@ -25,6 +25,7 @@ type
     FDTable1qty: TIntegerField;
     FDTable1fileext: TWideMemoField;
     FDTable1image: TBlobField;
+    FDTable1cnt: TIntegerField;
     procedure FDTable1BeforePost(DataSet: TDataSet);
   private
     { Private éŒ¾ }

@@ -3,7 +3,8 @@ program Project3;
 uses
   Vcl.Forms,
   Unit5 in 'Unit5.pas' {Form5},
-  Unit3 in 'Unit3.pas' {DataModule3: TDataModule};
+  Unit3 in 'Unit3.pas' {DataModule3: TDataModule},
+  data in 'data.pas';
 
 {$R *.res}
 

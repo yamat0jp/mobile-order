@@ -16,6 +16,7 @@ type
   TWebModule1 = class(TWebModule)
     FDConnection1: TFDConnection;
     FDTable1: TFDTable;
+    FDTable2: TFDTable;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModule1WebActionItem1Action(Sender: TObject;
@@ -41,18 +42,19 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 {$R *.dfm}
 
-uses System.JSON, System.IOUtils, System.NetEncoding;
+uses System.JSON, System.IOUtils, System.NetEncoding, Data;
 
 function TWebModule1.BlobImageString: string;
 var
-  blob, stream: TStream;
+  blob: TStream;
   bytes: TBytes;
 begin
   blob := FDTable1.CreateBlobStream(FDTable1.FieldByName('image'), bmRead);
   try
     SetLength(bytes, blob.Size);
     blob.ReadBuffer(bytes, 0, blob.Size);
-    Result := Format('data:image/%s;base64,',[FDTable1.FieldByName('fileext').AsString]) +
+    Result := Format('data:image/%s;base64,',
+      [FDTable1.FieldByName('fileext').AsString]) +
       TNetEncoding.Base64.EncodeBytesToString(bytes);
   finally
     blob.Free;
@@ -62,11 +64,13 @@ end;
 procedure TWebModule1.WebModule1DefaultHandlerAction(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
-  JSON, item: TJSONObject;
+  JSON: TJSONObject;
   Data: TJSONArray;
+  order: TOrderData;
   s, na, img: string;
 begin
   JSON := TJSONObject.Create;
+  order := TOrderData.Create;
   try
     Data := TJSONArray.Create;
     FDTable1.First;
@@ -76,24 +80,23 @@ begin
       s := Format('%.5d_%s', [FDTable1.FieldByName('id').AsInteger, na]);
       img := BlobImageString;
 
-      item := TJSONObject.Create;
-      item.AddPair('category', FDTable1.FieldByName('category').AsString);
-      item.AddPair('id', s);
-      item.AddPair('name', na);
-      item.AddPair('comment', FDTable1.FieldByName('comment').AsString);
-      item.AddPair('qty', TJSONNumber.Create(FDTable1.FieldByName('qty')
-        .AsInteger));
-      item.AddPair('price', TJSONNumber.Create(FDTable1.FieldByName('price')
-        .AsInteger));
-      item.AddPair('image', img);
-      Data.Add(item);
+      order.category := FDTable1.FieldByName('category').AsString;
+      order.Id := s;
+      order.name := na;
+      order.comment := FDTable1.FieldByName('comment').AsString;
+      order.qty := FDTable1.FieldByName('qty').AsInteger;
+      order.price := FDTable1.FieldByName('price').AsInteger;
+      order.count := FDTable1.FieldByName('cnt').AsInteger;
+      order.ImageBase64 := img;
+      Data.Add(order.toJson);
       FDTable1.Next;
     end;
     JSON.AddPair('items', Data);
     Response.ContentType := 'applicatrion/json; charset=utf-8';
-    Response.Content := JSON.ToJSON;
+    Response.Content := JSON.toJson;
   finally
     JSON.Free;
+    order.Free;
   end;
 end;
 
@@ -105,8 +108,20 @@ end;
 
 procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+var
+  order: TOrderData;
+  v: Variant;
 begin
-  Response.Content := 'íçï∂ÇµÇ‹ÇµÇΩ';
+  order := TOrderData.Create(TJSONValue.ParseJSONValue(Request.Content)
+    as TJSONObject);
+  v := StrToInt(Copy(order.Id, 4, 5)); //check
+  if FDTable1.Locate('id', v) then
+  begin
+    FDTable1.Edit;
+    FDTable1.FieldByName('cnt').AsInteger := order.count;
+    FDTable1.Post;
+    Response.Content := 'íçï∂ÇµÇ‹ÇµÇΩ';
+  end;
 end;
 
 procedure TWebModule1.WebModule1WebActionItem5Action(Sender: TObject;

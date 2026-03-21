@@ -15561,6 +15561,12 @@ object Frame1: TFrame1
     BorderStyle = bsNone
     ChildOrder = 1
     Color = clAntiquewhite
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsItalic]
+    ParentFont = False
     TabOrder = 0
     DesignSize = (
       389
@@ -15586,7 +15592,13 @@ object Frame1: TFrame1
       Width = 110
       Height = 15
       Caption = #26032#39854#12394#26412#12414#12368#12429#12398#25569#12426
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
       HeightPercent = 100.000000000000000000
+      ParentFont = False
       WidthPercent = 100.000000000000000000
     end
     object WebLabel3: TWebLabel
@@ -15600,6 +15612,21 @@ object Frame1: TFrame1
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
+      HeightPercent = 100.000000000000000000
+      ParentFont = False
+      WidthPercent = 100.000000000000000000
+    end
+    object WebLabel4: TWebLabel
+      Left = 240
+      Top = 73
+      Width = 78
+      Height = 15
+      Caption = #36009#22770#29366#24907#34920#31034
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsItalic]
       HeightPercent = 100.000000000000000000
       ParentFont = False
       WidthPercent = 100.000000000000000000

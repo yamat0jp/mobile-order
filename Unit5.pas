@@ -36,6 +36,8 @@ type
     LinkControlToField5: TLinkControlToField;
     LinkControlToField6: TLinkControlToField;
     OpenPictureDialog1: TOpenPictureDialog;
+    Edit5: TEdit;
+    LinkControlToField7: TLinkControlToField;
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
   private

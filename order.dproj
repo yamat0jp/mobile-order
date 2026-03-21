@@ -4,7 +4,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">order</ProjectName>
         <TargetedPlatforms>1</TargetedPlatforms>
@@ -149,12 +149,12 @@
             <FormType>dfm</FormType>
             <DesignClass>TWebForm</DesignClass>
         </DCCReference>
-        <DCCReference Include="data.pas"/>
         <DCCReference Include="Unit4.pas">
             <Form>Form3</Form>
             <FormType>dfm</FormType>
             <DesignClass>TWebForm</DesignClass>
         </DCCReference>
+        <DCCReference Include="webdata.pas"/>
         <None Include="style.css"/>
         <None Include="index.html"/>
         <None Include="Unit1.html"/>

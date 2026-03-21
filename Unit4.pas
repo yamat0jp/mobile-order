@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, JS, Web, WEBLib.Graphics, WEBLib.Controls,
   WEBLib.Forms, WEBLib.Dialogs, WEBLib.StdCtrls, WEBLib.REST, Vcl.StdCtrls,
-  Vcl.Controls, WEBLib.ExtCtrls, data;
+  Vcl.Controls, WEBLib.ExtCtrls, webdata;
 
 type
   TForm3 = class(TWebForm)
@@ -62,10 +62,11 @@ end;
 
 procedure TForm3.WebButton1Click(Sender: TObject);
 begin
+  Order.count := Order.count - Order.qty;
+  Hide;
   WebHttpRequest1.PostData := Order.toJson.ToString;
   WebHttpRequest1.Execute;
-  Enabled := false;
-  WebButton1.Caption := 'èàóùíÜ';
+  ModalResult := mrOK;
 end;
 
 procedure TForm3.WebButton2Click(Sender: TObject);
@@ -82,6 +83,7 @@ begin
   WebSpinEdit1.Value := Order.qty;
   WebImageControl1.URL := Order.ImageBase64;
   WebLabel5.Caption := TotalCost.ToString;
+  WebSpinEdit1Change(nil);
 end;
 
 procedure TForm3.WebHttpRequest1Error(Sender: TObject;
@@ -99,9 +101,8 @@ begin
   obj := TOrderData.Create;
   obj.Assign(Order);
   Unit2.List.Add(obj);
-  ModalResult := mrOK;
-  Close;
   Showmessage(AResponse);
+  Close;
 end;
 
 procedure TForm3.WebHttpRequest1Timeout(Sender: TObject);
@@ -115,6 +116,16 @@ procedure TForm3.WebSpinEdit1Change(Sender: TObject);
 begin
   Order.qty := WebSpinEdit1.Value;
   WebLabel5.Caption := TotalCost.ToString;
+  if Order.count - Order.qty < 0 then
+  begin
+    WebButton1.Caption := 'ïiêÿÇÍ';
+    WebButton1.Enabled := false;
+  end
+  else
+  begin
+    WebButton1.Caption := 'åàíË';
+    WebButton1.Enabled := true;
+  end;
 end;
 
 end.

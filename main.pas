@@ -35,11 +35,11 @@ type
   private
     { Private declarations }
     procedure ModalForm(Sender: TObject);
-    procedure Order(Sender: TObject);
     procedure About;
     procedure Home;
   public
     { Public declarations }
+    procedure Order(Sender: TObject);
   end;
 
 var
@@ -49,7 +49,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit2, System.Generics.Collections, data, Unit4;
+uses Unit2, System.Generics.Collections, webdata, Unit4;
 
 function NativeIntToCssColor(AColor: NativeInt): string;
 begin
@@ -75,12 +75,20 @@ begin
   form.Popup := true;
   form.Left := (Width - form.Width) div 2;
   form.Top := (Height - form.Height) div 2;
-  form.Execute;
+  form.ShowModal(
+    procedure(mr: TModalResult)
+    begin
+      WebWaitMessage1.Show;
+      WebHttpRequest1.Execute;
+    end);
 end;
 
 procedure TForm1.Order(Sender: TObject);
+var
+  Order: TOrderData;
 begin
-  Unit4.Order.Assign(TFrame1(Sender).Order);
+  Order := TFrame1(Sender).Order;
+  Unit4.Order.Assign(Order);
   TForm3.CreateNew(@ModalForm);
 end;
 
@@ -90,7 +98,7 @@ var
   color: string;
   i: integer;
 begin
-  for i := 0 to WebResponsiveGridPanel1.ControlCollection.Count - 1 do
+  for i := 0 to WebResponsiveGridPanel1.ControlCollection.count - 1 do
     if WebResponsiveGridPanel1.ControlCollection.Items[i].Control is TWebPanel
     then
     begin
@@ -135,7 +143,7 @@ begin
   JSON := TJSONObject.ParseJSONValue(AResponse) as TJSONObject;
   try
     arr := JSON.GetValue('items') as TJSONArray;
-    for i := 0 to arr.Count - 1 do
+    for i := 0 to arr.count - 1 do
     begin
       data := TOrderData.Create(arr[i] as TJSONObject);
       obj := TFrame1.Create(Self);
@@ -144,7 +152,6 @@ begin
       obj.RegisterItem(data);
       obj.WebImageControl1.URL := data.ImageBase64;
       obj.Align := alLeft;
-      obj.OnOrder := @Form1.Order;
       data.Free;
     end;
   finally
@@ -154,22 +161,22 @@ end;
 
 procedure TForm1.WebPanel1Click(Sender: TObject);
 var
-  url: string;
+  URL: string;
 begin
   if Sender = WebPanel1 then
-    url := 'http://localhost:8080/drink'
+    URL := 'http://localhost:8080/drink'
   else if Sender = WebPanel2 then
-    url := 'http://localhost:8080/setmenu'
+    URL := 'http://localhost:8080/setmenu'
   else if Sender = WebPanel3 then
-    url := 'http://localhost:8080/popular';
-  WebHttpRequest1.url := url;
+    URL := 'http://localhost:8080/popular';
+  WebHttpRequest1.URL := URL;
   WebWaitMessage1.Show;
   WebHttpRequest1.Execute;
 end;
 
 procedure TForm1.WebPanel4Click(Sender: TObject);
 begin
-  WebHttpRequest1.url := 'http://localhost:8080/test';
+  WebHttpRequest1.URL := 'http://localhost:8080/test';
   WebHttpRequest1.Execute;
 end;
 
