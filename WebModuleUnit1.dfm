@@ -8,11 +8,6 @@ object WebModule1: TWebModule1
       OnAction = WebModule1DefaultHandlerAction
     end
     item
-      Name = 'WebActionItem1'
-      PathInfo = '/test'
-      OnAction = WebModule1WebActionItem1Action
-    end
-    item
       MethodType = mtPut
       Name = 'WebActionItem4'
       PathInfo = '/order'
@@ -54,25 +49,149 @@ object WebModule1: TWebModule1
     TableName = 'item'
     Left = 72
     Top = 40
+    object FDTable1id: TFDAutoIncField
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = False
+    end
+    object FDTable1category: TWideMemoField
+      FieldName = 'category'
+      Origin = 'category'
+      BlobType = ftWideMemo
+    end
+    object FDTable1name: TWideMemoField
+      FieldName = 'name'
+      Origin = 'name'
+      BlobType = ftWideMemo
+    end
+    object FDTable1comment: TWideMemoField
+      FieldName = 'comment'
+      Origin = 'comment'
+      BlobType = ftWideMemo
+    end
+    object FDTable1price: TIntegerField
+      FieldName = 'price'
+      Origin = 'price'
+    end
+    object FDTable1qty: TIntegerField
+      FieldName = 'qty'
+      Origin = 'qty'
+    end
+    object FDTable1cnt: TIntegerField
+      FieldName = 'cnt'
+      Origin = 'cnt'
+    end
+    object FDTable1fileext: TWideMemoField
+      FieldName = 'fileext'
+      Origin = 'fileext'
+      BlobType = ftWideMemo
+    end
+    object FDTable1image: TBlobField
+      FieldName = 'image'
+      Origin = 'image'
+    end
   end
   object FDTable2: TFDTable
     Active = True
     Filtered = True
+    IndexFieldNames = 'orderID'
     Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
     TableName = 'kitchen'
-    Left = 72
+    Left = 80
     Top = 120
+    object FDTable2tableID: TIntegerField
+      FieldName = 'tableID'
+      Origin = 'tableID'
+    end
+    object FDTable2id: TIntegerField
+      FieldName = 'id'
+      Origin = 'id'
+    end
+    object FDTable2category: TWideMemoField
+      FieldName = 'category'
+      Origin = 'category'
+      BlobType = ftWideMemo
+    end
+    object FDTable2name: TWideMemoField
+      FieldName = 'name'
+      Origin = 'name'
+      BlobType = ftWideMemo
+    end
+    object FDTable2image: TBlobField
+      FieldName = 'image'
+      Origin = 'image'
+    end
+    object FDTable2timedata: TSQLTimeStampField
+      FieldName = 'timedata'
+      Origin = 'timedata'
+    end
+    object FDTable2status: TIntegerField
+      FieldName = 'status'
+      Origin = 'status'
+    end
+    object FDTable2orderID: TIntegerField
+      FieldName = 'orderID'
+      Origin = 'orderID'
+    end
+    object FDTable2qty: TIntegerField
+      FieldName = 'qty'
+      Origin = 'qty'
+    end
   end
   object FDTable3: TFDTable
     Active = True
     IndexFieldNames = 'id'
     MasterSource = DataSource1
+    MasterFields = 'id'
     Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
     TableName = 'item'
     Left = 184
     Top = 120
+    object FDTable3id: TFDAutoIncField
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = False
+    end
+    object FDTable3category: TWideMemoField
+      FieldName = 'category'
+      Origin = 'category'
+      BlobType = ftWideMemo
+    end
+    object FDTable3name: TWideMemoField
+      FieldName = 'name'
+      Origin = 'name'
+      BlobType = ftWideMemo
+    end
+    object FDTable3comment: TWideMemoField
+      FieldName = 'comment'
+      Origin = 'comment'
+      BlobType = ftWideMemo
+    end
+    object FDTable3price: TIntegerField
+      FieldName = 'price'
+      Origin = 'price'
+    end
+    object FDTable3qty: TIntegerField
+      FieldName = 'qty'
+      Origin = 'qty'
+    end
+    object FDTable3cnt: TIntegerField
+      FieldName = 'cnt'
+      Origin = 'cnt'
+    end
+    object FDTable3fileext: TWideMemoField
+      FieldName = 'fileext'
+      Origin = 'fileext'
+      BlobType = ftWideMemo
+    end
+    object FDTable3image: TBlobField
+      FieldName = 'image'
+      Origin = 'image'
+    end
   end
   object DataSource1: TDataSource
     DataSet = FDTable2

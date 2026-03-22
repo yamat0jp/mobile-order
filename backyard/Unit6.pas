@@ -28,6 +28,8 @@ type
     FDTable1image: TBlobField;
     FDTable1timedata: TSQLTimeStampField;
     FDTable1status: TIntegerField;
+    FDTable1orderID: TIntegerField;
+    FDTable1qty: TIntegerField;
   private
     { Private éŒ¾ }
   public

@@ -19,9 +19,34 @@ type
     FDTable2: TFDTable;
     FDTable3: TFDTable;
     DataSource1: TDataSource;
+    FDTable2tableID: TIntegerField;
+    FDTable2id: TIntegerField;
+    FDTable2category: TWideMemoField;
+    FDTable2name: TWideMemoField;
+    FDTable2image: TBlobField;
+    FDTable2timedata: TSQLTimeStampField;
+    FDTable2status: TIntegerField;
+    FDTable3id: TFDAutoIncField;
+    FDTable3category: TWideMemoField;
+    FDTable3name: TWideMemoField;
+    FDTable3comment: TWideMemoField;
+    FDTable3price: TIntegerField;
+    FDTable3qty: TIntegerField;
+    FDTable3cnt: TIntegerField;
+    FDTable3fileext: TWideMemoField;
+    FDTable3image: TBlobField;
+    FDTable2orderID: TIntegerField;
+    FDTable1id: TFDAutoIncField;
+    FDTable1category: TWideMemoField;
+    FDTable1name: TWideMemoField;
+    FDTable1comment: TWideMemoField;
+    FDTable1price: TIntegerField;
+    FDTable1qty: TIntegerField;
+    FDTable1cnt: TIntegerField;
+    FDTable1fileext: TWideMemoField;
+    FDTable1image: TBlobField;
+    FDTable2qty: TIntegerField;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
-      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
-    procedure WebModule1WebActionItem1Action(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;
       Response: TWebResponse; var Handled: Boolean);
@@ -71,7 +96,7 @@ var
   JSON: TJSONObject;
   Data: TJSONArray;
   order: TOrderData;
-  s, na, img: string;
+  img: string;
 begin
   FDTable1.Filter := 'category = ' +
     QuotedStr(Request.QueryFields.Values['category']);
@@ -82,13 +107,11 @@ begin
     FDTable1.First;
     while not FDTable1.Eof do
     begin
-      na := FDTable1.FieldByName('name').AsString;
-      s := Format('%.5d_%s', [FDTable1.FieldByName('id').AsInteger, na]);
       img := BlobImageString(FDTable1);
 
       order.category := FDTable1.FieldByName('category').AsString;
-      order.Id := s;
-      order.name := na;
+      order.Id := FDTable1.FieldByName('id').AsInteger;
+      order.name := FDTable1.FieldByName('name').AsString;
       order.comment := FDTable1.FieldByName('comment').AsString;
       order.qty := FDTable1.FieldByName('qty').AsInteger;
       order.price := FDTable1.FieldByName('price').AsInteger;
@@ -106,20 +129,15 @@ begin
   end;
 end;
 
-procedure TWebModule1.WebModule1WebActionItem1Action(Sender: TObject;
-  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
-begin
-  Response.Content := 'test';
-end;
-
 procedure TWebModule1.WebModule1WebActionItem2Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
   order: TOrderData;
   JSON, Data: TJSONObject;
   arr: TJSONArray;
+  t: TDateTime;
 begin
-  FDTable2.Filter := 'tableID = ' + Request.QueryFields.Values['table'];
+  FDTable2.Filter := 'tableID = ' + Request.Content;
   JSON := TJSONObject.Create;
   order := TOrderData.Create;
   try
@@ -127,14 +145,15 @@ begin
     FDTable3.First;
     while not FDTable3.Eof do
     begin
+      t := FDTable2.FieldByName('timeData').AsDateTime;
       order.name := FDTable3.FieldByName('name').AsString;
       order.qty := FDTable2.FieldByName('qty').AsInteger;
       order.price := FDTable3.FieldByName('price').AsInteger;
       order.ImageBase64 := BlobImageString(FDTable3);
+      order.status := FDTable2.FieldByName('status').AsInteger;
       Data := order.toJson;
-      Data.AddPair('time', FDTable2.FieldByName('timeData').AsString);
-      Data.AddPair('status', FDTable2.FieldByName('status').AsInteger);
-      arr.AddElement(Data);
+      Data.AddPair('time', DateTimeToStr(t));
+      arr.Add(Data);
       FDTable3.Next;
     end;
     JSON.AddPair('items', arr);
@@ -151,16 +170,19 @@ procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;
 var
   order: TJSONObject;
   blobO, blobI: TStream;
-  v: Variant;
+  orderID: integer;
 begin
   order := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
-  v := order.Values['orderID'].Value.ToInteger;
-  if FDTable1.Locate('id', v) then
+  FDTable1.Filtered := false;
+  if FDTable1.Locate('id', order.GetValue<integer>('id')) then
   begin
     FDTable1.Edit;
     FDTable1.FieldByName('cnt').AsInteger := order.count;
     FDTable1.Post;
     Response.Content := '注文しました';
+
+    FDTable2.Last;
+    orderID := FDTable2.FieldByName('orderID').AsInteger + 1;
 
     FDTable2.Append;
     FDTable2.FieldByName('category').AsString :=
@@ -179,15 +201,21 @@ begin
       blobI.Free;
       blobO.Free;
     end;
+    FDTable2.FieldByName('orderID').AsInteger := orderID;
     FDTable2.FieldByName('timedata').AsDateTime := Now;
     FDTable2.Post;
   end
   else
     Response.Content := 'エラー： スタッフにお声がけください';
+  FDTable1.Filtered := true;
 end;
 
 procedure TWebModule1.WebModule1WebActionItem5Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+var
+  JSON: TJSONObject;
+  arr: TJSONArray;
+  I, tableID: integer;
 begin
   Response.Content := '会計処理ができました';
 end;

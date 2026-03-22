@@ -27,10 +27,12 @@ type
     WebLinkLabel3: TWebLinkLabel;
     WebHttpRequest1: TWebHttpRequest;
     WebWaitMessage1: TWebWaitMessage;
+    WebHttpRequest2: TWebHttpRequest;
     procedure WebFormCreate(Sender: TObject);
     procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
     procedure WebPanel1Click(Sender: TObject);
     procedure WebFormDestroy(Sender: TObject);
+    procedure WebHttpRequest2Response(Sender: TObject; AResponse: string);
   private
     { Private declarations }
     procedure ModalForm(Sender: TObject);
@@ -40,6 +42,9 @@ type
     { Public declarations }
     procedure Order(Sender: TObject);
   end;
+
+const
+  tableID = 0;
 
 var
   Form1: TForm1;
@@ -77,8 +82,9 @@ begin
   form.ShowModal(
     procedure(mr: TModalResult)
     begin
-      WebWaitMessage1.Show;
+      WebHttpRequest2.PostData := tableID.ToString;
       WebHttpRequest1.Execute;
+      WebHttpRequest2.Execute;
     end);
 end;
 
@@ -108,12 +114,14 @@ begin
     end;
 
   Unit4.Order := TOrderData.Create;
-  Unit2.List := TObjectList<TOrderData>.Create;
+  Unit2.List := TObjectList<TAdvanceData>.Create;
 
   document.getElementById('menuHome').addEventListener('click', @Home);
   document.getElementById('menuAbout').addEventListener('click', @About);
 
+  WebHttpRequest2.PostData := tableID.ToString;
   WebHttpRequest1.Execute;
+  WebHttpRequest2.Execute;
 end;
 
 procedure TForm1.WebFormDestroy(Sender: TObject);
@@ -152,6 +160,27 @@ begin
       obj.WebImageControl1.URL := data.ImageBase64;
       obj.Align := alLeft;
       data.Free;
+    end;
+  finally
+    JSON.Free;
+  end;
+end;
+
+procedure TForm1.WebHttpRequest2Response(Sender: TObject; AResponse: string);
+var
+  JSON: TJSONObject;
+  arr: TJSONArray;
+  i: integer;
+  Order: TAdvanceData;
+begin
+  Unit2.List.Clear;
+  JSON := TJSONObject.ParseJSONValue(AResponse) as TJSONObject;
+  try
+    arr := JSON.Values['items'] as TJSONArray;
+    for i := 0 to arr.count - 1 do
+    begin
+      Order := TAdvanceData.Create(arr[i] as TJSONObject);
+      Unit2.List.Add(Order);
     end;
   finally
     JSON.Free;

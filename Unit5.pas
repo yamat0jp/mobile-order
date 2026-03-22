@@ -38,6 +38,13 @@ type
     OpenPictureDialog1: TOpenPictureDialog;
     Edit5: TEdit;
     LinkControlToField7: TLinkControlToField;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    LinkPropertyToField1: TLinkPropertyToField;
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
   private

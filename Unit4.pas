@@ -38,9 +38,6 @@ type
     property TotalCost: integer read GetTotalCost;
   end;
 
-const
-  tableID = 0;
-
 var
   Form3: TForm3;
   Order: TOrderData;
@@ -49,7 +46,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit2, WEBLib.JSON;
+uses WEBLib.JSON, main;
 
 constructor TForm3.Create(Sender: TComponent; AOrder: TOrderData);
 begin
@@ -68,7 +65,8 @@ var
 begin
   data := TJSONObject.Create;
   try
-    data.AddPair('userID', tableID);
+    data.AddPair('userID', main.tableID);
+    data.AddPair('id', Order.Id);
     data.AddPair('qty', Order.qty);
 //    Order.count := Order.count - Order.qty;
     Hide;
@@ -111,7 +109,6 @@ var
 begin
   obj := TOrderData.Create;
   obj.Assign(Order);
-  Unit2.List.Add(obj);
   Showmessage(AResponse);
   Close;
 end;

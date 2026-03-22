@@ -35,6 +35,9 @@ object Form1: TForm1
   object FDConnection1: TFDConnection
     Params.Strings = (
       'Database=E:\fuke\GitHub\mobile-order\data.sdb'
+      'LockingMode=Normal'
+      'OpenMode=ReadWrite'
+      'JournalMode=WAL'
       'DriverID=SQLite')
     Connected = True
     Left = 552
@@ -42,6 +45,7 @@ object Form1: TForm1
   end
   object FDTable1: TFDTable
     Active = True
+    IndexFieldNames = 'orderID'
     Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
     TableName = 'kitchen'
@@ -65,6 +69,10 @@ object Form1: TForm1
       Origin = 'name'
       BlobType = ftWideMemo
     end
+    object FDTable1qty: TIntegerField
+      FieldName = 'qty'
+      Origin = 'qty'
+    end
     object FDTable1image: TBlobField
       FieldName = 'image'
       Origin = 'image'
@@ -77,6 +85,10 @@ object Form1: TForm1
       FieldName = 'status'
       Origin = 'status'
     end
+    object FDTable1orderID: TIntegerField
+      FieldName = 'orderID'
+      Origin = 'orderID'
+    end
   end
   object DataSource1: TDataSource
     DataSet = FDTable1
@@ -87,8 +99,10 @@ object Form1: TForm1
     Connection = FDConnection1
     SQL.Strings = (
       'drop table kitchen;'
-      'create table kitchen(tableID integer, id integer, '
-      '  category text, name text, image blob,'
+      
+        'create table kitchen(orderID integer, tableID integer, id intege' +
+        'r, '
+      '  category text, name text, image blob, qty integer,'
       '  timedata timestamp, status integer);')
     Left = 600
     Top = 184

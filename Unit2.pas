@@ -47,13 +47,13 @@ type
 
 var
   Form2: TForm2;
-  List: TObjectList<TOrderData>;
+  List: TObjectList<TAdvanceData>;
 
 implementation
 
 {$R *.dfm}
 
-uses System.IOUtils, System.DateUtils;
+uses System.IOUtils, System.DateUtils, main;
 
 { TForm2 }
 
@@ -78,13 +78,17 @@ var
 begin
   order := TJSONObject.Create;
   try
-    order.AddPair('userID', '');
-    order.AddPair('status', 'pending');
+    order.AddPair('userID', main.tableID);
+    order.AddPair('status', Ord(TOrderStatus.pending));
+    for I := 0 to List.Count - 1 do
+      Items.AddElement(List[I].toJson);
+    order.AddPair('items', Items);
     WebHttpRequest1.PostData := order.ToString;
     WebHttpRequest1.Execute;
   finally
     order.Free;
   end;
+  Form2.Enabled := false;
 end;
 
 procedure TForm2.CancelButtonClick(Sender: TObject);
@@ -95,21 +99,22 @@ end;
 
 procedure TForm2.WebFormCreate(Sender: TObject);
 const
-  detail = '%s x %d  Åè%d';
+  detail = '%s x %d  Åè%d :: %s';
 var
   I: integer;
-  order: TOrderData;
+  order: TAdvanceData;
 begin
   for I := 0 to List.Count - 1 do
   begin
     order := List[I];
     WebListControl1.Items.Add.Text :=
-      Format(detail, [order.name, order.qty, order.qty * order.price]);
+      Format(detail, [order.name, order.qty, order.qty * order.price,
+      order.time]);
   end;
   WebLabel1.Caption := '';
   WebLabel2.Caption := '';
-  WebLabel6.Caption := '-';
-  WebLabel5.Caption := GetTotalPrice.ToString;
+  WebLabel6.Caption := '';
+  WebImageControl1.URL := '';
 end;
 
 procedure TForm2.WebFormDestroy(Sender: TObject);
@@ -121,15 +126,16 @@ procedure TForm2.WebFormShow(Sender: TObject);
 begin
   if List.Count = 0 then
   begin
-    CashButton.Enabled := False;
+    CashButton.Enabled := false;
     WebPanel5.Visible := true;
   end
   else
   begin
     CashButton.Enabled := true;
-    WebPanel5.Visible := False;
+    WebPanel5.Visible := false;
     WebListControl1ItemClick(nil, WebListControl1.Items[0]);
   end;
+  WebLabel5.Caption := GetTotalPrice.ToString;
 end;
 
 procedure TForm2.WebHttpRequest1Error(Sender: TObject;
