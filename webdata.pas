@@ -48,13 +48,13 @@ end;
 constructor TOrderData.Create(AJson: TJSONObject);
 begin
   inherited Create;
-  FCategory := AJson.GetValue('category').ToString;
-  FId := AJson.GetValue('id').ToString;
-  FName := AJson.GetValue('name').ToString;
+  FCategory := AJson.GetValue('category').Value;
+  FId := AJson.GetValue('id').Value;
+  FName := AJson.GetValue('name').Value;
   FQty := (AJson.GetValue('qty') as TJSONNumber).AsInt;
   FCount := (AJson.GetValue('count') as TJSONNumber).AsInt;
   FPrice := (AJson.GetValue('price') as TJSONNumber).AsInt;
-  FComment := AJson.GetValue('comment').ToString;
+  FComment := AJson.GetValue('comment').Value;
   FImageBase64 := AJson.GetValue('image').Value;
 end;
 

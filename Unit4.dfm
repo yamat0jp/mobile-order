@@ -81,8 +81,8 @@ object Form3: TForm3
       WidthPercent = 100.000000000000000000
     end
     object WebLabel1: TWebLabel
-      Left = 160
-      Top = 176
+      Left = 128
+      Top = 120
       Width = 93
       Height = 25
       Caption = 'WebLabel1'
@@ -90,8 +90,8 @@ object Form3: TForm3
       WidthPercent = 100.000000000000000000
     end
     object WebLabel2: TWebLabel
-      Left = 160
-      Top = 211
+      Left = 128
+      Top = 203
       Width = 93
       Height = 25
       Caption = 'WebLabel2'
@@ -99,20 +99,11 @@ object Form3: TForm3
       WidthPercent = 100.000000000000000000
     end
     object WebLabel3: TWebLabel
-      Left = 160
-      Top = 253
+      Left = 128
+      Top = 328
       Width = 93
       Height = 25
       Caption = 'WebLabel3'
-      HeightPercent = 100.000000000000000000
-      WidthPercent = 100.000000000000000000
-    end
-    object WebLabel4: TWebLabel
-      Left = 288
-      Top = 248
-      Width = 93
-      Height = 25
-      Caption = 'WebLabel4'
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
     end

@@ -3,13 +3,16 @@
         <ProjectGuid>{16F20B4B-31FB-44E5-B55B-FC2CB3283453}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="order.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="Project1.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="Project3.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="backyard\backyard.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="order.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -20,15 +23,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="order">
-        <MSBuild Projects="order.dproj"/>
-    </Target>
-    <Target Name="order:Clean">
-        <MSBuild Projects="order.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="order:Make">
-        <MSBuild Projects="order.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Project1">
         <MSBuild Projects="Project1.dproj"/>
     </Target>
@@ -47,14 +41,32 @@
     <Target Name="Project3:Make">
         <MSBuild Projects="Project3.dproj" Targets="Make"/>
     </Target>
+    <Target Name="backyard">
+        <MSBuild Projects="backyard\backyard.dproj"/>
+    </Target>
+    <Target Name="backyard:Clean">
+        <MSBuild Projects="backyard\backyard.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="backyard:Make">
+        <MSBuild Projects="backyard\backyard.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="order">
+        <MSBuild Projects="order.dproj"/>
+    </Target>
+    <Target Name="order:Clean">
+        <MSBuild Projects="order.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="order:Make">
+        <MSBuild Projects="order.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="order;Project1;Project3"/>
+        <CallTarget Targets="Project1;Project3;backyard;order"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="order:Clean;Project1:Clean;Project3:Clean"/>
+        <CallTarget Targets="Project1:Clean;Project3:Clean;backyard:Clean;order:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="order:Make;Project1:Make;Project3:Make"/>
+        <CallTarget Targets="Project1:Make;Project3:Make;backyard:Make;order:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

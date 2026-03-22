@@ -122,7 +122,7 @@ object Form1: TForm1
       ElementClassName = 'category-card'
       WidthStyle = ssAuto
       Anchors = []
-      Caption = #12513#12491#12517#12540
+      Caption = #12494#12531#12450#12523#12467#12540#12523
       ChildOrder = 1
       Color = 9737364
       ElementFont = efCSS
@@ -133,7 +133,7 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
       TabOrder = 1
-      OnClick = WebPanel4Click
+      OnClick = WebPanel1Click
     end
     object WebPanel2: TWebPanel
       Left = 0
@@ -445,8 +445,8 @@ object Form1: TForm1
   end
   object WebHttpRequest1: TWebHttpRequest
     Headers.Strings = (
-      'Accept=application/json')
-    URL = 'http://localhost:8080/popular'
+      'Accept:application/json')
+    URL = 'http://localhost:8080/'
     OnResponse = WebHttpRequest1Response
     Left = 376
     Top = 376

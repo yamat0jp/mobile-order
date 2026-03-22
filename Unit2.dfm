@@ -159,11 +159,11 @@ object Form2: TForm2
   object WebHttpRequest1: TWebHttpRequest
     Command = httpPOST
     Headers.Strings = (
-      'Accept:application/json')
+      'Accept=application/json')
     URL = 'http://localhost:8080/checkout'
     OnError = WebHttpRequest1Error
     OnResponse = WebHttpRequest1Response
-    Left = 320
-    Top = 288
+    Left = 360
+    Top = 392
   end
 end

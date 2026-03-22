@@ -30,7 +30,6 @@ type
     procedure WebFormCreate(Sender: TObject);
     procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
     procedure WebPanel1Click(Sender: TObject);
-    procedure WebPanel4Click(Sender: TObject);
     procedure WebFormDestroy(Sender: TObject);
   private
     { Private declarations }
@@ -164,19 +163,15 @@ var
   URL: string;
 begin
   if Sender = WebPanel1 then
-    URL := 'http://localhost:8080/drink'
+    URL := 'http://localhost:8080/?category=drink'
   else if Sender = WebPanel2 then
-    URL := 'http://localhost:8080/setmenu'
+    URL := 'http://localhost:8080/?category=setmenu'
   else if Sender = WebPanel3 then
-    URL := 'http://localhost:8080/popular';
+    URL := 'http://localhost:8080/?category=popular'
+  else if Sender = WebPanel4 then
+    URL := 'http://localhost:8080/?category=softdrink';
   WebHttpRequest1.URL := URL;
   WebWaitMessage1.Show;
-  WebHttpRequest1.Execute;
-end;
-
-procedure TForm1.WebPanel4Click(Sender: TObject);
-begin
-  WebHttpRequest1.URL := 'http://localhost:8080/test';
   WebHttpRequest1.Execute;
 end;
 

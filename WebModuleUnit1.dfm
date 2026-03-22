@@ -4,21 +4,13 @@ object WebModule1: TWebModule1
       Default = True
       MethodType = mtGet
       Name = 'DefaultHandler'
-      PathInfo = '/popular'
+      PathInfo = '/'
       OnAction = WebModule1DefaultHandlerAction
     end
     item
       Name = 'WebActionItem1'
       PathInfo = '/test'
       OnAction = WebModule1WebActionItem1Action
-    end
-    item
-      Name = 'WebActionItem2'
-      PathInfo = '/setmenu'
-    end
-    item
-      Name = 'WebActionItem3'
-      PathInfo = '/drink'
     end
     item
       MethodType = mtPut
@@ -31,6 +23,12 @@ object WebModule1: TWebModule1
       Name = 'WebActionItem5'
       PathInfo = '/checkout'
       OnAction = WebModule1WebActionItem5Action
+    end
+    item
+      MethodType = mtGet
+      Name = 'WebActionItem2'
+      PathInfo = '/download'
+      OnAction = WebModule1WebActionItem2Action
     end>
   BeforeDispatch = WebModuleBeforeDispatch
   Height = 230
@@ -48,6 +46,8 @@ object WebModule1: TWebModule1
   end
   object FDTable1: TFDTable
     Active = True
+    Filtered = True
+    Filter = 'category = '#39'popular'#39
     IndexFieldNames = 'id'
     Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
@@ -56,8 +56,27 @@ object WebModule1: TWebModule1
     Top = 40
   end
   object FDTable2: TFDTable
+    Active = True
+    Filtered = True
     Connection = FDConnection1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'kitchen'
     Left = 72
+    Top = 120
+  end
+  object FDTable3: TFDTable
+    Active = True
+    IndexFieldNames = 'id'
+    MasterSource = DataSource1
+    Connection = FDConnection1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'item'
+    Left = 184
+    Top = 120
+  end
+  object DataSource1: TDataSource
+    DataSet = FDTable2
+    Left = 272
     Top = 120
   end
 end

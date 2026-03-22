@@ -17,6 +17,8 @@ type
     FDConnection1: TFDConnection;
     FDTable1: TFDTable;
     FDTable2: TFDTable;
+    FDTable3: TFDTable;
+    DataSource1: TDataSource;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModule1WebActionItem1Action(Sender: TObject;
@@ -27,9 +29,11 @@ type
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModule1WebActionItem5Action(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModule1WebActionItem2Action(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
   private
     { private 宣言 }
-    function BlobImageString: string;
+    function BlobImageString(DataSet: TDataSet): string;
   public
     { public 宣言 }
   end;
@@ -42,19 +46,19 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 {$R *.dfm}
 
-uses System.JSON, System.IOUtils, System.NetEncoding, Data;
+uses System.JSON, System.IOUtils, System.NetEncoding, Data, Vcl.Graphics;
 
-function TWebModule1.BlobImageString: string;
+function TWebModule1.BlobImageString(DataSet: TDataSet): string;
 var
   blob: TStream;
   bytes: TBytes;
 begin
-  blob := FDTable1.CreateBlobStream(FDTable1.FieldByName('image'), bmRead);
+  blob := DataSet.CreateBlobStream(DataSet.FieldByName('image'), bmRead);
   try
     SetLength(bytes, blob.Size);
     blob.ReadBuffer(bytes, 0, blob.Size);
     Result := Format('data:image/%s;base64,',
-      [FDTable1.FieldByName('fileext').AsString]) +
+      [DataSet.FieldByName('fileext').AsString]) +
       TNetEncoding.Base64.EncodeBytesToString(bytes);
   finally
     blob.Free;
@@ -69,6 +73,8 @@ var
   order: TOrderData;
   s, na, img: string;
 begin
+  FDTable1.Filter := 'category = ' +
+    QuotedStr(Request.QueryFields.Values['category']);
   JSON := TJSONObject.Create;
   order := TOrderData.Create;
   try
@@ -78,7 +84,7 @@ begin
     begin
       na := FDTable1.FieldByName('name').AsString;
       s := Format('%.5d_%s', [FDTable1.FieldByName('id').AsInteger, na]);
-      img := BlobImageString;
+      img := BlobImageString(FDTable1);
 
       order.category := FDTable1.FieldByName('category').AsString;
       order.Id := s;
@@ -106,22 +112,78 @@ begin
   Response.Content := 'test';
 end;
 
-procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;
+procedure TWebModule1.WebModule1WebActionItem2Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
   order: TOrderData;
+  JSON, Data: TJSONObject;
+  arr: TJSONArray;
+begin
+  FDTable2.Filter := 'tableID = ' + Request.QueryFields.Values['table'];
+  JSON := TJSONObject.Create;
+  order := TOrderData.Create;
+  try
+    arr := TJSONArray.Create;
+    FDTable3.First;
+    while not FDTable3.Eof do
+    begin
+      order.name := FDTable3.FieldByName('name').AsString;
+      order.qty := FDTable2.FieldByName('qty').AsInteger;
+      order.price := FDTable3.FieldByName('price').AsInteger;
+      order.ImageBase64 := BlobImageString(FDTable3);
+      Data := order.toJson;
+      Data.AddPair('time', FDTable2.FieldByName('timeData').AsString);
+      Data.AddPair('status', FDTable2.FieldByName('status').AsInteger);
+      arr.AddElement(Data);
+      FDTable3.Next;
+    end;
+    JSON.AddPair('items', arr);
+    Response.ContentType := 'application/json; charset=utf-8';
+    Response.Content := JSON.toJson;
+  finally
+    JSON.Free;
+    order.Free;
+  end;
+end;
+
+procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+var
+  order: TJSONObject;
+  blobO, blobI: TStream;
   v: Variant;
 begin
-  order := TOrderData.Create(TJSONValue.ParseJSONValue(Request.Content)
-    as TJSONObject);
-  v := StrToInt(Copy(order.Id, 4, 5)); //check
+  order := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
+  v := order.Values['orderID'].Value.ToInteger;
   if FDTable1.Locate('id', v) then
   begin
     FDTable1.Edit;
     FDTable1.FieldByName('cnt').AsInteger := order.count;
     FDTable1.Post;
     Response.Content := '注文しました';
-  end;
+
+    FDTable2.Append;
+    FDTable2.FieldByName('category').AsString :=
+      FDTable1.FieldByName('category').AsString;
+    FDTable2.FieldByName('name').AsString :=
+      FDTable1.FieldByName('name').AsString;
+
+    FDTable2.FieldByName('tableID').AsInteger :=
+      order.GetValue<integer>('userID');
+    FDTable2.FieldByName('qty').AsInteger := order.GetValue<integer>('qty');
+    blobO := FDTable1.CreateBlobStream(FDTable1.FieldByName('image'), bmRead);
+    blobI := FDTable2.CreateBlobStream(FDTable2.FieldByName('image'), bmWrite);
+    try
+      blobI.CopyFrom(blobO);
+    finally
+      blobI.Free;
+      blobO.Free;
+    end;
+    FDTable2.FieldByName('timedata').AsDateTime := Now;
+    FDTable2.Post;
+  end
+  else
+    Response.Content := 'エラー： スタッフにお声がけください';
 end;
 
 procedure TWebModule1.WebModule1WebActionItem5Action(Sender: TObject;

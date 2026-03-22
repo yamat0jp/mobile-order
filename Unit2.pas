@@ -78,14 +78,7 @@ var
 begin
   order := TJSONObject.Create;
   try
-    order.AddPair('orderID', '00000-001');
     order.AddPair('userID', '');
-    Items := TJSONArray.Create;
-    for I := 0 to List.Count - 1 do
-      Items.AddElement(List[I].toJson);
-    order.AddPair('items', Items);
-    order.AddPair('total', TJSONNumber.Create(GetTotalPrice));
-    order.AddPair('timestamp', DateToISO8601(Now, False));
     order.AddPair('status', 'pending');
     WebHttpRequest1.PostData := order.ToString;
     WebHttpRequest1.Execute;

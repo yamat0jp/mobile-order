@@ -19,7 +19,6 @@ type
     WebLabel1: TWebLabel;
     WebLabel2: TWebLabel;
     WebLabel3: TWebLabel;
-    WebLabel4: TWebLabel;
     WebLabel5: TWebLabel;
     procedure WebButton2Click(Sender: TObject);
     procedure WebButton1Click(Sender: TObject);
@@ -39,6 +38,9 @@ type
     property TotalCost: integer read GetTotalCost;
   end;
 
+const
+  tableID = 0;
+
 var
   Form3: TForm3;
   Order: TOrderData;
@@ -47,7 +49,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit2;
+uses Unit2, WEBLib.JSON;
 
 constructor TForm3.Create(Sender: TComponent; AOrder: TOrderData);
 begin
@@ -61,10 +63,19 @@ begin
 end;
 
 procedure TForm3.WebButton1Click(Sender: TObject);
+var
+  data: TJSONObject;
 begin
-  Order.count := Order.count - Order.qty;
-  Hide;
-  WebHttpRequest1.PostData := Order.toJson.ToString;
+  data := TJSONObject.Create;
+  try
+    data.AddPair('userID', tableID);
+    data.AddPair('qty', Order.qty);
+//    Order.count := Order.count - Order.qty;
+    Hide;
+    WebHttpRequest1.PostData := data.ToString;
+  finally
+    data.Free;
+  end;
   WebHttpRequest1.Execute;
   ModalResult := mrOK;
 end;
