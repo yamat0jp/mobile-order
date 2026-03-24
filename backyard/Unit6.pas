@@ -53,11 +53,14 @@ type
     Button1: TButton;
     Label4: TLabel;
     Timer1: TTimer;
+    Label5: TLabel;
+    Timer2: TTimer;
     procedure RadioButton1Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Timer2Timer(Sender: TObject);
   private
     { Private éŒ¾ }
     procedure ListItemClear(AList: TListBox);
@@ -228,8 +231,8 @@ begin
     Exit;
   i := ListBox3.ItemIndex;
   ListItemClear(ListBox3);
-  FDTable1.Filter:='status = 0';
-  FDTable1.Filtered:=true;
+  FDTable1.Filter := 'status = 0';
+  FDTable1.Filtered := true;
   FDTable1.First;
   while not FDTable1.Eof do
   begin
@@ -237,8 +240,8 @@ begin
       FDTable2.FieldByName('name').AsString, FDTable1.FieldByName('qty')
       .AsInteger]);
     New(p);
-    p^:=FDTable1.FieldByName('orderID').AsInteger;
-    ListBox3.AddItem(s,Pointer(p));
+    p^ := FDTable1.FieldByName('orderID').AsInteger;
+    ListBox3.AddItem(s, Pointer(p));
     FDTable1.Next;
   end;
   if ListBox3.Items.Count > i then
@@ -252,6 +255,12 @@ begin
       ListBox2.Items.Delete(n);
     end;
   end;
+end;
+
+procedure TForm1.Timer2Timer(Sender: TObject);
+begin
+  FDQuery1.Open('select count(*) as cnt from kitchen where status = 3');
+  Label5.Visible := FDQuery1.FieldByName('cnt').AsInteger > 0;
 end;
 
 end.

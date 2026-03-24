@@ -13,6 +13,20 @@ object Form1: TForm1
   OnCreate = RadioButton1Click
   OnDestroy = FormDestroy
   TextHeight = 15
+  object Label5: TLabel
+    Left = 248
+    Top = 117
+    Width = 445
+    Height = 28
+    Caption = #12458#12540#12480#12540#12398#21040#30528#12375#12390#12356#12394#12356#12362#23458#27096#12364#20986#12414#12375#12383' : status 3'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 33023
+    Font.Height = -20
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Visible = False
+  end
   object DBGrid1: TDBGrid
     Left = 56
     Top = 175
@@ -280,6 +294,11 @@ object Form1: TForm1
     Interval = 5000
     OnTimer = Timer1Timer
     Left = 416
+    Top = 256
+  end
+  object Timer2: TTimer
+    OnTimer = Timer2Timer
+    Left = 336
     Top = 256
   end
 end
