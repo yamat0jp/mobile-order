@@ -26,17 +26,14 @@ type
     WebLabel6: TWebLabel;
     CancelButton: TWebButton;
     WebListControl1: TWebListControl;
-    WebPanel4: TWebPanel;
     WebPanel5: TWebPanel;
+    WebScrollBox1: TWebScrollBox;
     procedure CashButtonClick(Sender: TObject);
     procedure WebFormCreate(Sender: TObject);
     procedure WebFormDestroy(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
     procedure WebListControl1ItemClick(Sender: TObject; AListItem: TListItem);
     procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
-    procedure WebHttpRequest1Error(Sender: TObject;
-      ARequest: TJSXMLHttpRequestRecord; Event: TJSEventRecord;
-      var Handled: Boolean);
     procedure WebFormShow(Sender: TObject);
   private
     { Private declarations }
@@ -73,22 +70,16 @@ end;
 procedure TForm2.CashButtonClick(Sender: TObject);
 var
   order: TJSONObject;
-  Items: TJSONArray;
-  I: integer;
 begin
   order := TJSONObject.Create;
   try
     order.AddPair('userID', main.tableID);
-    order.AddPair('status', Ord(TOrderStatus.pending));
-    for I := 0 to List.Count - 1 do
-      Items.AddElement(List[I].toJson);
-    order.AddPair('items', Items);
+    order.AddPair('status', 2);
     WebHttpRequest1.PostData := order.ToString;
     WebHttpRequest1.Execute;
   finally
     order.Free;
   end;
-  Form2.Enabled := false;
 end;
 
 procedure TForm2.CancelButtonClick(Sender: TObject);
@@ -136,13 +127,6 @@ begin
     WebListControl1ItemClick(nil, WebListControl1.Items[0]);
   end;
   WebLabel5.Caption := GetTotalPrice.ToString;
-end;
-
-procedure TForm2.WebHttpRequest1Error(Sender: TObject;
-  ARequest: TJSXMLHttpRequestRecord; Event: TJSEventRecord;
-  var Handled: Boolean);
-begin
-  CancelButtonClick(Sender);
 end;
 
 procedure TForm2.WebHttpRequest1Response(Sender: TObject; AResponse: string);

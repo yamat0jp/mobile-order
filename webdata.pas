@@ -5,8 +5,6 @@ interface
 uses WEBLib.JSON;
 
 type
-  TOrderStatus = (pending);
-
   TOrderData = class
   private
     FName: string;
@@ -17,7 +15,6 @@ type
     FImageBase64: string;
     FComment: string;
     FCount: integer;
-    FStatus: integer;
   public
     constructor Create(AJson: TJSONObject); overload;
     function toJson: TJSONObject;
@@ -30,7 +27,6 @@ type
     property comment: string read FComment write FComment;
     property category: string read FCategory write FCategory;
     property ImageBase64: string read FImageBase64 write FImageBase64;
-    property status: integer read FStatus write FStatus;
   end;
 
   TAdvanceData = class(TOrderData)
@@ -56,7 +52,6 @@ begin
   FPrice := AData.price;
   FComment := AData.comment;
   FImageBase64 := AData.ImageBase64;
-  FStatus := AData.status;
 end;
 
 constructor TOrderData.Create(AJson: TJSONObject);
@@ -70,7 +65,6 @@ begin
   FPrice := (AJson.GetValue('price') as TJSONNumber).AsInt;
   FComment := AJson.GetValue('comment').Value;
   FImageBase64 := AJson.GetValue('image').Value;
-  FStatus := (AJson.GetValue('status') as TJSONNumber).AsInt;
 end;
 
 function TOrderData.toJson: TJSONObject;
@@ -84,7 +78,6 @@ begin
   result.AddPair('price', FPrice);
   result.AddPair('comment', FComment);
   result.AddPair('image', FImageBase64);
-  result.AddPair('status', FStatus);
 end;
 
 { TAdvanceData }

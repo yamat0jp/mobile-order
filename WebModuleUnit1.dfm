@@ -20,7 +20,7 @@ object WebModule1: TWebModule1
       OnAction = WebModule1WebActionItem5Action
     end
     item
-      MethodType = mtGet
+      MethodType = mtPost
       Name = 'WebActionItem2'
       PathInfo = '/download'
       OnAction = WebModule1WebActionItem2Action
@@ -31,7 +31,6 @@ object WebModule1: TWebModule1
   object FDConnection1: TFDConnection
     Params.Strings = (
       'Database=E:\fuke\GitHub\mobile-order\data.sdb'
-      'OpenMode=ReadWrite'
       'LockingMode=Normal'
       'JournalMode=WAL'
       'DriverID=SQLite')
@@ -92,54 +91,6 @@ object WebModule1: TWebModule1
       Origin = 'image'
     end
   end
-  object FDTable2: TFDTable
-    Active = True
-    Filtered = True
-    IndexFieldNames = 'orderID'
-    Connection = FDConnection1
-    ResourceOptions.AssignedValues = [rvEscapeExpand]
-    TableName = 'kitchen'
-    Left = 80
-    Top = 120
-    object FDTable2tableID: TIntegerField
-      FieldName = 'tableID'
-      Origin = 'tableID'
-    end
-    object FDTable2id: TIntegerField
-      FieldName = 'id'
-      Origin = 'id'
-    end
-    object FDTable2category: TWideMemoField
-      FieldName = 'category'
-      Origin = 'category'
-      BlobType = ftWideMemo
-    end
-    object FDTable2name: TWideMemoField
-      FieldName = 'name'
-      Origin = 'name'
-      BlobType = ftWideMemo
-    end
-    object FDTable2image: TBlobField
-      FieldName = 'image'
-      Origin = 'image'
-    end
-    object FDTable2timedata: TSQLTimeStampField
-      FieldName = 'timedata'
-      Origin = 'timedata'
-    end
-    object FDTable2status: TIntegerField
-      FieldName = 'status'
-      Origin = 'status'
-    end
-    object FDTable2orderID: TIntegerField
-      FieldName = 'orderID'
-      Origin = 'orderID'
-    end
-    object FDTable2qty: TIntegerField
-      FieldName = 'qty'
-      Origin = 'qty'
-    end
-  end
   object FDTable3: TFDTable
     Active = True
     IndexFieldNames = 'id'
@@ -197,5 +148,42 @@ object WebModule1: TWebModule1
     DataSet = FDTable2
     Left = 272
     Top = 120
+  end
+  object FDTable2: TFDTable
+    Active = True
+    Filtered = True
+    Filter = 'status <> 2'
+    IndexFieldNames = 'orderID'
+    Connection = FDConnection1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'kitchen'
+    Left = 80
+    Top = 120
+    object FDTable2tableID: TIntegerField
+      FieldName = 'tableID'
+      Origin = 'tableID'
+    end
+    object FDTable2orderID: TFDAutoIncField
+      FieldName = 'orderID'
+      Origin = 'orderID'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = False
+    end
+    object FDTable2id: TIntegerField
+      FieldName = 'id'
+      Origin = 'id'
+    end
+    object FDTable2qty: TIntegerField
+      FieldName = 'qty'
+      Origin = 'qty'
+    end
+    object FDTable2timedata: TSQLTimeStampField
+      FieldName = 'timedata'
+      Origin = 'timedata'
+    end
+    object FDTable2status: TIntegerField
+      FieldName = 'status'
+      Origin = 'status'
+    end
   end
 end

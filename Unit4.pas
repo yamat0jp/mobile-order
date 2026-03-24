@@ -68,7 +68,7 @@ begin
     data.AddPair('userID', main.tableID);
     data.AddPair('id', Order.Id);
     data.AddPair('qty', Order.qty);
-//    Order.count := Order.count - Order.qty;
+    data.AddPair('count', Order.count-Order.qty);
     Hide;
     WebHttpRequest1.PostData := data.ToString;
   finally
@@ -104,11 +104,9 @@ begin
 end;
 
 procedure TForm3.WebHttpRequest1Response(Sender: TObject; AResponse: string);
-var
-  obj: TOrderData;
 begin
-  obj := TOrderData.Create;
-  obj.Assign(Order);
+  Form1.WebHttpRequest2.PostData := tableID.ToString;
+  Form1.WebHttpRequest2.Execute;
   Showmessage(AResponse);
   Close;
 end;

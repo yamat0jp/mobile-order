@@ -7,7 +7,7 @@ object DataModule3: TDataModule3
       'drop table item;'
       'create table item(id INTEGER PRIMARY KEY AUTOINCREMENT,'
       '  category text, name text, comment text,'
-      '  price integer, qty integer, '
+      '  price integer, qty integer, cnt integer,'
       '  fileext text, image blob);'
       '  ')
     Left = 520

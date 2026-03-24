@@ -1,6 +1,6 @@
 object Form2: TForm2
-  Width = 645
-  Height = 608
+  Width = 743
+  Height = 690
   ElementClassName = 'topbar'
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,16 +12,16 @@ object Form2: TForm2
   OnDestroy = WebFormDestroy
   OnShow = WebFormShow
   object WebPanel2: TWebPanel
-    Left = 287
+    Left = 385
     Top = 0
     Width = 358
-    Height = 608
+    Height = 690
     Align = alRight
     ChildOrder = 2
     TabOrder = 0
     object WebPanel3: TWebPanel
       Left = 0
-      Top = 464
+      Top = 546
       Width = 358
       Height = 144
       Align = alBottom
@@ -74,13 +74,13 @@ object Form2: TForm2
       Left = 0
       Top = 0
       Width = 358
-      Height = 464
+      Height = 546
       Align = alClient
       ChildOrder = 1
       TabOrder = 1
       object WebImageControl1: TWebImageControl
-        Left = 144
-        Top = 81
+        Left = 139
+        Top = 136
         Width = 177
         Height = 169
         HeightPercent = 100.000000000000000000
@@ -88,7 +88,7 @@ object Form2: TForm2
       end
       object WebLabel1: TWebLabel
         Left = 56
-        Top = 136
+        Top = 56
         Width = 77
         Height = 21
         Caption = 'WebLabel1'
@@ -96,8 +96,8 @@ object Form2: TForm2
         WidthPercent = 100.000000000000000000
       end
       object WebLabel2: TWebLabel
-        Left = 56
-        Top = 176
+        Left = 40
+        Top = 328
         Width = 77
         Height = 21
         Caption = 'WebLabel2'
@@ -105,8 +105,8 @@ object Form2: TForm2
         WidthPercent = 100.000000000000000000
       end
       object WebLabel3: TWebLabel
-        Left = 88
-        Top = 328
+        Left = 83
+        Top = 455
         Width = 34
         Height = 21
         Caption = #21336#20385
@@ -114,8 +114,8 @@ object Form2: TForm2
         WidthPercent = 100.000000000000000000
       end
       object WebLabel6: TWebLabel
-        Left = 224
-        Top = 328
+        Left = 219
+        Top = 455
         Width = 77
         Height = 21
         Caption = 'WebLabel6'
@@ -124,19 +124,19 @@ object Form2: TForm2
       end
     end
   end
-  object WebPanel4: TWebPanel
+  object WebScrollBox1: TWebScrollBox
     Left = 0
     Top = 0
-    Width = 287
-    Height = 608
+    Width = 385
+    Height = 690
     Align = alClient
-    ChildOrder = 2
-    TabOrder = 1
+    BorderStyle = bsSingle
+    ChildOrder = 3
     object WebListControl1: TWebListControl
       Left = 0
       Top = 0
-      Width = 287
-      Height = 608
+      Width = 385
+      Height = 690
       ElementClassName = 'list-group'
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
@@ -148,20 +148,19 @@ object Form2: TForm2
     end
   end
   object WebPanel5: TWebPanel
-    Left = 248
+    Left = 304
     Top = 272
     Width = 150
     Height = 60
     Caption = #12372#27880#25991#12364#12354#12426#12414#12379#12435
     ChildOrder = 2
-    TabOrder = 2
+    TabOrder = 1
   end
   object WebHttpRequest1: TWebHttpRequest
     Command = httpPOST
     Headers.Strings = (
-      'Accept=application/json')
+      'Content-Type:application/json')
     URL = 'http://localhost:8080/checkout'
-    OnError = WebHttpRequest1Error
     OnResponse = WebHttpRequest1Response
     Left = 360
     Top = 392

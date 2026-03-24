@@ -82,9 +82,7 @@ begin
   form.ShowModal(
     procedure(mr: TModalResult)
     begin
-      WebHttpRequest2.PostData := tableID.ToString;
       WebHttpRequest1.Execute;
-      WebHttpRequest2.Execute;
     end);
 end;
 
@@ -103,7 +101,7 @@ var
   color: string;
   i: integer;
 begin
-  for i := 0 to WebResponsiveGridPanel1.ControlCollection.count - 1 do
+  for i := 0 to WebResponsiveGridPanel1.ControlCollection.Count - 1 do
     if WebResponsiveGridPanel1.ControlCollection.Items[i].Control is TWebPanel
     then
     begin
@@ -150,7 +148,7 @@ begin
   JSON := TJSONObject.ParseJSONValue(AResponse) as TJSONObject;
   try
     arr := JSON.GetValue('items') as TJSONArray;
-    for i := 0 to arr.count - 1 do
+    for i := 0 to arr.Count - 1 do
     begin
       data := TOrderData.Create(arr[i] as TJSONObject);
       obj := TFrame1.Create(Self);
@@ -177,7 +175,7 @@ begin
   JSON := TJSONObject.ParseJSONValue(AResponse) as TJSONObject;
   try
     arr := JSON.Values['items'] as TJSONArray;
-    for i := 0 to arr.count - 1 do
+    for i := 0 to arr.Count - 1 do
     begin
       Order := TAdvanceData.Create(arr[i] as TJSONObject);
       Unit2.List.Add(Order);
