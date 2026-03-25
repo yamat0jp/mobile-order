@@ -15,6 +15,13 @@ uses
   FireDAC.Comp.DataSet, Vcl.StdCtrls;
 
 type
+  TLocalClass = class
+    orderID: integer;
+    price: integer;
+    count: integer;
+    time: TTime;
+  end;
+
   TForm1 = class(TForm)
     FDConnection1: TFDConnection;
     DataSource1: TDataSource;
@@ -33,7 +40,6 @@ type
     Label1: TLabel;
     ComboBox1: TComboBox;
     Label2: TLabel;
-    Label3: TLabel;
     FDTable2: TFDTable;
     FDTable1id: TIntegerField;
     FDTable2id: TFDAutoIncField;
@@ -52,15 +58,19 @@ type
     Panel2: TPanel;
     Button1: TButton;
     Label4: TLabel;
-    Timer1: TTimer;
     Label5: TLabel;
     Timer2: TTimer;
+    Button2: TButton;
+    Button3: TButton;
+    Timer1: TTimer;
     procedure RadioButton1Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Timer2Timer(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
   private
     { Private 宣言 }
     procedure ListItemClear(AList: TListBox);
@@ -80,28 +90,21 @@ uses System.Generics.Collections;
 const
   title = 'テーブル番号で選択してください';
 
-var
-  basestr: string;
-
 procedure TForm1.Button1Click(Sender: TObject);
 var
   s: string;
-  i, j: integer;
-  p: PInteger;
-  t: ^TTime;
+  i: integer;
+  local: TLocalClass;
 begin
   if ListBox3.ItemIndex = -1 then
     Exit;
   i := ListBox3.ItemIndex;
-  p := PInteger(ListBox3.Items.Objects[i]);
-  j := p^;
-  Dispose(p);
+  local := ListBox3.Items.Objects[i] as TLocalClass;
   s := ListBox3.Items[i];
   ListBox3.Items.Delete(i);
-  New(t);
-  t^ := GetTime;
-  ListBox2.AddItem(s, Pointer(t));
-  if FDTable1.Locate('orderID', j) then
+  local.time := GetTime;
+  ListBox2.AddItem(s, local);
+  if FDTable1.Locate('orderID', local.orderID) then
   begin
     FDTable1.Edit;
     FDTable1.FieldByName('status').AsInteger := 1;
@@ -109,13 +112,63 @@ begin
   end;
 end;
 
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  if ComboBox1.ItemIndex = -1 then
+    Exit;
+  FDTable1.First;
+  while not FDTable1.Eof do
+  begin
+    FDTable1.Edit;
+    FDTable1.FieldByName('status').AsInteger := 4;
+    FDTable1.Post;
+  end;
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+const
+  fmt = '%d 番テーブル %s x%d';
+var
+  local: TLocalClass;
+  i: integer;
+  s: string;
+begin
+  if not RadioButton1.Checked then
+    Exit;
+  ListItemClear(ListBox3);
+  FDTable1.Filter := 'status = 0';
+  FDTable1.Filtered := true;
+  FDTable1.First;
+  i := 0;
+  while not FDTable1.Eof do
+  begin
+    s := Format(fmt, [FDTable1.FieldByName('tableID').AsInteger,
+      FDTable2.FieldByName('name').AsString, FDTable1.FieldByName('qty')
+      .AsInteger]);
+    local := TLocalClass.Create;
+    local.orderID := FDTable1.FieldByName('orderID').AsInteger;
+    ListBox3.AddItem(s, local);
+    FDTable1.Next;
+  end;
+  for var n := 0 to ListBox2.Items.count - 1 do
+  begin
+    local := ListBox2.Items.Objects[n] as TLocalClass;
+    if GetTime - local.time > 5 / (24 * 60) then
+    begin
+      local.Free;
+      ListBox2.Items.Delete(n);
+    end;
+  end;
+  Timer1Timer(nil);
+end;
+
 procedure TForm1.ComboBox1Change(Sender: TObject);
 var
   Data, num: integer;
-  pair: ^TPair<integer, integer>;
+  local: TLocalClass;
   kind: string;
 begin
-  FDTable1.Filter := basestr + ' and tableID = ' + ComboBox1.Items
+  FDTable1.Filter := 'status = 2 and tableID = ' + ComboBox1.Items
     [ComboBox1.ItemIndex];
   kind := '';
   ListBox1.Items.Clear;
@@ -130,33 +183,33 @@ begin
       num := ListBox1.Items.IndexOf(kind);
       if num = -1 then
       begin
-        New(pair);
-        pair^ := TPair<integer, integer>.Create(Data,
-          FDTable2.FieldByName('price').AsInteger);
-        ListBox1.Items.AddObject(kind, Pointer(pair));
+        local := TLocalClass.Create;
+        local.count := Data;
+        local.price := FDTable2.FieldByName('price').AsInteger;
+        ListBox1.Items.AddObject(kind, local);
       end
       else
       begin
-        pair := Pointer(ListBox1.Items.Objects[num]);
-        pair^.Key := pair^.Key + Data;
-        ListBox1.Items.Objects[num] := Pointer(pair);
+        local := ListBox1.Items.Objects[num] as TLocalClass;
+        local.count := Local.count + Data;
+        ListBox1.Items.Objects[num] := local;
       end;
       FDTable2.Next;
     end;
     FDTable1.Next;
   end;
   Data := 0;
-  for var i := 0 to ListBox1.Items.Count - 1 do
+  for var i := 0 to ListBox1.Items.count - 1 do
   begin
-    pair := Pointer(ListBox1.Items.Objects[i]);
-    inc(Data, pair^.Key * pair^.Value);
-    ListBox1.Items[i] := Format('%s  x %d = %d', [ListBox1.Items[i], pair^.Key,
-      pair^.Value]);
-    Dispose(pair);
+    local := ListBox1.Items.Objects[i] as TLocalClass;
+    ListBox1.Items[i] := Format('%s  x %d = %d',
+      [ListBox1.Items[i], local.count, local.count * local.price]);
+    inc(Data, local.count * local.price);
+    local.Free;
   end;
-  Label3.Caption := Data.ToString + ' 円';
+  Button2.Caption := Data.ToString + ' 円';
   ListBox1.Items.Add('----------------------');
-  ListBox1.Items.Add(Label3.Caption);
+  ListBox1.Items.Add(Button2.Caption);
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -167,9 +220,9 @@ end;
 
 procedure TForm1.ListItemClear(AList: TListBox);
 begin
-  for var i := 0 to AList.Items.Count - 1 do
+  for var i := 0 to AList.Items.count - 1 do
     if Assigned(AList.Items.Objects[i]) then
-      Dispose(Pointer(AList.Items.Objects[i]));
+      AList.Items.Objects[i].Free;
   AList.Items.Clear;
 end;
 
@@ -183,19 +236,20 @@ begin
   Panel2.Hide;
   DBNavigator1.Hide;
   ComboBox1.Text := title;
+  Timer1.Enabled := false;
   if RadioButton1.Checked then
   begin
     FDTable1.IndexFieldNames := 'orderID';
     FDTable1.Filter := 'status = 0';
     FDTable1.Filtered := true;
     Panel2.Show;
+    Timer1.Enabled := true;
   end
   else if RadioButton2.Checked then
   begin
     ListBox1.Items.Clear;
     FDTable1.IndexFieldNames := 'tableID';
-    basestr := 'status = 2';
-    FDTable1.Filter := basestr;
+    FDTable1.Filter := 'status = 2';
     FDTable1.Filtered := true;
     FDTable1.First;
     while not FDTable1.Eof do
@@ -219,41 +273,18 @@ begin
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
-const
-  fmt = '%d 番テーブル %s x%d';
-var
-  s: string;
-  p: PInteger;
-  t: ^TTime;
-  i: integer;
 begin
-  if not RadioButton1.Checked then
-    Exit;
-  i := ListBox3.ItemIndex;
-  ListItemClear(ListBox3);
-  FDTable1.Filter := 'status = 0';
-  FDTable1.Filtered := true;
-  FDTable1.First;
-  while not FDTable1.Eof do
+  FDQuery1.SQL.Text := 'select count(*) as cnt from kitchen where status = 0;';
+  FDQuery1.Open;
+  if FDQuery1.FieldByName('cnt').AsInteger > ListBox3.Items.count then
   begin
-    s := Format(fmt, [FDTable1.FieldByName('tableID').AsInteger,
-      FDTable2.FieldByName('name').AsString, FDTable1.FieldByName('qty')
-      .AsInteger]);
-    New(p);
-    p^ := FDTable1.FieldByName('orderID').AsInteger;
-    ListBox3.AddItem(s, Pointer(p));
-    FDTable1.Next;
-  end;
-  if ListBox3.Items.Count > i then
-    ListBox3.ItemIndex := i;
-  for var n := 0 to ListBox2.Items.Count - 1 do
+    Button3.Caption := '更新';
+    Button3.Enabled := true;
+  end
+  else
   begin
-    t := Pointer(ListBox2.Items.Objects[n]);
-    if GetTime - t^ > 5 / (24 * 60) then
-    begin
-      Dispose(t);
-      ListBox2.Items.Delete(n);
-    end;
+    Button3.Caption := '';
+    Button3.Enabled := false;
   end;
 end;
 

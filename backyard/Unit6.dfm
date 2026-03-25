@@ -98,13 +98,6 @@ object Form1: TForm1
       Height = 15
       Caption = #12362#20250#35336#37329#38989
     end
-    object Label3: TLabel
-      Left = 159
-      Top = 101
-      Width = 34
-      Height = 15
-      Caption = 'Label3'
-    end
     object ComboBox1: TComboBox
       Left = 24
       Top = 61
@@ -113,6 +106,18 @@ object Form1: TForm1
       TabOrder = 0
       Text = #12486#12540#12502#12523#30058#21495#12391#36984#25246#12375#12390#12367#12384#12373#12356
       OnChange = ComboBox1Change
+    end
+    object Button2: TButton
+      Left = 152
+      Top = 104
+      Width = 75
+      Height = 25
+      Hint = #12450#12540#12459#12452#12502
+      Caption = 'Button2'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 1
+      OnClick = Button2Click
     end
   end
   object ListBox1: TListBox
@@ -173,6 +178,15 @@ object Form1: TForm1
       ItemHeight = 37
       ParentFont = False
       TabOrder = 2
+    end
+    object Button3: TButton
+      Left = 24
+      Top = 16
+      Width = 75
+      Height = 25
+      Caption = #26356#26032
+      TabOrder = 3
+      OnClick = Button3Click
     end
   end
   object FDConnection1: TFDConnection
@@ -290,15 +304,16 @@ object Form1: TForm1
       Origin = 'image'
     end
   end
-  object Timer1: TTimer
-    Interval = 5000
-    OnTimer = Timer1Timer
-    Left = 416
-    Top = 256
-  end
   object Timer2: TTimer
     OnTimer = Timer2Timer
     Left = 336
+    Top = 256
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 20000
+    OnTimer = Timer1Timer
+    Left = 416
     Top = 256
   end
 end
