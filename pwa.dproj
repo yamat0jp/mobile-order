@@ -4,7 +4,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">pwa</ProjectName>
         <TargetedPlatforms>3</TargetedPlatforms>
@@ -137,24 +137,20 @@
         </DelphiCompile>
         <DCCReference Include="Unit1.pas">
             <Form>Frame1</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TWebFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="info.pas"/>
         <DCCReference Include="webdata.pas"/>
         <DCCReference Include="Unit4.pas">
             <Form>Form3</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TWebForm</DesignClass>
         </DCCReference>
         <DCCReference Include="Unit2.pas">
             <Form>Form2</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TWebForm</DesignClass>
         </DCCReference>
         <DCCReference Include="main.pas">
             <Form>Form1</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TWebForm</DesignClass>
         </DCCReference>
         <None Include="pwa.html"/>
@@ -203,12 +199,6 @@
                 </Source>
             </Delphi.Personality>
             <Deployment Version="4">
-                <DeployFile LocalName="E:\fuke\GitHub\mobile-order\pwa.html" Configuration="Debug" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="E:\fuke\GitHub\mobile-order\pwa.html" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -272,12 +262,6 @@
                 <DeployFile LocalName="Manifest.json" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win64">
                         <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Win32\Debug\pwa.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>pwa.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

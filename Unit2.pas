@@ -50,7 +50,7 @@ implementation
 
 {$R *.dfm}
 
-uses System.IOUtils, System.DateUtils, main;
+uses System.IOUtils, System.DateUtils, main, info;
 
 { TForm2 }
 
@@ -74,7 +74,7 @@ begin
   order := TJSONObject.Create;
   try
     order.AddPair('userID', main.tableID);
-    order.AddPair('status', 2);
+    order.AddPair('status', Ord(TOrderStatus.billing));
     WebHttpRequest1.PostData := order.ToString;
     WebHttpRequest1.Execute;
   finally

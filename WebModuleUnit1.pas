@@ -13,8 +13,6 @@ uses
   FireDAC.Phys.SQLiteWrapper.Stat;
 
 type
-  TOrderStatus = (pending, eating, billing);
-
   TWebModule1 = class(TWebModule)
     FDConnection1: TFDConnection;
     FDTable1: TFDTable;
@@ -71,7 +69,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 {$R *.dfm}
 
-uses System.JSON, System.IOUtils, System.NetEncoding, Data, Vcl.Graphics;
+uses System.JSON, System.IOUtils, System.NetEncoding, Data, Vcl.Graphics, info;
 
 function TWebModule1.BlobImageString(DataSet: TDataSet): string;
 var
@@ -153,7 +151,6 @@ var
   order: TOrderData;
   JSON, Data: TJSONObject;
   arr: TJSONArray;
-  t: TTime;
 begin
   FDTable2.Filter := 'status < 2 and tableID = ' + Request.Content;
   JSON := TJSONObject.Create;
@@ -163,7 +160,6 @@ begin
     FDTable2.First;
     while not FDTable2.Eof do
     begin
-      t := FDTable2.FieldByName('timeData').AsDateTime;
       order.name := FDTable3.FieldByName('name').AsString;
       order.qty := FDTable2.FieldByName('qty').AsInteger;
       order.price := FDTable3.FieldByName('price').AsInteger;
@@ -190,7 +186,6 @@ procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
   JSON: TJSONObject;
-  blobO, blobI: TStream;
 begin
   JSON := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
   FDTable1.Filtered := false;
@@ -208,7 +203,8 @@ begin
       FDTable2.FieldByName('tableID').AsInteger :=
         JSON.GetValue<integer>('userID');
       FDTable2.FieldByName('qty').AsInteger := JSON.GetValue<integer>('qty');
-      FDTable2.FieldByName('timedata').AsDateTime := Now;
+      FDTable2.FieldByName('timedata').AsString :=
+        FormatDateTime('hh:nn', GetTime);
       FDTable2.FieldByName('status').AsInteger := Ord(TOrderStatus.pending);
       FDTable2.Post;
     end
@@ -224,8 +220,7 @@ procedure TWebModule1.WebModule1WebActionItem5Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
   JSON: TJSONObject;
-  arr: TJSONArray;
-  I, tableID: integer;
+  tableID: integer;
 begin
   JSON := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
   try
