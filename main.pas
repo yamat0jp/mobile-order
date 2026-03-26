@@ -6,8 +6,8 @@ uses
   System.SysUtils, System.Classes, JS, Web, WEBLib.Graphics,
   WEBLib.Forms, WEBLib.Dialogs, WEBLib.ExtCtrls, WEBLib.CSS,
   WEBLib.Controls, WEBLib.StdCtrls, WEBLib.WebCtrls, WEBLib.JSON,
-  WEBLib.Slider, Unit1, Vcl.Controls, Vcl.StdCtrls, WEBLib.REST, Vcl.Menus,
-  WEBLib.Menus, Vcl.Imaging.GIFImg;
+  WEBLib.Slider, Unit1, WEBLib.REST,
+  WEBLib.Menus, Vcl.Imaging.GIFImg, Vcl.Controls, Vcl.StdCtrls;
 
 type
   TForm1 = class(TWebForm)
@@ -28,11 +28,13 @@ type
     WebHttpRequest1: TWebHttpRequest;
     WebWaitMessage1: TWebWaitMessage;
     WebHttpRequest2: TWebHttpRequest;
+    WebHttpRequest3: TWebHttpRequest;
     procedure WebFormCreate(Sender: TObject);
     procedure WebHttpRequest1Response(Sender: TObject; AResponse: string);
     procedure WebPanel1Click(Sender: TObject);
     procedure WebFormDestroy(Sender: TObject);
     procedure WebHttpRequest2Response(Sender: TObject; AResponse: string);
+    procedure WebHttpRequest3Response(Sender: TObject; AResponse: string);
   private
     { Private declarations }
     procedure ModalForm(Sender: TObject);
@@ -43,11 +45,9 @@ type
     procedure Order(Sender: TObject);
   end;
 
-const
-  tableID = 0;
-
 var
   Form1: TForm1;
+  tableID: integer;
 
 implementation
 
@@ -117,9 +117,7 @@ begin
   document.getElementById('menuHome').addEventListener('click', @Home);
   document.getElementById('menuAbout').addEventListener('click', @About);
 
-  WebHttpRequest2.PostData := tableID.ToString;
-  WebHttpRequest1.Execute;
-  WebHttpRequest2.Execute;
+  WebHttpRequest3.Execute;
 end;
 
 procedure TForm1.WebFormDestroy(Sender: TObject);
@@ -183,6 +181,21 @@ begin
   finally
     JSON.Free;
   end;
+end;
+
+procedure TForm1.WebHttpRequest3Response(Sender: TObject; AResponse: string);
+var
+  JSON: TJSONObject;
+begin
+  JSON := TJSONObject.ParseJSONValue(AResponse) as TJSONObject;
+  try
+    tableID := (JSON.GetValue('tableID') as TJSONNumber).asInt;
+  finally
+    JSON.Free;
+  end;
+  WebHttpRequest2.PostData := tableID.toString;
+  WebHttpRequest1.Execute;
+  WebHttpRequest2.Execute;
 end;
 
 procedure TForm1.WebPanel1Click(Sender: TObject);

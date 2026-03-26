@@ -2,7 +2,8 @@ program backyard;
 
 uses
   Vcl.Forms,
-  Unit6 in 'Unit6.pas' {Form1};
+  Unit6 in 'Unit6.pas' {Form1},
+  info in '..\info.pas';
 
 {$R *.res}
 

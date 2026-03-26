@@ -15,6 +15,9 @@
         <Projects Include="order.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="pwa.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -59,14 +62,23 @@
     <Target Name="order:Make">
         <MSBuild Projects="order.dproj" Targets="Make"/>
     </Target>
+    <Target Name="pwa">
+        <MSBuild Projects="pwa.dproj"/>
+    </Target>
+    <Target Name="pwa:Clean">
+        <MSBuild Projects="pwa.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pwa:Make">
+        <MSBuild Projects="pwa.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Project1;Project3;backyard;order"/>
+        <CallTarget Targets="Project1;Project3;backyard;order;pwa"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Project1:Clean;Project3:Clean;backyard:Clean;order:Clean"/>
+        <CallTarget Targets="Project1:Clean;Project3:Clean;backyard:Clean;order:Clean;pwa:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Project1:Make;Project3:Make;backyard:Make;order:Make"/>
+        <CallTarget Targets="Project1:Make;Project3:Make;backyard:Make;order:Make;pwa:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

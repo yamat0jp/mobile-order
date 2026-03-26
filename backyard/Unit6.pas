@@ -85,7 +85,7 @@ implementation
 
 {$R *.dfm}
 
-uses System.Generics.Collections;
+uses System.Generics.Collections, info;
 
 const
   title = 'テーブル番号で選択してください';
@@ -107,7 +107,7 @@ begin
   if FDTable1.Locate('orderID', local.orderID) then
   begin
     FDTable1.Edit;
-    FDTable1.FieldByName('status').AsInteger := 1;
+    FDTable1.FieldByName('status').AsInteger := Ord(TOrderStatus.eating);
     FDTable1.Post;
   end;
 end;
@@ -120,7 +120,7 @@ begin
   while not FDTable1.Eof do
   begin
     FDTable1.Edit;
-    FDTable1.FieldByName('status').AsInteger := 4;
+    FDTable1.FieldByName('status').AsInteger := Ord(TOrderStatus.archive);
     FDTable1.Post;
   end;
 end;

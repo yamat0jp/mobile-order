@@ -139,11 +139,6 @@
             <FormType>dfm</FormType>
             <DesignClass>TWebForm</DesignClass>
         </DCCReference>
-        <DCCReference Include="Unit1.pas">
-            <Form>Frame1</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="Unit2.pas">
             <Form>Form2</Form>
             <FormType>dfm</FormType>
@@ -155,9 +150,14 @@
             <DesignClass>TWebForm</DesignClass>
         </DCCReference>
         <DCCReference Include="webdata.pas"/>
+        <DCCReference Include="info.pas"/>
+        <DCCReference Include="Unit1.pas">
+            <Form>Frame1</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TWebFrame</DesignClass>
+        </DCCReference>
         <None Include="style.css"/>
         <None Include="index.html"/>
-        <None Include="Unit1.html"/>
         <None Include="policy.html"/>
         <None Include="qanda.html"/>
         <None Include="rule.html"/>
@@ -192,12 +192,6 @@
             </Delphi.Personality>
             <Deployment Version="4">
                 <DeployFile LocalName="FavIcon.ico" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Unit1.html" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
