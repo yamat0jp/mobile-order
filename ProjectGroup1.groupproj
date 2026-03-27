@@ -12,9 +12,6 @@
         <Projects Include="backyard\backyard.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="order.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="pwa.dproj">
             <Dependencies/>
         </Projects>
@@ -53,15 +50,6 @@
     <Target Name="backyard:Make">
         <MSBuild Projects="backyard\backyard.dproj" Targets="Make"/>
     </Target>
-    <Target Name="order">
-        <MSBuild Projects="order.dproj"/>
-    </Target>
-    <Target Name="order:Clean">
-        <MSBuild Projects="order.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="order:Make">
-        <MSBuild Projects="order.dproj" Targets="Make"/>
-    </Target>
     <Target Name="pwa">
         <MSBuild Projects="pwa.dproj"/>
     </Target>
@@ -72,13 +60,13 @@
         <MSBuild Projects="pwa.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Project1;Project3;backyard;order;pwa"/>
+        <CallTarget Targets="Project1;Project3;backyard;pwa"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Project1:Clean;Project3:Clean;backyard:Clean;order:Clean;pwa:Clean"/>
+        <CallTarget Targets="Project1:Clean;Project3:Clean;backyard:Clean;pwa:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Project1:Make;Project3:Make;backyard:Make;order:Make;pwa:Make"/>
+        <CallTarget Targets="Project1:Make;Project3:Make;backyard:Make;pwa:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

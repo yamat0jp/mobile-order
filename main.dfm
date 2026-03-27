@@ -246,7 +246,7 @@ object Form1: TForm1
       Height = 15
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
-      Caption = '<a href="rule.html">'#21033#29992#35215#32004'</a>'
+      Caption = '<a href="html/rule.html">'#21033#29992#35215#32004'</a>'
     end
     object WebLinkLabel2: TWebLinkLabel
       Left = 578
@@ -255,7 +255,7 @@ object Form1: TForm1
       Height = 15
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
-      Caption = '<a  href="qanda.html">'#12362#21839#12356#21512#12431#12379'</a>'
+      Caption = '<a  href="html/qanda.html">'#12362#21839#12356#21512#12431#12379'</a>'
     end
     object WebLinkLabel3: TWebLinkLabel
       Left = 320
@@ -264,7 +264,7 @@ object Form1: TForm1
       Height = 15
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
-      Caption = '<a href="policy.html">'#12503#12521#12452#12496#12471#12540#12509#12522#12471#12540'</a>'
+      Caption = '<a href="html/policy.html">'#12503#12521#12452#12496#12471#12540#12509#12522#12471#12540'</a>'
     end
     object WebLabel3: TWebLabel
       Left = 448
@@ -463,7 +463,7 @@ object Form1: TForm1
   object WebHttpRequest3: TWebHttpRequest
     Headers.Strings = (
       'Accept=application/json')
-    URL = 'config.json'
+    URL = 'config/config.json'
     OnResponse = WebHttpRequest3Response
     Left = 376
     Top = 472

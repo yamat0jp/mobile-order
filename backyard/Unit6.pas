@@ -63,6 +63,7 @@ type
     Button2: TButton;
     Button3: TButton;
     Timer1: TTimer;
+    Button4: TButton;
     procedure RadioButton1Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -71,6 +72,7 @@ type
     procedure Timer2Timer(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
   private
     { Private 宣言 }
     procedure ListItemClear(AList: TListBox);
@@ -130,7 +132,6 @@ const
   fmt = '%d 番テーブル %s x%d';
 var
   local: TLocalClass;
-  i: integer;
   s: string;
 begin
   if not RadioButton1.Checked then
@@ -139,7 +140,6 @@ begin
   FDTable1.Filter := 'status = 0';
   FDTable1.Filtered := true;
   FDTable1.First;
-  i := 0;
   while not FDTable1.Eof do
   begin
     s := Format(fmt, [FDTable1.FieldByName('tableID').AsInteger,
@@ -160,6 +160,22 @@ begin
     end;
   end;
   Timer1Timer(nil);
+end;
+
+procedure TForm1.Button4Click(Sender: TObject);
+begin
+  FDQuery1.SQL.Text := 'select count(*) as cnt from kitchen where status < 4;';
+  FDQuery1.Open;
+  if FDQuery1.FieldByName('cnt').AsInteger = 0 then
+  begin
+    FDTable1.First;
+    while not FDTable1.Eof do
+      FDTable1.Delete;
+    Showmessage('終了. おつかれさまでした.');
+  end
+  else
+    Showmessage('オーダーや支払い状態が不正です');
+  FDQuery1.Close;
 end;
 
 procedure TForm1.ComboBox1Change(Sender: TObject);
@@ -235,15 +251,15 @@ begin
   DBGrid1.Hide;
   Panel2.Hide;
   DBNavigator1.Hide;
+  Button4.Hide;
   ComboBox1.Text := title;
-  Timer1.Enabled := false;
+  Timer1.Enabled := true;
   if RadioButton1.Checked then
   begin
     FDTable1.IndexFieldNames := 'orderID';
     FDTable1.Filter := 'status = 0';
     FDTable1.Filtered := true;
     Panel2.Show;
-    Timer1.Enabled := true;
   end
   else if RadioButton2.Checked then
   begin
@@ -269,14 +285,30 @@ begin
     FDTable1.Filtered := false;
     DBGrid1.Show;
     DBNavigator1.Show;
+    Button4.Show;
+    Timer1.Enabled := false;
   end;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
+var
+  cnt: integer;
 begin
-  FDQuery1.SQL.Text := 'select count(*) as cnt from kitchen where status = 0;';
+  cnt := 0;
+  if RadioButton1.Checked then
+  begin
+    FDQuery1.SQL.Text :=
+      'select count(*) as cnt from kitchen where status = 0;';
+    cnt := ListBox3.Items.count;
+  end
+  else if RadioButton2.Checked then
+  begin
+    FDQuery1.SQL.Text :=
+      'select count(*) as cnt from kitchen where status = 2;';
+    cnt := 0;
+  end;
   FDQuery1.Open;
-  if FDQuery1.FieldByName('cnt').AsInteger > ListBox3.Items.count then
+  if FDQuery1.FieldByName('cnt').AsInteger > cnt then
   begin
     Button3.Caption := '更新';
     Button3.Enabled := true;
@@ -286,12 +318,14 @@ begin
     Button3.Caption := '';
     Button3.Enabled := false;
   end;
+  FDQuery1.Close;
 end;
 
 procedure TForm1.Timer2Timer(Sender: TObject);
 begin
   FDQuery1.Open('select count(*) as cnt from kitchen where status = 3');
   Label5.Visible := FDQuery1.FieldByName('cnt').AsInteger > 0;
+  FDQuery1.Close;
 end;
 
 end.

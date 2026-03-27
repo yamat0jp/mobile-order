@@ -179,15 +179,24 @@ object Form1: TForm1
       ParentFont = False
       TabOrder = 2
     end
-    object Button3: TButton
-      Left = 24
-      Top = 16
-      Width = 75
-      Height = 25
-      Caption = #26356#26032
-      TabOrder = 3
-      OnClick = Button3Click
-    end
+  end
+  object Button4: TButton
+    Left = 784
+    Top = 395
+    Width = 75
+    Height = 25
+    Caption = #26412#26085#32066#20102
+    TabOrder = 8
+    OnClick = Button4Click
+  end
+  object Button3: TButton
+    Left = 432
+    Top = 124
+    Width = 75
+    Height = 25
+    Caption = #26356#26032
+    TabOrder = 9
+    OnClick = Button3Click
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
