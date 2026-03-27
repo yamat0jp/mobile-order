@@ -1,4 +1,4 @@
-unit main;
+﻿unit main;
 
 interface
 
@@ -196,6 +196,7 @@ begin
   WebHttpRequest2.PostData := tableID.toString;
   WebHttpRequest1.Execute;
   WebHttpRequest2.Execute;
+  WebLabel1.Caption := Format('"%.2d" 番テーブル', [tableID]);
 end;
 
 procedure TForm1.WebPanel1Click(Sender: TObject);
