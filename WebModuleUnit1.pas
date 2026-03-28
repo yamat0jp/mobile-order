@@ -10,7 +10,7 @@ uses
   FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   FireDAC.Phys.IB, FireDAC.Phys.IBDef, FireDAC.Phys.SQLite,
   FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
-  FireDAC.Phys.SQLiteWrapper.Stat;
+  FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.Phys.PG, FireDAC.Phys.PGDef;
 
 type
   TWebModule1 = class(TWebModule)
@@ -53,6 +53,7 @@ type
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModule1WebActionItem2Action(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModuleCreate(Sender: TObject);
   private
     { private êÈåæ }
     function BlobImageString(DataSet: TDataSet): string;
@@ -250,6 +251,14 @@ begin
   Response.SetCustomHeader('Access-Control-Allow-Methods',
     'GET, POST, PUT, DELETE, OPTIONS');
   Response.SetCustomHeader('Access-Control-Allow-Headers', '*');
+end;
+
+procedure TWebModule1.WebModuleCreate(Sender: TObject);
+begin
+  FDConnection1.Open;
+  FDTable1.Open;
+  FDTable2.Open;
+  FDTable3.Open;
 end;
 
 end.

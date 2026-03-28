@@ -2,7 +2,12 @@ unit webdata;
 
 interface
 
+{$IFDEF TMS_Web}
 uses WEBLib.JSON;
+{$ELSE}
+uses System.JSON;
+{$ENDIF}
+
 
 type
   TOrderData = class

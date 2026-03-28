@@ -7,8 +7,8 @@ uses
   IdHTTPWebBrokerBridge,
   FormUnit1 in 'FormUnit1.pas' {Form2},
   WebModuleUnit1 in 'WebModuleUnit1.pas' {WebModule1: TWebModule},
-  data in 'data.pas',
-  info in 'info.pas';
+  info in 'info.pas',
+  webdata in 'webdata.pas';
 
 {$R *.res}
 

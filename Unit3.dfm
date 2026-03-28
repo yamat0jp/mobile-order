@@ -67,7 +67,7 @@ object DataModule3: TDataModule3
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'Database=E:\fuke\GitHub\mobile-order\data.sdb'
+      'Database=E:\fuke\GitHub\2026\mobile-order\data.sdb'
       'OpenMode=ReadWrite'
       'JournalMode=WAL'
       'BusyTimeout=30000'

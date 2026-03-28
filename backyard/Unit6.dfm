@@ -10,12 +10,12 @@ object Form1: TForm1
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  OnCreate = RadioButton1Click
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   TextHeight = 15
   object Label5: TLabel
     Left = 248
-    Top = 117
+    Top = 106
     Width = 445
     Height = 28
     Caption = #12458#12540#12480#12540#12398#21040#30528#12375#12390#12356#12394#12356#12362#23458#27096#12364#20986#12414#12375#12383' : status 3'
@@ -29,9 +29,9 @@ object Form1: TForm1
   end
   object DBGrid1: TDBGrid
     Left = 56
-    Top = 175
+    Top = 192
     Width = 601
-    Height = 498
+    Height = 481
     DataSource = DataSource1
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
@@ -191,7 +191,7 @@ object Form1: TForm1
   end
   object Button3: TButton
     Left = 432
-    Top = 124
+    Top = 140
     Width = 75
     Height = 25
     Caption = #26356#26032
@@ -200,12 +200,10 @@ object Form1: TForm1
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'Database=E:\fuke\GitHub\mobile-order\data.sdb'
-      'LockingMode=Normal'
-      'OpenMode=ReadWrite'
-      'JournalMode=WAL'
-      'DriverID=SQLite')
-    Connected = True
+      'Database=mydb'
+      'User_Name=postgre'
+      'CharacterSet=UTF8'
+      'DriverID=PG')
     Left = 552
     Top = 256
   end
@@ -217,7 +215,7 @@ object Form1: TForm1
   object FDQuery1: TFDQuery
     Connection = FDConnection1
     SQL.Strings = (
-      'drop table kitchen;'
+      ''
       
         'create table kitchen(tableID integer, orderID integer PRIMARY KE' +
         'Y AUTOINCREMENT, '
@@ -226,7 +224,6 @@ object Form1: TForm1
     Top = 184
   end
   object FDTable1: TFDTable
-    Active = True
     IndexFieldNames = 'tableid'
     Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
@@ -261,7 +258,6 @@ object Form1: TForm1
     end
   end
   object FDTable2: TFDTable
-    Active = True
     IndexFieldNames = 'id'
     MasterSource = DataSource1
     MasterFields = 'id'

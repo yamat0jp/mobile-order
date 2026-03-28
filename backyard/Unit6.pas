@@ -12,7 +12,7 @@ uses
   FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.VCLUI.Wait, FireDAC.Stan.Param,
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, Vcl.Grids,
   Vcl.DBGrids, Vcl.ExtCtrls, Vcl.Buttons, Vcl.DBCtrls, FireDAC.Comp.Client,
-  FireDAC.Comp.DataSet, Vcl.StdCtrls;
+  FireDAC.Comp.DataSet, Vcl.StdCtrls, FireDAC.Phys.PG, FireDAC.Phys.PGDef;
 
 type
   TLocalClass = class
@@ -73,6 +73,7 @@ type
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private êÈåæ }
     procedure ListItemClear(AList: TListBox);
@@ -226,6 +227,15 @@ begin
   Button2.Caption := Data.ToString + ' â~';
   ListBox1.Items.Add('----------------------');
   ListBox1.Items.Add(Button2.Caption);
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  FDConnection1.Open;
+  FDQuery1.Open;
+  FDTable1.Open;
+  FDTable2.Open;
+  RadioButton1Click(nil);
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);

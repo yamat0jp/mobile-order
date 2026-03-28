@@ -1,4 +1,5 @@
 object WebModule1: TWebModule1
+  OnCreate = WebModuleCreate
   Actions = <
     item
       Default = True
@@ -30,16 +31,14 @@ object WebModule1: TWebModule1
   Width = 415
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'Database=E:\fuke\GitHub\mobile-order\data.sdb'
-      'LockingMode=Normal'
-      'JournalMode=WAL'
-      'DriverID=SQLite')
-    Connected = True
+      'Database=mydb'
+      'User_Name=postgres'
+      'CharacterSet=UTF8'
+      'DriverID=PG')
     Left = 160
     Top = 40
   end
   object FDTable1: TFDTable
-    Active = True
     Filtered = True
     Filter = 'category = '#39'popular'#39
     IndexFieldNames = 'id'
@@ -92,7 +91,6 @@ object WebModule1: TWebModule1
     end
   end
   object FDTable3: TFDTable
-    Active = True
     IndexFieldNames = 'id'
     MasterSource = DataSource1
     MasterFields = 'id'
@@ -150,7 +148,6 @@ object WebModule1: TWebModule1
     Top = 120
   end
   object FDTable2: TFDTable
-    Active = True
     Filtered = True
     Filter = 'status <> 2'
     IndexFieldNames = 'orderID'

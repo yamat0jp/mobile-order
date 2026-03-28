@@ -3,7 +3,7 @@
    "name":"$(Name)",
    "description":"$(Description)",
    "start_url":"$(StartURL)",
-   "display":"fullscreen",
+   "display":"standalone",
    "theme_color":"$(ThemeColor)",
    "background_color":"$(BackgroundColor)",
    "related_applications": [{
