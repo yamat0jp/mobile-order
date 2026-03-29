@@ -18,7 +18,7 @@ type
     FDTable1: TFDTable;
     FDTable3: TFDTable;
     DataSource1: TDataSource;
-    FDTable3id: TFDAutoIncField;
+    FDTable2: TFDTable;
     FDTable3category: TWideMemoField;
     FDTable3name: TWideMemoField;
     FDTable3comment: TWideMemoField;
@@ -27,7 +27,6 @@ type
     FDTable3cnt: TIntegerField;
     FDTable3fileext: TWideMemoField;
     FDTable3image: TBlobField;
-    FDTable1id: TFDAutoIncField;
     FDTable1category: TWideMemoField;
     FDTable1name: TWideMemoField;
     FDTable1comment: TWideMemoField;
@@ -36,9 +35,10 @@ type
     FDTable1cnt: TIntegerField;
     FDTable1fileext: TWideMemoField;
     FDTable1image: TBlobField;
-    FDTable2: TFDTable;
-    FDTable2tableID: TIntegerField;
-    FDTable2orderID: TFDAutoIncField;
+    FDTable1id: TIntegerField;
+    FDTable3id: TIntegerField;
+    FDTable2tableid: TIntegerField;
+    FDTable2orderid: TIntegerField;
     FDTable2id: TIntegerField;
     FDTable2qty: TIntegerField;
     FDTable2timedata: TSQLTimeStampField;

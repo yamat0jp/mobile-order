@@ -17,15 +17,15 @@ type
     FDTable1: TFDTable;
     FDConnection1: TFDConnection;
     DataSource1: TDataSource;
-    FDTable1id: TFDAutoIncField;
+    FDTable1id: TIntegerField;
     FDTable1category: TWideMemoField;
     FDTable1name: TWideMemoField;
     FDTable1comment: TWideMemoField;
     FDTable1price: TIntegerField;
     FDTable1qty: TIntegerField;
+    FDTable1cnt: TIntegerField;
     FDTable1fileext: TWideMemoField;
     FDTable1image: TBlobField;
-    FDTable1cnt: TIntegerField;
     procedure FDTable1BeforePost(DataSet: TDataSet);
   private
     { Private êÈåæ }

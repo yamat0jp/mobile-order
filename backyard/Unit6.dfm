@@ -10,7 +10,7 @@ object Form1: TForm1
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  OnCreate = FormCreate
+  OnCreate = RadioButton1Click
   OnDestroy = FormDestroy
   TextHeight = 15
   object Label5: TLabel
@@ -201,9 +201,11 @@ object Form1: TForm1
   object FDConnection1: TFDConnection
     Params.Strings = (
       'Database=mydb'
-      'User_Name=postgre'
+      'User_Name=yamat'
       'CharacterSet=UTF8'
+      'Server=127.0.0.1'
       'DriverID=PG')
+    Connected = True
     Left = 552
     Top = 256
   end
@@ -215,30 +217,33 @@ object Form1: TForm1
   object FDQuery1: TFDQuery
     Connection = FDConnection1
     SQL.Strings = (
-      ''
+      'drop table kitchen;'
       
-        'create table kitchen(tableID integer, orderID integer PRIMARY KE' +
-        'Y AUTOINCREMENT, '
+        'create table kitchen(tableID integer, orderID serial PRIMARY KEY' +
+        ', '
       '  id integer, qty integer, timedata timestamp, status integer);')
     Left = 600
     Top = 184
   end
   object FDTable1: TFDTable
+    Active = True
     IndexFieldNames = 'tableid'
     Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
     TableName = 'kitchen'
     Left = 656
     Top = 256
-    object FDTable1tableID: TIntegerField
-      FieldName = 'tableID'
-      Origin = 'tableID'
+    object FDTable1tableid: TIntegerField
+      FieldName = 'tableid'
+      Origin = 'tableid'
     end
-    object FDTable1orderID: TFDAutoIncField
-      FieldName = 'orderID'
-      Origin = 'orderID'
-      ProviderFlags = [pfInWhere, pfInKey]
-      ReadOnly = False
+    object FDTable1orderid: TIntegerField
+      FieldName = 'orderid'
+      Origin = 'orderid'
+    end
+    object FDTable1id: TIntegerField
+      FieldName = 'id'
+      Origin = 'id'
     end
     object FDTable1qty: TIntegerField
       FieldName = 'qty'
@@ -247,17 +252,15 @@ object Form1: TForm1
     object FDTable1timedata: TSQLTimeStampField
       FieldName = 'timedata'
       Origin = 'timedata'
+      ProviderFlags = [pfInUpdate]
     end
     object FDTable1status: TIntegerField
       FieldName = 'status'
       Origin = 'status'
     end
-    object FDTable1id: TIntegerField
-      FieldName = 'id'
-      Origin = 'id'
-    end
   end
   object FDTable2: TFDTable
+    Active = True
     IndexFieldNames = 'id'
     MasterSource = DataSource1
     MasterFields = 'id'
@@ -266,11 +269,9 @@ object Form1: TForm1
     TableName = 'item'
     Left = 656
     Top = 352
-    object FDTable2id: TFDAutoIncField
+    object FDTable2id: TIntegerField
       FieldName = 'id'
       Origin = 'id'
-      ProviderFlags = [pfInWhere, pfInKey]
-      ReadOnly = False
     end
     object FDTable2category: TWideMemoField
       FieldName = 'category'
@@ -284,7 +285,7 @@ object Form1: TForm1
     end
     object FDTable2comment: TWideMemoField
       FieldName = 'comment'
-      Origin = 'comment'
+      Origin = '"comment"'
       BlobType = ftWideMemo
     end
     object FDTable2price: TIntegerField

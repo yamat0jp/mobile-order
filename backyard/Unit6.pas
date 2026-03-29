@@ -29,11 +29,6 @@ type
     DBGrid1: TDBGrid;
     DBNavigator1: TDBNavigator;
     FDTable1: TFDTable;
-    FDTable1tableID: TIntegerField;
-    FDTable1orderID: TFDAutoIncField;
-    FDTable1qty: TIntegerField;
-    FDTable1timedata: TSQLTimeStampField;
-    FDTable1status: TIntegerField;
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
@@ -41,16 +36,6 @@ type
     ComboBox1: TComboBox;
     Label2: TLabel;
     FDTable2: TFDTable;
-    FDTable1id: TIntegerField;
-    FDTable2id: TFDAutoIncField;
-    FDTable2category: TWideMemoField;
-    FDTable2name: TWideMemoField;
-    FDTable2comment: TWideMemoField;
-    FDTable2price: TIntegerField;
-    FDTable2qty: TIntegerField;
-    FDTable2cnt: TIntegerField;
-    FDTable2fileext: TWideMemoField;
-    FDTable2image: TBlobField;
     Panel1: TPanel;
     ListBox1: TListBox;
     ListBox2: TListBox;
@@ -64,6 +49,21 @@ type
     Button3: TButton;
     Timer1: TTimer;
     Button4: TButton;
+    FDTable1tableid: TIntegerField;
+    FDTable1orderid: TIntegerField;
+    FDTable1id: TIntegerField;
+    FDTable1qty: TIntegerField;
+    FDTable1timedata: TSQLTimeStampField;
+    FDTable1status: TIntegerField;
+    FDTable2id: TIntegerField;
+    FDTable2category: TWideMemoField;
+    FDTable2name: TWideMemoField;
+    FDTable2comment: TWideMemoField;
+    FDTable2price: TIntegerField;
+    FDTable2qty: TIntegerField;
+    FDTable2cnt: TIntegerField;
+    FDTable2fileext: TWideMemoField;
+    FDTable2image: TBlobField;
     procedure RadioButton1Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -73,7 +73,6 @@ type
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private êÈåæ }
     procedure ListItemClear(AList: TListBox);
@@ -227,15 +226,6 @@ begin
   Button2.Caption := Data.ToString + ' â~';
   ListBox1.Items.Add('----------------------');
   ListBox1.Items.Add(Button2.Caption);
-end;
-
-procedure TForm1.FormCreate(Sender: TObject);
-begin
-  FDConnection1.Open;
-  FDQuery1.Open;
-  FDTable1.Open;
-  FDTable2.Open;
-  RadioButton1Click(nil);
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);

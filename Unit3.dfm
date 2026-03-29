@@ -5,15 +5,17 @@ object DataModule3: TDataModule3
     Connection = FDConnection1
     SQL.Strings = (
       'drop table item;'
-      'create table item(id INTEGER PRIMARY KEY AUTOINCREMENT,'
-      '  category text, name text, comment text,'
-      '  price integer, qty integer, cnt integer,'
-      '  fileext text, image blob);'
+      'CREATE TABLE item ('
+      '    id serial primary key,'
+      '    category text, name text, comment text,'
+      '    price integer, qty integer, cnt integer,'
+      '    fileext text, image bytea);'
       '  ')
     Left = 520
     Top = 72
   end
   object FDTable1: TFDTable
+    Active = True
     BeforePost = FDTable1BeforePost
     IndexFieldNames = 'id'
     Connection = FDConnection1
@@ -21,11 +23,9 @@ object DataModule3: TDataModule3
     TableName = 'item'
     Left = 312
     Top = 64
-    object FDTable1id: TFDAutoIncField
+    object FDTable1id: TIntegerField
       FieldName = 'id'
       Origin = 'id'
-      ProviderFlags = [pfInWhere, pfInKey]
-      ReadOnly = False
     end
     object FDTable1category: TWideMemoField
       FieldName = 'category'
@@ -39,7 +39,7 @@ object DataModule3: TDataModule3
     end
     object FDTable1comment: TWideMemoField
       FieldName = 'comment'
-      Origin = 'comment'
+      Origin = '"comment"'
       BlobType = ftWideMemo
     end
     object FDTable1price: TIntegerField
@@ -50,6 +50,10 @@ object DataModule3: TDataModule3
       FieldName = 'qty'
       Origin = 'qty'
     end
+    object FDTable1cnt: TIntegerField
+      FieldName = 'cnt'
+      Origin = 'cnt'
+    end
     object FDTable1fileext: TWideMemoField
       FieldName = 'fileext'
       Origin = 'fileext'
@@ -59,17 +63,15 @@ object DataModule3: TDataModule3
       FieldName = 'image'
       Origin = 'image'
     end
-    object FDTable1cnt: TIntegerField
-      FieldName = 'cnt'
-      Origin = 'cnt'
-    end
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'Database=mydb'
-      'User_Name=porstres'
+      'User_Name=yamat'
       'CharacterSet=UTF8'
+      'Server=127.0.0.1'
+      'Database=mydb'
       'DriverID=PG')
+    Connected = True
     Left = 160
     Top = 64
   end
