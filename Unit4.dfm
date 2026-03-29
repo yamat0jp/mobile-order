@@ -113,7 +113,7 @@ object Form3: TForm3
     Headers.Strings = (
       'Content-Type=application/json')
     Timeout = 3500
-    URL = 'http://192.168.68.54:8080/order'
+    URL = 'http://127.0.0.1:8080/order'
     OnError = WebHttpRequest1Error
     OnResponse = WebHttpRequest1Response
     OnTimeout = WebHttpRequest1Timeout
