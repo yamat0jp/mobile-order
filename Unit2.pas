@@ -3,12 +3,11 @@ unit Unit2;
 interface
 
 uses
-  WEBLib.JSON, System.SysUtils, System.Classes, Web, WEBLib.Graphics,
+  webdata, WEBLib.JSON, System.SysUtils, System.Classes, Web, WEBLib.Graphics,
   System.Generics.Collections,
   WEBLib.Controls,
   WEBLib.Forms, WEBLib.Dialogs, WEBLib.ExtCtrls,
-  WEBLib.StdCtrls, Vcl.StdCtrls, Vcl.Controls, WEBLib.REST, WEBLib.Lists,
-  webdata;
+  WEBLib.StdCtrls, Vcl.StdCtrls, Vcl.Controls, WEBLib.REST, WEBLib.Lists;
 
 type
   TForm2 = class(TWebForm)

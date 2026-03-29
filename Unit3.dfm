@@ -14,7 +14,6 @@ object DataModule3: TDataModule3
     Top = 72
   end
   object FDTable1: TFDTable
-    Active = True
     BeforePost = FDTable1BeforePost
     IndexFieldNames = 'id'
     Connection = FDConnection1
@@ -67,13 +66,10 @@ object DataModule3: TDataModule3
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'Database=E:\fuke\GitHub\2026\mobile-order\data.sdb'
-      'OpenMode=ReadWrite'
-      'JournalMode=WAL'
-      'BusyTimeout=30000'
-      'LockingMode=Normal'
-      'DriverID=SQLite')
-    Connected = True
+      'Database=mydb'
+      'User_Name=porstres'
+      'CharacterSet=UTF8'
+      'DriverID=PG')
     Left = 160
     Top = 64
   end

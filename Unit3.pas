@@ -9,7 +9,7 @@ uses
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.Phys.SQLite,
   FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
   FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.VCLUI.Wait, Data.DB,
-  FireDAC.Comp.Client, FireDAC.Comp.DataSet;
+  FireDAC.Comp.Client, FireDAC.Comp.DataSet, FireDAC.Phys.PG, FireDAC.Phys.PGDef;
 
 type
   TDataModule3 = class(TDataModule)

@@ -3,7 +3,6 @@ program pwa;
 {$R *.dres}
 
 uses
-  Vcl.Forms,
   WEBLib.Forms,
   Unit1 in 'Unit1.pas' {Frame1: TWebFrame},
   info in 'info.pas',

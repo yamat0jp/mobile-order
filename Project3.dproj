@@ -132,7 +132,7 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="data.pas"/>
+        <DCCReference Include="webdata.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -163,6 +163,12 @@
                 </DeployFile>
                 <DeployFile LocalName="Win32\Release\Project3.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
+                        <RemoteName>Project3.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win64\Release\Project3.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win64">
                         <RemoteName>Project3.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>

@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Classes, JS, Web, WEBLib.Graphics,
   WEBLib.Forms, WEBLib.Dialogs, WEBLib.ExtCtrls, WEBLib.CSS,
   WEBLib.Controls, WEBLib.StdCtrls, WEBLib.WebCtrls, WEBLib.JSON,
-  WEBLib.Slider, Unit1, WEBLib.REST,
+  WEBLib.Slider, WEBLib.REST,
   WEBLib.Menus, Vcl.Imaging.GIFImg, Vcl.Controls, Vcl.StdCtrls;
 
 type
@@ -53,7 +53,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit2, System.Generics.Collections, webdata, Unit4;
+uses Unit1, Unit2, System.Generics.Collections, webdata, Unit4;
 
 function NativeIntToCssColor(AColor: NativeInt): string;
 begin

@@ -2,10 +2,11 @@ unit webdata;
 
 interface
 
+uses
 {$IFDEF TMS_Web}
-uses WEBLib.JSON;
+  WEBLib.JSON;
 {$ELSE}
-uses System.JSON;
+weblib.json;//  System.JSON;
 {$ENDIF}
 
 
