@@ -1,0 +1,331 @@
+object Form7: TForm7
+  Left = 0
+  Top = 0
+  Caption = 'Form7'
+  ClientHeight = 848
+  ClientWidth = 1232
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = RadioButton1Change
+  OnDestroy = FormDestroy
+  DesignerMasterStyle = 0
+  object Grid1: TGrid
+    CanFocus = True
+    ClipChildren = True
+    Position.X = 64.000000000000000000
+    Position.Y = 280.000000000000000000
+    Size.Width = 833.000000000000000000
+    Size.Height = 513.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 15
+    RowCount = 0
+    Viewport.Width = 829.000000000000000000
+    Viewport.Height = 488.000000000000000000
+  end
+  object RadioButton1: TRadioButton
+    IsChecked = True
+    Position.X = 64.000000000000000000
+    Position.Y = 40.000000000000000000
+    TabOrder = 0
+    Text = #21416#25151
+    OnChange = RadioButton1Change
+  end
+  object RadioButton2: TRadioButton
+    Position.X = 64.000000000000000000
+    Position.Y = 88.000000000000000000
+    TabOrder = 1
+    Text = #12524#12472
+    OnChange = RadioButton1Change
+  end
+  object RadioButton3: TRadioButton
+    Position.X = 64.000000000000000000
+    Position.Y = 144.000000000000000000
+    TabOrder = 2
+    Text = #12510#12473#12479#12540
+    OnChange = RadioButton1Change
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 20000
+    OnTimer = Timer1Timer
+    Left = 416
+    Top = 256
+  end
+  object Timer2: TTimer
+    Interval = 5000
+    OnTimer = Timer2Timer
+    Left = 336
+    Top = 256
+  end
+  object Panel1: TPanel
+    Position.X = 896.000000000000000000
+    Position.Y = 48.000000000000000000
+    Size.Width = 289.000000000000000000
+    Size.Height = 169.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 10
+    object Label1: TLabel
+      Position.X = 56.000000000000000000
+      Position.Y = 26.000000000000000000
+      Text = #20250#35336#24453#12385#12398#12362#23458#27096
+      TabOrder = 0
+    end
+    object ComboBox1: TComboBox
+      Position.X = 56.000000000000000000
+      Position.Y = 67.000000000000000000
+      Size.Width = 177.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      OnChange = ComboBox1Change
+      object ListBoxItem1: TListBoxItem
+        TabOrder = 0
+        Text = #12486#12540#12502#12523#30058#21495#12391#36984#25246#12375#12390#12367#12384#12373#12356
+      end
+    end
+    object Label2: TLabel
+      Position.X = 64.000000000000000000
+      Position.Y = 119.000000000000000000
+      Size.Width = 65.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = #12362#20250#35336
+      TabOrder = 2
+    end
+    object Button1: TButton
+      Position.X = 152.000000000000000000
+      Position.Y = 111.000000000000000000
+      TabOrder = 3
+      Text = 'Button1'
+      TextSettings.Trimming = None
+      OnClick = Button1Click
+    end
+  end
+  object Panel2: TPanel
+    Position.X = 72.000000000000000000
+    Position.Y = 312.000000000000000000
+    Size.Width = 937.000000000000000000
+    Size.Height = 409.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 11
+    object ListBox1: TListBox
+      Position.X = 24.000000000000000000
+      Position.Y = 40.000000000000000000
+      Size.Width = 545.000000000000000000
+      Size.Height = 329.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      DisableFocusEffect = True
+      DefaultItemStyles.ItemStyle = ''
+      DefaultItemStyles.GroupHeaderStyle = ''
+      DefaultItemStyles.GroupFooterStyle = ''
+      Viewport.Width = 541.000000000000000000
+      Viewport.Height = 325.000000000000000000
+    end
+    object Label3: TLabel
+      StyledSettings = [Family, Size, FontColor]
+      Position.X = 672.000000000000000000
+      Position.Y = 168.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      Text = #23653#27508
+      TabOrder = 1
+    end
+    object ListBox2: TListBox
+      Position.X = 672.000000000000000000
+      Position.Y = 208.000000000000000000
+      Size.Width = 200.000000000000000000
+      Size.Height = 160.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      DisableFocusEffect = True
+      DefaultItemStyles.ItemStyle = ''
+      DefaultItemStyles.GroupHeaderStyle = ''
+      DefaultItemStyles.GroupFooterStyle = ''
+      Viewport.Width = 196.000000000000000000
+      Viewport.Height = 156.000000000000000000
+    end
+    object Button3: TButton
+      Position.X = 672.000000000000000000
+      Position.Y = 72.000000000000000000
+      TabOrder = 3
+      Text = #12391#12365#12383
+      TextSettings.Trimming = None
+      OnClick = Button3Click
+    end
+  end
+  object Label4: TLabel
+    AutoSize = True
+    StyledSettings = [Family]
+    Position.X = 271.000000000000000000
+    Position.Y = 129.000000000000000000
+    Size.Width = 569.000000000000000000
+    Size.Height = 34.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 25.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000004000000}
+    TextSettings.FontColor = claCoral
+    Text = #12458#12540#12480#12540#12398#21040#30528#12375#12390#12356#12394#12356#12362#23458#27096#12364#12391#12414#12375#12383#65306'status 3'
+    Visible = False
+    TabOrder = 12
+  end
+  object Button2: TButton
+    Position.X = 520.000000000000000000
+    Position.Y = 208.000000000000000000
+    TabOrder = 13
+    Text = #26356#26032
+    TextSettings.Trimming = None
+    OnClick = Button2Click
+  end
+  object ListBox3: TListBox
+    Position.X = 929.000000000000000000
+    Position.Y = 280.000000000000000000
+    Size.Width = 200.000000000000000000
+    Size.Height = 393.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 14
+    DisableFocusEffect = True
+    DefaultItemStyles.ItemStyle = ''
+    DefaultItemStyles.GroupHeaderStyle = ''
+    DefaultItemStyles.GroupFooterStyle = ''
+    Viewport.Width = 196.000000000000000000
+    Viewport.Height = 389.000000000000000000
+  end
+  object Button4: TButton
+    Position.X = 1017.000000000000000000
+    Position.Y = 544.000000000000000000
+    TabOrder = 24
+    Text = #26412#26085#32066#20102
+    TextSettings.Trimming = None
+    OnClick = Button4Click
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=mydb'
+      'User_Name=yamat'
+      'CharacterSet=utF8'
+      'DriverID=PG')
+    Connected = True
+    Left = 784
+    Top = 200
+  end
+  object DataSource1: TDataSource
+    DataSet = FDTable1
+    Left = 1040
+    Top = 272
+  end
+  object FDTable2: TFDTable
+    Active = True
+    IndexFieldNames = 'id'
+    MasterSource = DataSource1
+    MasterFields = 'id'
+    Connection = FDConnection1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'item'
+    Left = 944
+    Top = 368
+    object FDTable2id: TIntegerField
+      FieldName = 'id'
+      Origin = 'id'
+    end
+    object FDTable2category: TWideMemoField
+      FieldName = 'category'
+      Origin = 'category'
+      BlobType = ftWideMemo
+    end
+    object FDTable2name: TWideMemoField
+      FieldName = 'name'
+      Origin = 'name'
+      BlobType = ftWideMemo
+    end
+    object FDTable2comment: TWideMemoField
+      FieldName = 'comment'
+      Origin = '"comment"'
+      BlobType = ftWideMemo
+    end
+    object FDTable2price: TIntegerField
+      FieldName = 'price'
+      Origin = 'price'
+    end
+    object FDTable2qty: TIntegerField
+      FieldName = 'qty'
+      Origin = 'qty'
+    end
+    object FDTable2cnt: TIntegerField
+      FieldName = 'cnt'
+      Origin = 'cnt'
+    end
+    object FDTable2fileext: TWideMemoField
+      FieldName = 'fileext'
+      Origin = 'fileext'
+      BlobType = ftWideMemo
+    end
+    object FDTable2image: TBlobField
+      FieldName = 'image'
+      Origin = 'image'
+    end
+  end
+  object FDTable1: TFDTable
+    Active = True
+    IndexFieldNames = 'tableid'
+    Connection = FDConnection1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'kitchen'
+    Left = 944
+    Top = 272
+    object FDTable1tableid: TIntegerField
+      FieldName = 'tableid'
+      Origin = 'tableid'
+    end
+    object FDTable1orderid: TIntegerField
+      FieldName = 'orderid'
+      Origin = 'orderid'
+    end
+    object FDTable1id: TIntegerField
+      FieldName = 'id'
+      Origin = 'id'
+    end
+    object FDTable1qty: TIntegerField
+      FieldName = 'qty'
+      Origin = 'qty'
+    end
+    object FDTable1timedata: TSQLTimeStampField
+      FieldName = 'timedata'
+      Origin = 'timedata'
+      ProviderFlags = [pfInUpdate]
+    end
+    object FDTable1status: TIntegerField
+      FieldName = 'status'
+      Origin = 'status'
+    end
+  end
+  object FDQuery1: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'drop table kitchen;'
+      
+        'create table kitchen(tableID integer, orderID serial PRIMARY KEY' +
+        ', '
+      '  id integer, qty integer, timedata timestamp, status integer);')
+    Left = 888
+    Top = 208
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 20
+    Top = 5
+    object LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource
+      Category = #12463#12452#12483#12463' '#12496#12452#12531#12487#12451#12531#12464
+      DataSource = BindSourceDB1
+      GridControl = Grid1
+      Columns = <>
+    end
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = FDQuery1
+    ScopeMappings = <>
+    Left = 600
+    Top = 408
+  end
+end

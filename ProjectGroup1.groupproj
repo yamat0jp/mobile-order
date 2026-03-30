@@ -9,10 +9,10 @@
         <Projects Include="Project3.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="backyard\backyard.dproj">
+        <Projects Include="pwa.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="pwa.dproj">
+        <Projects Include="mobile.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -41,15 +41,6 @@
     <Target Name="Project3:Make">
         <MSBuild Projects="Project3.dproj" Targets="Make"/>
     </Target>
-    <Target Name="backyard">
-        <MSBuild Projects="backyard\backyard.dproj"/>
-    </Target>
-    <Target Name="backyard:Clean">
-        <MSBuild Projects="backyard\backyard.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="backyard:Make">
-        <MSBuild Projects="backyard\backyard.dproj" Targets="Make"/>
-    </Target>
     <Target Name="pwa">
         <MSBuild Projects="pwa.dproj"/>
     </Target>
@@ -59,14 +50,23 @@
     <Target Name="pwa:Make">
         <MSBuild Projects="pwa.dproj" Targets="Make"/>
     </Target>
+    <Target Name="mobile">
+        <MSBuild Projects="mobile.dproj"/>
+    </Target>
+    <Target Name="mobile:Clean">
+        <MSBuild Projects="mobile.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mobile:Make">
+        <MSBuild Projects="mobile.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Project1;Project3;backyard;pwa"/>
+        <CallTarget Targets="Project1;Project3;pwa;mobile"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Project1:Clean;Project3:Clean;backyard:Clean;pwa:Clean"/>
+        <CallTarget Targets="Project1:Clean;Project3:Clean;pwa:Clean;mobile:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Project1:Make;Project3:Make;backyard:Make;pwa:Make"/>
+        <CallTarget Targets="Project1:Make;Project3:Make;pwa:Make;mobile:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

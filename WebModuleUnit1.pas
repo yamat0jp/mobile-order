@@ -70,7 +70,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 {$R *.dfm}
 
-uses System.JSON, System.IOUtils, System.NetEncoding, Data, Vcl.Graphics, info;
+uses System.JSON, System.IOUtils, System.NetEncoding, webData, Vcl.Graphics, info;
 
 function TWebModule1.BlobImageString(DataSet: TDataSet): string;
 var
@@ -222,6 +222,7 @@ procedure TWebModule1.WebModule1WebActionItem5Action(Sender: TObject;
 var
   JSON: TJSONObject;
   tableID: integer;
+  i: integer;
 begin
   JSON := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
   try
@@ -231,9 +232,10 @@ begin
     while not FDTable2.Eof do
     begin
       FDTable2.Edit;
-      if FDTable2.FieldByName('status').AsInteger = 0 then
+      i := FDTable2.FieldByName('status').AsInteger;
+      if i = 0 then
         FDTable2.FieldByName('status').AsInteger := 3
-      else
+      else if i = 1 then
         FDTable2.FieldByName('status').AsInteger := Ord(TOrderStatus.billing);
       FDTable2.Post;
       FDTable2.Next;

@@ -203,9 +203,8 @@ object Form1: TForm1
       'Database=mydb'
       'User_Name=yamat'
       'CharacterSet=UTF8'
-      'Server=127.0.0.1'
+      'Server=192.168.68.54'
       'DriverID=PG')
-    Connected = True
     Left = 552
     Top = 256
   end
@@ -226,7 +225,6 @@ object Form1: TForm1
     Top = 184
   end
   object FDTable1: TFDTable
-    Active = True
     IndexFieldNames = 'tableid'
     Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
@@ -260,7 +258,6 @@ object Form1: TForm1
     end
   end
   object FDTable2: TFDTable
-    Active = True
     IndexFieldNames = 'id'
     MasterSource = DataSource1
     MasterFields = 'id'
