@@ -83,6 +83,7 @@ begin
     procedure(mr: TModalResult)
     begin
       WebHttpRequest1.Execute;
+      WebHttpRequest2.Execute;
     end);
 end;
 

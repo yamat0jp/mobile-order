@@ -25,10 +25,6 @@ Coordinates=436,668,76,33
 [FDTable2comment]
 Coordinates=632,1,106,33
 
-[Grid1]
-Coordinates=210,250,41,51
-Visible=True
-
 [Timer1]
 Coordinates=377,668,48,33
 
@@ -57,8 +53,7 @@ Coordinates=632,166,90,33
 Coordinates=632,221,85,33
 
 [FDQuery1]
-Coordinates=270,290,63,33
-Visible=False
+Coordinates=503,220,63,51
 
 [FDTable2]
 Coordinates=10,10,60,213
@@ -112,10 +107,6 @@ Coordinates=596,276,81,33
 Coordinates=10,276,46,51
 
 []
-Coordinates=394,206,92,69
-Visible=False
-
-[BindingsList1]
 Coordinates=417,353,82,33
 Visible=True
 
@@ -132,6 +123,15 @@ Visible=True
 [Button4]
 Coordinates=89,206,53,51
 
-[BindSourceDB1]
-Coordinates=270,290,92,69
+[StyleBook1]
+Coordinates=435,408,70,33
+
+[ActionList1]
+Coordinates=356,418,70,33
+
+[Action1]
+Coordinates=297,418,52,33
+
+[StringGrid1]
+Coordinates=245,258,70,51
 

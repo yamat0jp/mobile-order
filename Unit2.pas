@@ -76,6 +76,7 @@ begin
     order.AddPair('status', Ord(TOrderStatus.billing));
     WebHttpRequest1.PostData := order.ToString;
     WebHttpRequest1.Execute;
+    List.Clear;
   finally
     order.Free;
   end;
