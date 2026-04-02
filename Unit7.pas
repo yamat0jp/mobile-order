@@ -369,6 +369,7 @@ begin
     end;
     Panel1.Visible := true;;
     StringGrid1.Visible := true;
+    StringGrid1.ReadOnly:=true;
     ListBox3.Visible := true;
   end
   else if RadioButton3.IsChecked then
@@ -376,6 +377,7 @@ begin
     FDTable1.IndexFieldNames := 'timedata';
     FDTable1.Filtered := false;
     StringGrid1.Visible := true;
+    StringGrid1.ReadOnly:=false;
     Panel3.Visible := true;
     Timer1.Enabled := false;
   end;
