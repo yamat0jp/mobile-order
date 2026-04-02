@@ -85,6 +85,7 @@ begin
   form.ShowModal(
     procedure(mr: TModalResult)
     begin
+      WebHttpRequest2.PostData:=tableID.ToString;
       WebHttpRequest1.Execute;
       WebHttpRequest2.Execute;
     end);

@@ -11518,6 +11518,7 @@ object Form5: TForm5
     Height = 23
     TabOrder = 4
     Text = '979'
+    OnChange = Edit5Change
   end
   object BindSourceDB1: TBindSourceDB
     DataSet = DataModule3.FDTable1

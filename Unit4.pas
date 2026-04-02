@@ -78,7 +78,6 @@ begin
     data.Free;
   end;
   WebHttpRequest1.Execute;
-  ModalResult := mrOK;
 end;
 
 procedure TForm3.WebButton2Click(Sender: TObject);
@@ -110,10 +109,8 @@ end;
 
 procedure TForm3.WebHttpRequest1Response(Sender: TObject; AResponse: string);
 begin
-  Form1.WebHttpRequest2.PostData := tableID.ToString;
-  Form1.WebHttpRequest2.Execute;
+  ModalResult := mrOK;
   Showmessage(AResponse);
-  Form1.WebHttpRequest1.Execute;
   Close;
 end;
 

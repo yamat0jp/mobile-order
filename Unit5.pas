@@ -48,6 +48,7 @@ type
     Label7: TLabel;
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Edit5Change(Sender: TObject);
   private
     { Private 宣言 }
   public
@@ -91,6 +92,14 @@ end;
 procedure TForm5.Button2Click(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TForm5.Edit5Change(Sender: TObject);
+begin
+  if Edit5.Text = '0' then
+    Edit5.Color:=clActiveCaption
+  else
+    Edit5.Color:=clWindow;
 end;
 
 end.
