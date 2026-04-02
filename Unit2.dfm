@@ -1,5 +1,5 @@
 object Form2: TForm2
-  Width = 743
+  Width = 805
   Height = 690
   ElementClassName = 'topbar'
   Font.Charset = DEFAULT_CHARSET
@@ -12,7 +12,7 @@ object Form2: TForm2
   OnDestroy = WebFormDestroy
   OnShow = WebFormShow
   object WebPanel2: TWebPanel
-    Left = 385
+    Left = 447
     Top = 0
     Width = 358
     Height = 690
@@ -46,7 +46,7 @@ object Form2: TForm2
         WidthPercent = 100.000000000000000000
       end
       object CashButton: TWebButton
-        Left = 200
+        Left = 208
         Top = 64
         Width = 96
         Height = 25
@@ -127,7 +127,7 @@ object Form2: TForm2
   object WebScrollBox1: TWebScrollBox
     Left = 0
     Top = 0
-    Width = 385
+    Width = 447
     Height = 690
     Align = alClient
     BorderStyle = bsSingle
@@ -135,7 +135,7 @@ object Form2: TForm2
     object WebListControl1: TWebListControl
       Left = 0
       Top = 0
-      Width = 385
+      Width = 447
       Height = 690
       ElementClassName = 'list-group'
       HeightPercent = 100.000000000000000000
@@ -148,7 +148,7 @@ object Form2: TForm2
     end
   end
   object WebPanel5: TWebPanel
-    Left = 304
+    Left = 376
     Top = 272
     Width = 150
     Height = 60
@@ -160,7 +160,7 @@ object Form2: TForm2
     Command = httpPOST
     Headers.Strings = (
       'Content-Type:application/json')
-    URL = 'http://192.168.68.54:8080/checkout'
+    URL = 'http://localhost:8080/checkout'
     OnResponse = WebHttpRequest1Response
     Left = 360
     Top = 392

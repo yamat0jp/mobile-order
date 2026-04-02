@@ -3,10 +3,10 @@
         <ProjectGuid>{16F20B4B-31FB-44E5-B55B-FC2CB3283453}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="Project1.dproj">
+        <Projects Include="server.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Project3.dproj">
+        <Projects Include="menu.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="pwa.dproj">
@@ -23,23 +23,23 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="Project1">
-        <MSBuild Projects="Project1.dproj"/>
+    <Target Name="server">
+        <MSBuild Projects="server.dproj"/>
     </Target>
-    <Target Name="Project1:Clean">
-        <MSBuild Projects="Project1.dproj" Targets="Clean"/>
+    <Target Name="server:Clean">
+        <MSBuild Projects="server.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Project1:Make">
-        <MSBuild Projects="Project1.dproj" Targets="Make"/>
+    <Target Name="server:Make">
+        <MSBuild Projects="server.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Project3">
-        <MSBuild Projects="Project3.dproj"/>
+    <Target Name="menu">
+        <MSBuild Projects="menu.dproj"/>
     </Target>
-    <Target Name="Project3:Clean">
-        <MSBuild Projects="Project3.dproj" Targets="Clean"/>
+    <Target Name="menu:Clean">
+        <MSBuild Projects="menu.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Project3:Make">
-        <MSBuild Projects="Project3.dproj" Targets="Make"/>
+    <Target Name="menu:Make">
+        <MSBuild Projects="menu.dproj" Targets="Make"/>
     </Target>
     <Target Name="pwa">
         <MSBuild Projects="pwa.dproj"/>
@@ -60,13 +60,13 @@
         <MSBuild Projects="mobile.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Project1;Project3;pwa;mobile"/>
+        <CallTarget Targets="server;menu;pwa;mobile"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Project1:Clean;Project3:Clean;pwa:Clean;mobile:Clean"/>
+        <CallTarget Targets="server:Clean;menu:Clean;pwa:Clean;mobile:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Project1:Make;Project3:Make;pwa:Make;mobile:Make"/>
+        <CallTarget Targets="server:Make;menu:Make;pwa:Make;mobile:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

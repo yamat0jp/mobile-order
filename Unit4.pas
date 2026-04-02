@@ -1,4 +1,4 @@
-unit Unit4;
+Ôªøunit Unit4;
 
 interface
 
@@ -48,6 +48,9 @@ implementation
 
 uses WEBLib.JSON, main;
 
+var
+  min: integer;
+
 constructor TForm3.Create(Sender: TComponent; AOrder: TOrderData);
 begin
   inherited Create(Sender);
@@ -68,7 +71,7 @@ begin
     data.AddPair('userID', main.tableID);
     data.AddPair('id', Order.Id);
     data.AddPair('qty', Order.qty);
-    data.AddPair('count', Order.count-Order.qty);
+    data.AddPair('count', Order.count - Order.qty);
     Hide;
     WebHttpRequest1.PostData := data.ToString;
   finally
@@ -88,11 +91,13 @@ procedure TForm3.WebFormShow(Sender: TObject);
 begin
   WebLabel1.Caption := Order.name;
   WebLabel2.Caption := Order.comment;
-  WebLabel3.Caption := Order.price.ToString;
+  WebLabel3.Caption := Order.price.ToString + ' ÂÜÜ';
   WebSpinEdit1.Value := Order.qty;
+  min := Order.qty;
   WebImageControl1.URL := Order.ImageBase64;
-  WebLabel5.Caption := TotalCost.ToString;
+  WebLabel5.Caption := TotalCost.ToString + ' ÂÜÜ';
   WebSpinEdit1Change(nil);
+  WebHttpRequest1.URL:='http://'+main.server+'/order';
 end;
 
 procedure TForm3.WebHttpRequest1Error(Sender: TObject;
@@ -100,7 +105,7 @@ procedure TForm3.WebHttpRequest1Error(Sender: TObject;
   var Handled: Boolean);
 begin
   WebButton2Click(Sender);
-  Showmessage('í êMÉGÉâÅ[');
+  Showmessage('ÈÄö‰ø°„Ç®„É©„Éº');
 end;
 
 procedure TForm3.WebHttpRequest1Response(Sender: TObject; AResponse: string);
@@ -113,23 +118,25 @@ end;
 
 procedure TForm3.WebHttpRequest1Timeout(Sender: TObject);
 begin
-  Showmessage('ÉGÉâÅ[ÅF ç¨éGíÜ');
+  Showmessage('„Ç®„É©„ÉºÔºö Ê∑∑Èõë‰∏≠');
   ModalResult := mrCancel;
   Close;
 end;
 
 procedure TForm3.WebSpinEdit1Change(Sender: TObject);
 begin
+  if WebSpinEdit1.Value < min then
+    WebSpinEdit1.Value := min;
   Order.qty := WebSpinEdit1.Value;
-  WebLabel5.Caption := TotalCost.ToString;
+  WebLabel5.Caption := TotalCost.ToString + ' ÂÜÜ';
   if Order.count - Order.qty < 0 then
   begin
-    WebButton1.Caption := 'ïiêÿÇÍ';
+    WebButton1.Caption := 'ÂìÅÂàá„Çå';
     WebButton1.Enabled := false;
   end
   else
   begin
-    WebButton1.Caption := 'åàíË';
+    WebButton1.Caption := 'Ê±∫ÂÆö';
     WebButton1.Enabled := true;
   end;
 end;

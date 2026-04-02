@@ -1,4 +1,4 @@
-unit Unit7;
+ï»¿unit Unit7;
 
 interface
 
@@ -45,7 +45,6 @@ type
     FDTable1orderid: TIntegerField;
     FDTable1id: TIntegerField;
     FDTable1qty: TIntegerField;
-    FDTable1timedata: TSQLTimeStampField;
     FDTable1status: TIntegerField;
     FDQuery1: TFDQuery;
     Timer1: TTimer;
@@ -81,6 +80,7 @@ type
     FDQuery2: TFDQuery;
     Panel3: TPanel;
     Button5: TButton;
+    FDTable1timedata: TWideMemoField;
     procedure RadioButton1Change(Sender: TObject);
     procedure Timer2Timer(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -100,10 +100,10 @@ type
       const ACol, ARow: integer);
     procedure Button5Click(Sender: TObject);
   private
-    { private éŒ¾ }
+    { private å®£è¨€ }
     procedure ListItemClear(AList: TListBox);
   public
-    { public éŒ¾ }
+    { public å®£è¨€ }
   end;
 
 var
@@ -129,7 +129,7 @@ end;
 
 procedure TForm7.Action2Execute(Sender: TObject);
 const
-  fmt = '%d ”Ôƒe[ƒuƒ‹ %s x%d';
+  fmt = '%d ç•ªãƒ†ãƒ¼ãƒ–ãƒ« %s x%d';
 var
   local: TLocalClass;
   item: TListBoxItem;
@@ -242,10 +242,10 @@ begin
     FDTable1.First;
     while not FDTable1.Eof do
       FDTable1.Delete;
-    Showmessage('I—¹. ‚¨‚Â‚©‚ê‚³‚Ü‚Å‚µ‚½.');
+    Showmessage('çµ‚äº†. ãŠã¤ã‹ã‚Œã•ã¾ã§ã—ãŸ.');
   end
   else
-    Showmessage('ƒI[ƒ_[‚âx•¥‚¢ó‘Ô‚ª•s³‚Å‚·');
+    Showmessage('ã‚ªãƒ¼ãƒ€ãƒ¼ã‚„æ”¯æ‰•ã„çŠ¶æ…‹ãŒä¸æ­£ã§ã™');
   FDQuery1.Close;
   Action1.Execute;
 end;
@@ -309,7 +309,7 @@ begin
     inc(total, local.count * local.price);
     local.Free;
   end;
-  Button1.Text := total.ToString + ' ‰~';
+  Button1.Text := total.ToString + ' å††';
   ListBox3.Items.Add('----------------------');
   ListBox3.Items.Add(Button1.Text);
 end;
@@ -427,7 +427,7 @@ begin
   end;
   FDQuery1.Open;
   if FDQuery1.Fields[0].AsInteger > cnt then
-    Button2.Text := 'XV'
+    Button2.Text := 'æ›´æ–°'
   else
     Button2.Text := '';
   FDQuery1.Close;

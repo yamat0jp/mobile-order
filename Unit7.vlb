@@ -97,9 +97,6 @@ Coordinates=142,276,46,51
 [FDTable1]
 Coordinates=540,10,60,159
 
-[FDTable1timedata]
-Coordinates=632,661,103,33
-
 [RadioButton1]
 Coordinates=596,276,81,33
 
@@ -107,7 +104,7 @@ Coordinates=596,276,81,33
 Coordinates=10,276,46,51
 
 []
-Coordinates=417,353,82,33
+Coordinates=632,661,103,33
 Visible=True
 
 [Button3]

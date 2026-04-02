@@ -1,4 +1,4 @@
-unit WebModuleUnit1;
+ï»¿unit WebModuleUnit1;
 
 interface
 
@@ -41,8 +41,8 @@ type
     FDTable2orderid: TIntegerField;
     FDTable2id: TIntegerField;
     FDTable2qty: TIntegerField;
-    FDTable2timedata: TSQLTimeStampField;
     FDTable2status: TIntegerField;
+    FDTable2timedata: TWideMemoField;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;
@@ -55,11 +55,10 @@ type
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleCreate(Sender: TObject);
   private
-    { private éŒ¾ }
+    { private å®£è¨€ }
     function BlobImageString(DataSet: TDataSet): string;
-    function InOrder(id: integer): Boolean;
   public
-    { public éŒ¾ }
+    { public å®£è¨€ }
   end;
 
 var
@@ -70,7 +69,8 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 {$R *.dfm}
 
-uses System.JSON, System.IOUtils, System.NetEncoding, webData, Vcl.Graphics, info;
+uses System.JSON, System.IOUtils, System.NetEncoding, webData, Vcl.Graphics,
+  info;
 
 function TWebModule1.BlobImageString(DataSet: TDataSet): string;
 var
@@ -87,19 +87,6 @@ begin
   finally
     blob.Free;
   end;
-end;
-
-function TWebModule1.InOrder(id: integer): Boolean;
-begin
-  FDTable2.Filter := 'tableID = ' + id.ToString;
-  FDTable2.First;
-  while not FDTable2.Eof do
-  begin
-    if FDTable2.FieldByName('status').AsInteger = Ord(TOrderStatus.pending) then
-      Exit(false);
-    FDTable2.Next;
-  end;
-  Result := true;
 end;
 
 procedure TWebModule1.WebModule1DefaultHandlerAction(Sender: TObject;
@@ -149,13 +136,13 @@ end;
 procedure TWebModule1.WebModule1WebActionItem2Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
-  order: TOrderData;
-  JSON, Data: TJSONObject;
+  order: TAdvanceData;
+  JSON: TJSONObject;
   arr: TJSONArray;
 begin
   FDTable2.Filter := 'status < 2 and tableID = ' + Request.Content;
   JSON := TJSONObject.Create;
-  order := TOrderData.Create;
+  order := TAdvanceData.Create;
   try
     arr := TJSONArray.Create;
     FDTable2.First;
@@ -166,9 +153,8 @@ begin
       order.price := FDTable3.FieldByName('price').AsInteger;
       order.comment := FDTable3.FieldByName('comment').AsString;
       order.ImageBase64 := BlobImageString(FDTable3);
-      Data := order.toJson;
-      Data.AddPair('time', FDTable2.FieldByName('timedata').AsString);
-      arr.Add(Data);
+      order.time := FDTable2.FieldByName('timedata').AsString;
+      arr.Add(order.toJson);
       FDTable2.Next;
     end;
     JSON.AddPair('items', arr);
@@ -196,7 +182,7 @@ begin
       FDTable1.Edit;
       FDTable1.FieldByName('cnt').AsInteger := JSON.GetValue<integer>('count');
       FDTable1.Post;
-      Response.Content := '’•¶‚µ‚Ü‚µ‚½';
+      Response.Content := 'æ³¨æ–‡ã—ã¾ã—ãŸ';
 
       FDTable2.Append;
       FDTable2.FieldByName('id').AsInteger := FDTable1.FieldByName('id')
@@ -210,7 +196,7 @@ begin
       FDTable2.Post;
     end
     else
-      Response.Content := 'ƒGƒ‰[F ƒXƒ^ƒbƒt‚É‚¨º‚ª‚¯‚­‚¾‚³‚¢';
+      Response.Content := 'ã‚¨ãƒ©ãƒ¼ï¼š ã‚¹ã‚¿ãƒƒãƒ•ã«ãŠå£°ãŒã‘ãã ã•ã„';
   finally
     JSON.Free;
     FDTable1.Filtered := true;
@@ -243,7 +229,7 @@ begin
   finally
     JSON.Free;
   end;
-  Response.Content := '‰ïŒvˆ—‚ª‚Å‚«‚Ü‚µ‚½';
+  Response.Content := 'ä¼šè¨ˆå‡¦ç†ãŒã§ãã¾ã—ãŸ';
 end;
 
 procedure TWebModule1.WebModuleBeforeDispatch(Sender: TObject;

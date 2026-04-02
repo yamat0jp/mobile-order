@@ -3190,10 +3190,10 @@ object Form7: TForm7
       FieldName = 'qty'
       Origin = 'qty'
     end
-    object FDTable1timedata: TSQLTimeStampField
+    object FDTable1timedata: TWideMemoField
       FieldName = 'timedata'
       Origin = 'timedata'
-      ProviderFlags = [pfInUpdate]
+      BlobType = ftWideMemo
     end
     object FDTable1status: TIntegerField
       FieldName = 'status'
@@ -3207,7 +3207,7 @@ object Form7: TForm7
       
         'create table kitchen(tableID integer, orderID serial PRIMARY KEY' +
         ', '
-      '  id integer, qty integer, timedata timestamp, status integer);')
+      '  id integer, qty integer, timedata text, status integer);')
     Left = 888
     Top = 208
   end

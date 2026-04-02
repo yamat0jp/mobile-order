@@ -28,7 +28,7 @@ object Form3: TForm3
     end
     object WebButton1: TWebButton
       Left = 32
-      Top = 316
+      Top = 323
       Width = 113
       Height = 37
       Caption = #27770#23450
@@ -113,7 +113,7 @@ object Form3: TForm3
     Headers.Strings = (
       'Content-Type=application/json')
     Timeout = 3500
-    URL = 'http://192.168.68.54:8080/order'
+    URL = 'http://localhost:8080/order'
     OnError = WebHttpRequest1Error
     OnResponse = WebHttpRequest1Response
     OnTimeout = WebHttpRequest1Timeout

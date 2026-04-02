@@ -1,7 +1,7 @@
 object Form2: TForm2
   Left = 271
   Top = 114
-  Caption = 'Form2'
+  Caption = 'mobile order server'
   ClientHeight = 235
   ClientWidth = 399
   Color = clBtnFace

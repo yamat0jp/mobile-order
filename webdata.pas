@@ -1,4 +1,4 @@
-unit webdata;
+﻿unit webdata;
 
 interface
 
@@ -8,7 +8,6 @@ uses
 {$ELSE}
   System.JSON;
 {$ENDIF}
-
 
 type
   TOrderData = class
@@ -22,8 +21,8 @@ type
     FComment: string;
     FCount: integer;
   public
-    constructor Create(AJson: TJSONObject); overload;
-    function toJson: TJSONObject;
+    constructor Create(AJson: TJSONObject); overload; virtual;
+    function toJson: TJSONObject; virtual;
     procedure Assign(AData: TOrderData); virtual;
     property Id: integer read FId write FId;
     property name: string read FName write FName;
@@ -39,7 +38,8 @@ type
   private
     FTime: string;
   public
-    constructor Create(AJson: TJSONObject);
+    constructor Create(AJson: TJSONObject); override;
+    function toJson: TJSONObject; override;
     procedure Assign(AData: TOrderData); override;
     property time: string read FTime write FTime;
   end;
@@ -92,13 +92,19 @@ procedure TAdvanceData.Assign(AData: TOrderData);
 begin
   inherited;
   if AData is TAdvanceData then
-    FTime:=TAdvanceData(AData).time;
+    FTime := TAdvanceData(AData).time;
 end;
 
 constructor TAdvanceData.Create(AJson: TJSONObject);
 begin
   inherited;
-  FTime:=AJSon.Values['time'].Value;
+  FTime := AJson.GetValue('time').Value;
+end;
+
+function TAdvanceData.toJson: TJSONObject;
+begin
+  result:=inherited;
+  result.AddPair('time', FTime);
 end;
 
 end.

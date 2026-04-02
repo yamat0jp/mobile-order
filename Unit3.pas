@@ -1,4 +1,4 @@
-unit Unit3;
+﻿unit Unit3;
 
 interface
 
@@ -28,9 +28,9 @@ type
     FDTable1image: TBlobField;
     procedure FDTable1BeforePost(DataSet: TDataSet);
   private
-    { Private �錾 }
+    { Private 宣言 }
   public
-    { Public �錾 }
+    { Public 宣言 }
   end;
 
 var

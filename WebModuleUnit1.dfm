@@ -34,14 +34,12 @@ object WebModule1: TWebModule1
       'Database=mydb'
       'User_Name=yamat'
       'CharacterSet=UTF8'
-      'Server=127.0.0.1'
       'DriverID=PG')
     Connected = True
     Left = 160
     Top = 40
   end
   object FDTable1: TFDTable
-    Active = True
     Filtered = True
     Filter = 'category = '#39'popular'#39
     IndexFieldNames = 'id'
@@ -84,7 +82,6 @@ object WebModule1: TWebModule1
     end
   end
   object FDTable3: TFDTable
-    Active = True
     IndexFieldNames = 'id'
     MasterSource = DataSource1
     MasterFields = 'id'
@@ -165,10 +162,10 @@ object WebModule1: TWebModule1
       FieldName = 'qty'
       Origin = 'qty'
     end
-    object FDTable2timedata: TSQLTimeStampField
+    object FDTable2timedata: TWideMemoField
       FieldName = 'timedata'
       Origin = 'timedata'
-      ProviderFlags = [pfInUpdate]
+      BlobType = ftWideMemo
     end
     object FDTable2status: TIntegerField
       FieldName = 'status'

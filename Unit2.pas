@@ -1,4 +1,4 @@
-unit Unit2;
+Ôªøunit Unit2;
 
 interface
 
@@ -90,7 +90,7 @@ end;
 
 procedure TForm2.WebFormCreate(Sender: TObject);
 const
-  detail = '%s x %d  Åè%d :: %s';
+  detail = '%s x %d  Ôø•%d :: %s';
 var
   I: integer;
   order: TAdvanceData;
@@ -127,6 +127,7 @@ begin
     WebListControl1ItemClick(nil, WebListControl1.Items[0]);
   end;
   WebLabel5.Caption := GetTotalPrice.ToString;
+  WebHttpRequest1.URL:='http://'+main.server+'/checkout';
 end;
 
 procedure TForm2.WebHttpRequest1Response(Sender: TObject; AResponse: string);
@@ -148,7 +149,7 @@ begin
       order := List[I];
       WebLabel1.Caption := order.name;
       WebLabel2.Caption := order.comment;
-      WebLabel6.Caption := order.price.ToString;
+      WebLabel6.Caption := order.price.ToString+' ÂÜÜ';
       WebImageControl1.URL := order.ImageBase64;
     end;
 end;

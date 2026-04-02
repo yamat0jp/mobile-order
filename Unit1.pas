@@ -1,4 +1,4 @@
-unit Unit1;
+ï»¿unit Unit1;
 
 interface
 
@@ -21,9 +21,9 @@ type
   private
     FOnOrder: TNotifyEvent;
     FOrder: TOrderData;
-    { Private éŒ¾ }
+    { Private å®£è¨€ }
   public
-    { Public éŒ¾ }
+    { Public å®£è¨€ }
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure RegisterItem(AData: TOrderData);
@@ -54,17 +54,17 @@ begin
   FOrder.Assign(AData);
   WebLabel1.Caption := AData.name;
   WebLabel2.Caption := AData.comment;
-  WebLabel3.Caption := AData.price.ToString;
+  WebLabel3.Caption := AData.price.ToString + ' å††';
   WebImageControl1.URL := AData.ImageBase64;
   if AData.count >= AData.qty then
   begin
-    WebLabel4.Caption := '”Ì”„’†';
+    WebLabel4.Caption := 'è²©å£²ä¸­';
     WebButton1.Enabled := true;
     OnOrder := @Form1.Order;
   end
   else
   begin
-    WebLabel4.Caption := '”„‚èØ‚ê';
+    WebLabel4.Caption := 'å£²ã‚Šåˆ‡ã‚Œ';
     WebButton1.Enabled := false;
   end;
 end;

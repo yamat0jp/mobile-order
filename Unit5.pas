@@ -1,4 +1,4 @@
-unit Unit5;
+﻿unit Unit5;
 
 interface
 
@@ -45,12 +45,13 @@ type
     Label5: TLabel;
     Label6: TLabel;
     LinkPropertyToField1: TLinkPropertyToField;
+    Label7: TLabel;
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
   private
-    { Private �錾 }
+    { Private 宣言 }
   public
-    { Public �錾 }
+    { Public 宣言 }
   end;
 
 var
