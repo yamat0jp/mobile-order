@@ -126,7 +126,7 @@ begin
     WebPanel5.Visible := false;
     WebListControl1ItemClick(nil, WebListControl1.Items[0]);
   end;
-  WebLabel5.Caption := GetTotalPrice.ToString;
+  WebLabel5.Caption := GetTotalPrice.ToString+ ' 円';
   WebHttpRequest1.URL:='http://'+main.server+'/checkout';
 end;
 

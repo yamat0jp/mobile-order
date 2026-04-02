@@ -66,7 +66,7 @@ end;
 
 procedure TForm1.About;
 begin
-  Showmessage('version 0.3.1');
+  Showmessage('version 0.3.1 Beta');
 end;
 
 procedure TForm1.Home;

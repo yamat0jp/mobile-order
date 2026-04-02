@@ -113,6 +113,7 @@ begin
   Form1.WebHttpRequest2.PostData := tableID.ToString;
   Form1.WebHttpRequest2.Execute;
   Showmessage(AResponse);
+  Form1.WebHttpRequest1.Execute;
   Close;
 end;
 
