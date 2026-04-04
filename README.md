@@ -5,3 +5,4 @@ Postgresql10 32bitを使っていますがDelphi12の制約のためです。使
 本当を言うとMac mobile orderよりも先に同様のアプリを発表したかったのですが、それがかなわなかったので一度しゃがんで力をためていこうと思います。
 pwaには設定用のconfig.jsonファイルがついています。ここにあるテーブル番号によってお客様の識別をしています。
 今手作業で設定していくことを考えていますがベストプラクティスがないかAIにも尋ねてみたいところです。
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hKLkVwcr3pg?si=MN-HSY_MBbCHzSgU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
