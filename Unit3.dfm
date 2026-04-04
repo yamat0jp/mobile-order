@@ -66,9 +66,7 @@ object DataModule3: TDataModule3
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'User_Name=yamat'
       'CharacterSet=UTF8'
-      'Server=127.0.0.1'
       'Database=mydb'
       'DriverID=PG')
     Connected = True

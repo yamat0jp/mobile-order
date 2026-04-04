@@ -43,6 +43,7 @@ type
     FDTable2qty: TIntegerField;
     FDTable2status: TIntegerField;
     FDTable2timedata: TWideMemoField;
+    FDQuery1: TFDQuery;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;

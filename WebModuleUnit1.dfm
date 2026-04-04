@@ -32,7 +32,6 @@ object WebModule1: TWebModule1
   object FDConnection1: TFDConnection
     Params.Strings = (
       'Database=mydb'
-      'User_Name=yamat'
       'CharacterSet=UTF8'
       'DriverID=PG')
     Connected = True
@@ -40,6 +39,7 @@ object WebModule1: TWebModule1
     Top = 40
   end
   object FDTable1: TFDTable
+    Active = True
     Filtered = True
     Filter = 'category = '#39'popular'#39
     IndexFieldNames = 'id'
@@ -82,6 +82,7 @@ object WebModule1: TWebModule1
     end
   end
   object FDTable3: TFDTable
+    Active = True
     IndexFieldNames = 'id'
     MasterSource = DataSource1
     MasterFields = 'id'
@@ -137,6 +138,7 @@ object WebModule1: TWebModule1
     Top = 120
   end
   object FDTable2: TFDTable
+    Active = True
     Filtered = True
     Filter = 'status <> 2'
     IndexFieldNames = 'orderID'
@@ -171,5 +173,16 @@ object WebModule1: TWebModule1
       FieldName = 'status'
       Origin = 'status'
     end
+  end
+  object FDQuery1: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      '    '
+      
+        'create table kitchen(tableID integer, orderID serial PRIMARY KEY' +
+        ',      '
+      '  id integer, qty integer, timedata text, status integer);')
+    Left = 280
+    Top = 40
   end
 end
