@@ -133,6 +133,10 @@
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="webdata.pas"/>
+        <DCCReference Include="OKCANCL2.pas">
+            <Form>OKRightDlg</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

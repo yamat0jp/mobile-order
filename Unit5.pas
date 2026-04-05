@@ -14,7 +14,7 @@ uses
   Vcl.ExtCtrls, FireDAC.Comp.Client, Data.DB, FireDAC.Comp.DataSet,
   Data.Bind.Components, Data.Bind.DBScope, Data.Bind.EngExt, Vcl.Bind.DBEngExt,
   Vcl.Mask, Vcl.DBCtrls, Vcl.Buttons, System.Rtti, System.Bindings.Outputs,
-  Vcl.Bind.Editors, Vcl.Imaging.pngimage;
+  Vcl.Bind.Editors, Vcl.Imaging.pngimage, Vcl.Menus;
 
 type
   TForm5 = class(TForm)
@@ -46,9 +46,13 @@ type
     Label6: TLabel;
     LinkPropertyToField1: TLinkPropertyToField;
     Label7: TLabel;
+    MainMenu1: TMainMenu;
+    N1: TMenuItem;
+    N2: TMenuItem;
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Edit5Change(Sender: TObject);
+    procedure N2Click(Sender: TObject);
   private
     { Private 宣言 }
   public
@@ -62,7 +66,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit3, Jpeg;
+uses Unit3, Jpeg, OKCANCL2, Winapi.ShellAPI;
 
 procedure TForm5.Button1Click(Sender: TObject);
 var
@@ -100,6 +104,26 @@ begin
     Edit5.Color:=clActiveCaption
   else
     Edit5.Color:=clWindow;
+end;
+
+procedure TForm5.N2Click(Sender: TObject);
+var
+  min, max: integer;
+  bmp: TBitmap;
+begin
+  if OKRightDlg.ShowModal = mrOK then
+  begin
+    min:=StrToInt(OKRightDlg.Edit1.Text);
+    max:=StrToInt(OKRightDlg.Edit2.Text);
+    bmp:=TBitmap.Create;
+    try
+      Bmp.SetSize(2480, 3508); // A4 300dpi
+      bmp.SaveToFile('A4_Print.png');
+      ShellExecute(0, 'open', PChar('A4_Print.png'), nil, nil, SW_SHOWNORMAL);
+    finally
+      bmp.Free;
+    end;
+  end;
 end;
 
 end.
