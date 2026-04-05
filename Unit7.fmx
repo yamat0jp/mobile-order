@@ -61,6 +61,8 @@ object Form7: TForm7
       TabOrder = 0
     end
     object ComboBox1: TComboBox
+      Items.Strings = (
+        '')
       Position.X = 56.000000000000000000
       Position.Y = 67.000000000000000000
       Size.Width = 177.000000000000000000
@@ -68,10 +70,6 @@ object Form7: TForm7
       Size.PlatformDefault = False
       TabOrder = 1
       OnChange = ComboBox1Change
-      object ListBoxItem1: TListBoxItem
-        TabOrder = 0
-        Text = #12486#12540#12502#12523#30058#21495#12391#36984#25246#12375#12390#12367#12384#12373#12356
-      end
     end
     object Label2: TLabel
       Position.X = 64.000000000000000000
@@ -3103,7 +3101,6 @@ object Form7: TForm7
   object FDConnection1: TFDConnection
     Params.Strings = (
       'Database=mydb'
-      'User_Name=yamat'
       'CharacterSet=utF8'
       'DriverID=PG')
     Connected = True
@@ -3204,6 +3201,9 @@ object Form7: TForm7
     Connection = FDConnection1
     SQL.Strings = (
       'drop table kitchen;'
+      
+        'create table uid(id serial primary key, tableID integer, ip text' +
+        ');'
       
         'create table kitchen(tableID integer, orderID serial PRIMARY KEY' +
         ', '

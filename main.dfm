@@ -463,7 +463,6 @@ object Form1: TForm1
   object WebHttpRequest3: TWebHttpRequest
     Headers.Strings = (
       'Accept=application/json')
-    URL = 'config/config.json'
     OnResponse = WebHttpRequest3Response
     Left = 376
     Top = 472

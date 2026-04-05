@@ -63,7 +63,6 @@ type
     Button2: TButton;
     ListBox3: TListBox;
     Button4: TButton;
-    ListBoxItem1: TListBoxItem;
     StyleBook1: TStyleBook;
     ActionList1: TActionList;
     Action1: TAction;
@@ -119,7 +118,22 @@ const
   SQL = 'select tableid, orderid, item.name, kitchen.qty, timedata, status from kitchen, item where kitchen.id = item.id %s order by orderid asc;';
 
 procedure TForm7.Action1Execute(Sender: TObject);
+var
+  s: string;
 begin
+  ComboBox1.Items.Clear;
+  ComboBox1.Items.Add('テーブル番号で選択してください');
+  ComboBox1.ItemIndex := 0;
+  FDTable1.Filter := 'status = 2';
+  FDTable1.First;
+  while not FDTable1.Eof do
+  begin
+    s := FDTable1.FieldByName('tableID').AsString;
+    if ComboBox1.Items.IndexOf(s) = -1 then
+      ComboBox1.Items.Add(s);
+    FDTable1.Next;
+  end;
+
   if RadioButton1.IsChecked then
     Action2.Execute
   else
@@ -340,7 +354,6 @@ var
 begin
   Panel1.Visible := false;
   ListBox3.Visible := false;
-  ComboBox1.ItemIndex := 0;
 
   Panel2.Visible := false;
   StringGrid1.Visible := false;
@@ -369,7 +382,7 @@ begin
     end;
     Panel1.Visible := true;;
     StringGrid1.Visible := true;
-    StringGrid1.ReadOnly:=true;
+    StringGrid1.ReadOnly := true;
     ListBox3.Visible := true;
   end
   else if RadioButton3.IsChecked then
@@ -377,7 +390,7 @@ begin
     FDTable1.IndexFieldNames := 'timedata';
     FDTable1.Filtered := false;
     StringGrid1.Visible := true;
-    StringGrid1.ReadOnly:=false;
+    StringGrid1.ReadOnly := false;
     Panel3.Visible := true;
     Timer1.Enabled := false;
   end;

@@ -66,7 +66,7 @@ end;
 
 procedure TForm1.About;
 begin
-  Showmessage('version 0.3.1 Beta');
+  Showmessage('version 0.4.0 Beta');
 end;
 
 procedure TForm1.Home;
@@ -85,7 +85,7 @@ begin
   form.ShowModal(
     procedure(mr: TModalResult)
     begin
-      WebHttpRequest2.PostData:=tableID.ToString;
+      WebHttpRequest2.PostData := tableID.ToString;
       WebHttpRequest1.Execute;
       WebHttpRequest2.Execute;
     end);
@@ -122,8 +122,9 @@ begin
   document.getElementById('menuHome').addEventListener('click', @Home);
   document.getElementById('menuAbout').addEventListener('click', @About);
 
-  WebHttpRequest1.URL:='http://'+server+'/?category=popular';
-  WebHttpRequest2.URL:='http://'+server+'/download';
+  WebHttpRequest1.URL := 'http://' + server + '/?category=popular';
+  WebHttpRequest2.URL := 'http://' + server + '/download';
+  WebHttpRequest3.URL := 'http://' + server + '/uid';
   WebHttpRequest3.Execute;
 end;
 
@@ -191,19 +192,10 @@ begin
 end;
 
 procedure TForm1.WebHttpRequest3Response(Sender: TObject; AResponse: string);
-var
-  JSON: TJSONObject;
 begin
-  JSON := TJSONObject.ParseJSONValue(AResponse) as TJSONObject;
-  try
-    tableID := (JSON.GetValue('tableID') as TJSONNumber).asInt;
-  finally
-    JSON.Free;
-  end;
-  WebHttpRequest2.PostData := tableID.toString;
   WebHttpRequest1.Execute;
   WebHttpRequest2.Execute;
-  WebLabel1.Caption := Format('"%.2d" 番テーブル', [tableID]);
+  WebLabel1.Caption := Format('"%.3d" 番テーブル', [AResponse.ToInteger]);
 end;
 
 procedure TForm1.WebPanel1Click(Sender: TObject);
@@ -211,13 +203,13 @@ var
   URL: string;
 begin
   if Sender = WebPanel1 then
-    URL := 'http://'+server+'/?category=drink'
+    URL := 'http://' + server + '/?category=drink'
   else if Sender = WebPanel2 then
-    URL := 'http://'+server+'/?category=setmenu'
+    URL := 'http://' + server + '/?category=setmenu'
   else if Sender = WebPanel3 then
-    URL := 'http://'+server+'/?category=popular'
+    URL := 'http://' + server + '/?category=popular'
   else if Sender = WebPanel4 then
-    URL := 'http://'+server+'/?category=softdrink';
+    URL := 'http://' + server + '/?category=softdrink';
   WebHttpRequest1.URL := URL;
   WebWaitMessage1.Show;
   WebHttpRequest1.Execute;

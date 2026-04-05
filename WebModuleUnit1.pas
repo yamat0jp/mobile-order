@@ -43,6 +43,10 @@ type
     FDTable2qty: TIntegerField;
     FDTable2status: TIntegerField;
     FDTable2timedata: TWideMemoField;
+    FDTable4: TFDTable;
+    FDTable4id: TIntegerField;
+    FDTable4tableid: TIntegerField;
+    FDTable4ip: TWideMemoField;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;
@@ -54,6 +58,8 @@ type
     procedure WebModule1WebActionItem2Action(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleCreate(Sender: TObject);
+    procedure WebModule1WebActionItem1Action(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
   private
     { private 宣言 }
     function BlobImageString(DataSet: TDataSet): string;
@@ -70,7 +76,10 @@ implementation
 {$R *.dfm}
 
 uses System.JSON, System.IOUtils, System.NetEncoding, webData, Vcl.Graphics,
-  info;
+  info, System.Variants;
+
+const
+  appurl = 'https://react-firebase-9329b.web.app/pwa.html';
 
 function TWebModule1.BlobImageString(DataSet: TDataSet): string;
 var
@@ -133,6 +142,38 @@ begin
   end;
 end;
 
+procedure TWebModule1.WebModule1WebActionItem1Action(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+var
+  s: string;
+  ip: string;
+  id: integer;
+  v: Variant;
+begin
+  s := Request.QueryFields.Values['table'];
+  if s = '' then
+  begin
+    v := FDTable4.Lookup('ip', Request.RemoteIP, 'tableID');
+    if not VarIsNull(v) then
+      Response.Content := v;
+  end
+  else
+  begin
+    id := s.ToInteger;
+    ip := Request.RemoteIP;
+    if not FDTable4.Locate('ip', ip) then
+      FDTable4.AppendRecord([nil, id, ip])
+    else
+    begin
+      FDTable4.Edit;
+      FDTable4.FieldByName('tableID').AsInteger := id;
+      FDTable4.Post;
+    end;
+    Response.Content := s;
+    Response.SendRedirect(appurl);
+  end;
+end;
+
 procedure TWebModule1.WebModule1WebActionItem2Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
@@ -140,7 +181,10 @@ var
   JSON: TJSONObject;
   arr: TJSONArray;
 begin
-  FDTable2.Filter := 'status < 2 and tableID = ' + Request.Content;
+  if not FDTable4.Locate('ip', Request.RemoteIP) then
+    Exit;
+  FDTable2.Filter := 'status < 2 and tableID = ' + FDTable4.FieldByName
+    ('tableID').AsString;
   JSON := TJSONObject.Create;
   order := TAdvanceData.Create;
   try
@@ -174,6 +218,8 @@ procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;
 var
   JSON: TJSONObject;
 begin
+  if not FDTable4.Locate('ip', Request.RemoteIP) then
+    Exit;
   JSON := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
   FDTable1.Filtered := false;
   try
@@ -188,7 +234,7 @@ begin
       FDTable2.FieldByName('id').AsInteger := FDTable1.FieldByName('id')
         .AsInteger;
       FDTable2.FieldByName('tableID').AsInteger :=
-        JSON.GetValue<integer>('userID');
+        FDTable4.FieldByName('tableID').AsInteger;
       FDTable2.FieldByName('qty').AsInteger := JSON.GetValue<integer>('qty');
       FDTable2.FieldByName('timedata').AsString :=
         FormatDateTime('hh:nn', GetTime);
@@ -210,9 +256,11 @@ var
   tableID: integer;
   i: integer;
 begin
+  if not FDTable4.Locate('ip', Request.RemoteIP) then
+    Exit;
+  tableID := FDTable2.FieldByName('tableID').AsInteger;
   JSON := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
   try
-    tableID := JSON.GetValue<integer>('userID');
     FDTable2.Filter := 'tableID = ' + tableID.ToString;
     FDTable2.First;
     while not FDTable2.Eof do

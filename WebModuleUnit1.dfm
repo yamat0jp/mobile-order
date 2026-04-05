@@ -25,6 +25,12 @@ object WebModule1: TWebModule1
       Name = 'WebActionItem2'
       PathInfo = '/download'
       OnAction = WebModule1WebActionItem2Action
+    end
+    item
+      MethodType = mtGet
+      Name = 'WebActionItem1'
+      PathInfo = '/uid'
+      OnAction = WebModule1WebActionItem1Action
     end>
   BeforeDispatch = WebModuleBeforeDispatch
   Height = 230
@@ -32,7 +38,6 @@ object WebModule1: TWebModule1
   object FDConnection1: TFDConnection
     Params.Strings = (
       'Database=mydb'
-      'User_Name=yamat'
       'CharacterSet=UTF8'
       'DriverID=PG')
     Connected = True
@@ -170,6 +175,29 @@ object WebModule1: TWebModule1
     object FDTable2status: TIntegerField
       FieldName = 'status'
       Origin = 'status'
+    end
+  end
+  object FDTable4: TFDTable
+    Active = True
+    IndexFieldNames = 'id'
+    Connection = FDConnection1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'uid'
+    Left = 296
+    Top = 40
+    object FDTable4id: TIntegerField
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object FDTable4tableid: TIntegerField
+      FieldName = 'tableid'
+      Origin = 'tableid'
+    end
+    object FDTable4ip: TWideMemoField
+      FieldName = 'ip'
+      Origin = 'ip'
+      BlobType = ftWideMemo
     end
   end
 end

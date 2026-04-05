@@ -72,7 +72,6 @@ var
 begin
   order := TJSONObject.Create;
   try
-    order.AddPair('userID', main.tableID);
     order.AddPair('status', Ord(TOrderStatus.billing));
     WebHttpRequest1.PostData := order.ToString;
     WebHttpRequest1.Execute;
