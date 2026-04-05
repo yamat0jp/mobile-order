@@ -2,7 +2,6 @@
 
 body {
     font-family: 'Noto Sans JP', sans-serif;
-    position: relative;
     min-height: 100vh;
 }
 
@@ -17,9 +16,29 @@ body {
     transform: translateY(-5px);
 }
 
-
 .card {
     border-radius: 30px;
+}
+
+.order {
+    border: 0;
+    border-radius: 15px;
+    color: white;
+    background-color: red;
+}
+
+.scrollbox {
+    width: 100%;
+    z-index: 1;
+}
+
+.topbar {
+    z-index: 100;
+}
+
+a, a:hover {
+    text-decoration: none;
+    color: white;
 }
 
 

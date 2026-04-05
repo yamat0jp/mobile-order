@@ -21,10 +21,21 @@ object WebModule1: TWebModule1
       OnAction = WebModule1WebActionItem5Action
     end
     item
-      MethodType = mtPost
+      MethodType = mtGet
       Name = 'WebActionItem2'
       PathInfo = '/download'
       OnAction = WebModule1WebActionItem2Action
+    end
+    item
+      Name = 'WebActionItem1'
+      PathInfo = '/register'
+      OnAction = WebModule1WebActionItem1Action
+    end
+    item
+      MethodType = mtGet
+      Name = 'WebActionItem3'
+      PathInfo = '/uid'
+      OnAction = WebModule1WebActionItem3Action
     end>
   BeforeDispatch = WebModuleBeforeDispatch
   Height = 230
@@ -177,12 +188,38 @@ object WebModule1: TWebModule1
   object FDQuery1: TFDQuery
     Connection = FDConnection1
     SQL.Strings = (
-      '    '
+      'drop table kitchen;'
+      'drop table uid;'
+      
+        'create table uid(id serial primary key, tableID integer, ip text' +
+        ');    '
       
         'create table kitchen(tableID integer, orderID serial PRIMARY KEY' +
         ',      '
       '  id integer, qty integer, timedata text, status integer);')
     Left = 280
     Top = 40
+  end
+  object FDTable4: TFDTable
+    Active = True
+    IndexFieldNames = 'id'
+    Connection = FDConnection1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'uid'
+    Left = 360
+    Top = 120
+    object FDTable4id: TIntegerField
+      FieldName = 'id'
+      Origin = 'id'
+    end
+    object FDTable4tableid: TIntegerField
+      FieldName = 'tableid'
+      Origin = 'tableid'
+    end
+    object FDTable4ip: TWideMemoField
+      FieldName = 'ip'
+      Origin = 'ip'
+      BlobType = ftWideMemo
+    end
   end
 end

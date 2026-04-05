@@ -68,7 +68,6 @@ var
 begin
   data := TJSONObject.Create;
   try
-    data.AddPair('userID', main.tableID);
     data.AddPair('id', Order.Id);
     data.AddPair('qty', Order.qty);
     data.AddPair('count', Order.count - Order.qty);

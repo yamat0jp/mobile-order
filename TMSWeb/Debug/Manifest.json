@@ -1,0 +1,35 @@
+{
+   "short_name":"pwa",
+   "name":"pwa",
+   "description":"",
+   "start_url":"pwa.html",
+   "display":"standalone",
+   "theme_color":"#FFFFFF",
+   "background_color":"#FFFFFF",
+   "related_applications": [{
+     "platform": "webapp",
+     "url": "pwa.html/manifest.json"
+    }],
+   "screenshots": [
+   ],
+   "protocol_handlers": [
+   ],
+   "icons":
+   [
+    {
+      "src": "IconResLow.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "IconResMid.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "IconResHigh.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+   ]
+}

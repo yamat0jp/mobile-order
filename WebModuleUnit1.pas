@@ -44,6 +44,10 @@ type
     FDTable2status: TIntegerField;
     FDTable2timedata: TWideMemoField;
     FDQuery1: TFDQuery;
+    FDTable4: TFDTable;
+    FDTable4id: TIntegerField;
+    FDTable4tableid: TIntegerField;
+    FDTable4ip: TWideMemoField;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;
@@ -55,6 +59,10 @@ type
     procedure WebModule1WebActionItem2Action(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleCreate(Sender: TObject);
+    procedure WebModule1WebActionItem1Action(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModule1WebActionItem3Action(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
   private
     { private 宣言 }
     function BlobImageString(DataSet: TDataSet): string;
@@ -71,7 +79,7 @@ implementation
 {$R *.dfm}
 
 uses System.JSON, System.IOUtils, System.NetEncoding, webData, Vcl.Graphics,
-  info;
+  info, System.Variants;
 
 function TWebModule1.BlobImageString(DataSet: TDataSet): string;
 var
@@ -134,6 +142,23 @@ begin
   end;
 end;
 
+procedure TWebModule1.WebModule1WebActionItem1Action(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+var
+  id, ip: string;
+begin
+  id := Request.QueryFields.Values['table'];
+  ip:=Request.RemoteIP;
+  if not FDTable4.Locate('ip', ip) then
+    FDTable4.AppendRecord([nil, id.ToInteger, ip])
+  else
+  begin
+    FDTable4.Edit;
+    FDTable4.FieldByName('tableID').AsString := id;
+    FDTable4.Post;
+  end;
+end;
+
 procedure TWebModule1.WebModule1WebActionItem2Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
@@ -141,7 +166,9 @@ var
   JSON: TJSONObject;
   arr: TJSONArray;
 begin
-  FDTable2.Filter := 'status < 2 and tableID = ' + Request.Content;
+  if not FDTable4.Locate('ip',Request.RemoteIP) then
+    Exit;
+  FDTable2.Filter := 'status < 2 and tableID = ' + FDTable4.FieldByName('tableID').AsString;
   JSON := TJSONObject.Create;
   order := TAdvanceData.Create;
   try
@@ -170,15 +197,24 @@ begin
   end;
 end;
 
+procedure TWebModule1.WebModule1WebActionItem3Action(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+begin
+  Response.Content := FDTable4.Lookup('ip', Request.RemoteIP, 'tableID');
+end;
+
 procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
   JSON: TJSONObject;
+  v: Variant;
 begin
   JSON := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
+  v := FDTable4.Lookup('ip', Request.RemoteIP, 'tableID');
   FDTable1.Filtered := false;
   try
-    if FDTable1.Locate('id', JSON.GetValue<integer>('id')) then
+    if FDTable1.Locate('id', JSON.GetValue<integer>('id')) and not VarIsNull(v)
+    then
     begin
       FDTable1.Edit;
       FDTable1.FieldByName('cnt').AsInteger := JSON.GetValue<integer>('count');
@@ -188,8 +224,7 @@ begin
       FDTable2.Append;
       FDTable2.FieldByName('id').AsInteger := FDTable1.FieldByName('id')
         .AsInteger;
-      FDTable2.FieldByName('tableID').AsInteger :=
-        JSON.GetValue<integer>('userID');
+      FDTable2.FieldByName('tableID').AsInteger := v;
       FDTable2.FieldByName('qty').AsInteger := JSON.GetValue<integer>('qty');
       FDTable2.FieldByName('timedata').AsString :=
         FormatDateTime('hh:nn', GetTime);
@@ -211,9 +246,11 @@ var
   tableID: integer;
   i: integer;
 begin
+  if not FDTable4.Locate('ip',Request.RemoteIP) then
+    Exit;
+  tableID:=FDTable4.FieldByName('tableID').AsInteger;
   JSON := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
   try
-    tableID := JSON.GetValue<integer>('userID');
     FDTable2.Filter := 'tableID = ' + tableID.ToString;
     FDTable2.First;
     while not FDTable2.Eof do

@@ -133,6 +133,14 @@
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="webdata.pas"/>
+        <DCCReference Include="c:\program files (x86)\embarcadero\studio\23.0\ObjRepos\JA\DelphiWin32\OKCANCL1.PAS">
+            <Form>OKBottomDlg</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="OKCNHLP1.pas">
+            <Form>OKHelpBottomDlg</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

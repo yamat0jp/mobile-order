@@ -452,7 +452,6 @@ object Form1: TForm1
     Top = 376
   end
   object WebHttpRequest2: TWebHttpRequest
-    Command = httpPOST
     Headers.Strings = (
       'Accept:application/json')
     URL = 'http://localhost:8080/download'
@@ -461,9 +460,6 @@ object Form1: TForm1
     Top = 376
   end
   object WebHttpRequest3: TWebHttpRequest
-    Headers.Strings = (
-      'Accept=application/json')
-    URL = 'config/config.json'
     OnResponse = WebHttpRequest3Response
     Left = 376
     Top = 472
