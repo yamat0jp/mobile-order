@@ -143,7 +143,7 @@ begin
       pos := PenPos;
       TextOut(pos.X + QRSize div 2, pos.Y, i.ToString);
       st.Position := 0;
-      GenerateQRCode('http://192.168.68.54:8080/uid?table=' +
+      GenerateQRCode('http://localhost:8080/uid?table=' +
         i.ToString, st);
       st.Position := 0;
       QRbmp.LoadFromStream(st);
