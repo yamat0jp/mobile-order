@@ -136,32 +136,35 @@ begin
 
   QRbmp := TBitmap.Create;
   QRbmp.SetSize(QRSize, QRSize);
-
+  bmpA4.Canvas.PenPos := TPoint.Create(10, 20);
   for var i := min to max do
     with bmpA4.Canvas do
     begin
-      pos := Penpos;
+      pos := PenPos;
       TextOut(pos.X + QRSize div 2, pos.Y, i.ToString);
-      GenerateQRCode('https://localhost:8080/uid?table=' + i.ToString, st);
+      st.Position := 0;
+      GenerateQRCode('http://192.168.68.54:8080/uid?table=' +
+        i.ToString, st);
       st.Position := 0;
       QRbmp.LoadFromStream(st);
-      num := Font.Size + 25;
-      Draw(pos.X, pos.Y + num, QRbmp);
+      num := pos.Y + Font.Size + 25;
+      Draw(pos.X, num, QRbmp);
       if pos.X + 2 * QRSize > bmpA4.Width then
       begin
         pos.X := 0;
-        pos.Y := pos.Y + num + QRSize;
-        Penpos := pos;
+        pos.Y := num + QRSize;
+        PenPos := pos;
       end
       else
       begin
         pos.X := pos.X + QRSize;
-        Penpos := pos;
+        PenPos := pos;
       end;
     end;
 
   bmpA4.SaveToFile('A4_QR.png');
 
+  st.Free;
   QRbmp.Free;
   bmpA4.Free;
 end;

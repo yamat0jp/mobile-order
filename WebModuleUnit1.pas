@@ -170,7 +170,7 @@ begin
       FDTable4.Post;
     end;
     Response.Content := s;
-    Response.SendRedirect(appurl);
+    Response.SendRedirect('http://localhost:8000/pwa/pwa.html');
   end;
 end;
 

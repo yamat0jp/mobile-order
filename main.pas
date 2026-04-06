@@ -195,7 +195,7 @@ procedure TForm1.WebHttpRequest3Response(Sender: TObject; AResponse: string);
 begin
   WebHttpRequest1.Execute;
   WebHttpRequest2.Execute;
-  WebLabel1.Caption := Format('"%.3d" 番テーブル', [AResponse.ToInteger]);
+  WebLabel1.Caption := '  ' + AResponse + ' 番テーブル';
 end;
 
 procedure TForm1.WebPanel1Click(Sender: TObject);
