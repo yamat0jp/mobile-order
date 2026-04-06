@@ -9417,7 +9417,7 @@ object Form5: TForm5
     Width = 121
     Height = 23
     TabOrder = 4
-    Text = '470'
+    Text = '469'
     OnChange = Edit5Change
   end
   object BindSourceDB1: TBindSourceDB

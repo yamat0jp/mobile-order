@@ -55,6 +55,7 @@ type
     procedure N2Click(Sender: TObject);
   private
     { Private 宣言 }
+    procedure Barcode(min, max: integer);
   public
     { Public 宣言 }
   end;
@@ -66,11 +67,107 @@ implementation
 
 {$R *.dfm}
 
-uses Unit3, Jpeg, OKCANCL2, Winapi.ShellAPI;
+uses Unit3, Jpeg, OKCANCL2, Winapi.ShellAPI, DelphiZXingQRCode;
+
+procedure GenerateQRCode(const Text: string; const Stream: TStream;
+  Size: integer = 300);
+var
+  QRCode: TDelphiZXingQRCode;
+  Bitmap: TBitmap;
+  Row, Col: integer;
+begin
+  QRCode := TDelphiZXingQRCode.Create;
+  try
+    QRCode.Data := Text; // QRコードに埋め込む文字列（URL、テキストなど）
+    // QRCode.Encoding := TQRCodeEncoding.Auto; // または Numeric, Alphanumeric, UTF8 など
+    QRCode.QuietZone := 4; // 余白（Quiet Zone）
+    // QRCode.ErrorCorrectionLevel := TQRCodeErrorCorrectionLevel.M; // L/M/Q/H で調整可能
+
+    Bitmap := TBitmap.Create;
+    try
+      Bitmap.SetSize(QRCode.Columns, QRCode.Rows); // QRのドットサイズに合わせる
+      Bitmap.Canvas.Brush.Color := clWhite;
+      Bitmap.Canvas.FillRect(Rect(0, 0, Bitmap.Width, Bitmap.Height));
+
+      for Row := 0 to QRCode.Rows - 1 do
+        for Col := 0 to QRCode.Columns - 1 do
+          if QRCode.IsBlack[Row, Col] then
+            Bitmap.Canvas.Pixels[Col, Row] := clBlack;
+
+      // サイズを拡大（見た目を良くするため）
+      with TBitmap.Create do
+        try
+          SetSize(Size, Size);
+          Canvas.StretchDraw(Rect(0, 0, Width, Height), Bitmap);
+          SaveToStream(Stream); // PNG/BMPなどで保存
+        finally
+          Free;
+        end;
+    finally
+      Bitmap.Free;
+    end;
+  finally
+    QRCode.Free;
+  end;
+end;
+
+procedure TForm5.Barcode(min, max: integer);
+const
+  A4Width = 2480; // 300dpi
+  A4Height = 3508;
+  QRSize = 300; // 1個のQRコードのサイズ
+var
+  bmpA4: TBitmap;
+  QRbmp: TBitmap;
+  st: TMemoryStream;
+  pos: TPoint;
+  num: integer;
+begin
+  // A4キャンバス
+  bmpA4 := TBitmap.Create;
+  bmpA4.SetSize(A4Width, A4Height);
+  bmpA4.Canvas.Font.Size := 50;
+  bmpA4.Canvas.Font.Color := clGreen;
+  bmpA4.Canvas.Brush.Color := clWhite;
+  bmpA4.Canvas.FillRect(Rect(0, 0, A4Width, A4Height));
+
+  st := TMemoryStream.Create;
+  // QRコード生成
+
+  QRbmp := TBitmap.Create;
+  QRbmp.SetSize(QRSize, QRSize);
+
+  for var i := min to max do
+    with bmpA4.Canvas do
+    begin
+      pos := Penpos;
+      TextOut(pos.X + QRSize div 2, pos.Y, i.ToString);
+      GenerateQRCode('https://localhost:8080/uid?table=' + i.ToString, st);
+      st.Position := 0;
+      QRbmp.LoadFromStream(st);
+      num := Font.Size + 25;
+      Draw(pos.X, pos.Y + num, QRbmp);
+      if pos.X + 2 * QRSize > bmpA4.Width then
+      begin
+        pos.X := 0;
+        pos.Y := pos.Y + num + QRSize;
+        Penpos := pos;
+      end
+      else
+      begin
+        pos.X := pos.X + QRSize;
+        Penpos := pos;
+      end;
+    end;
+
+  bmpA4.SaveToFile('A4_QR.png');
+
+  QRbmp.Free;
+  bmpA4.Free;
+end;
 
 procedure TForm5.Button1Click(Sender: TObject);
 var
-  s: string;
   png: TPngImage;
   pic: TPicture;
   bmp: TBitmap;
@@ -101,28 +198,17 @@ end;
 procedure TForm5.Edit5Change(Sender: TObject);
 begin
   if Edit5.Text = '0' then
-    Edit5.Color:=clActiveCaption
+    Edit5.Color := clActiveCaption
   else
-    Edit5.Color:=clWindow;
+    Edit5.Color := clWindow;
 end;
 
 procedure TForm5.N2Click(Sender: TObject);
-var
-  min, max: integer;
-  bmp: TBitmap;
 begin
   if OKRightDlg.ShowModal = mrOK then
   begin
-    min:=StrToInt(OKRightDlg.Edit1.Text);
-    max:=StrToInt(OKRightDlg.Edit2.Text);
-    bmp:=TBitmap.Create;
-    try
-      Bmp.SetSize(2480, 3508); // A4 300dpi
-      bmp.SaveToFile('A4_Print.png');
-      ShellExecute(0, 'open', PChar('A4_Print.png'), nil, nil, SW_SHOWNORMAL);
-    finally
-      bmp.Free;
-    end;
+    Barcode(StrToInt(OKRightDlg.Edit1.Text), StrToInt(OKRightDlg.Edit2.Text));
+    ShellExecute(0, 'open', PChar('A4_QR.png'), nil, nil, SW_SHOWNORMAL);
   end;
 end;
 
