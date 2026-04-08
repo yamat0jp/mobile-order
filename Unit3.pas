@@ -57,6 +57,7 @@ end;
 
 procedure TDataModule3.FDTable1BeforeInsert(DataSet: TDataSet);
 begin
+  FDTable1.Last;
   id := FDTable1.FieldByName('id').AsInteger + 1;
 end;
 
