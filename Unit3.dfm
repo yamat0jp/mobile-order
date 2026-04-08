@@ -1,21 +1,10 @@
 object DataModule3: TDataModule3
-  Height = 480
-  Width = 640
-  object FDQuery1: TFDQuery
-    Connection = FDConnection1
-    SQL.Strings = (
-      'drop table item;'
-      'CREATE TABLE item ('
-      '    id serial primary key,'
-      '    category text, name text, comment text,'
-      '    price integer, qty integer, cnt integer,'
-      '    fileext text, image bytea);'
-      '  ')
-    Left = 520
-    Top = 72
-  end
+  Height = 281
+  Width = 413
   object FDTable1: TFDTable
     Active = True
+    BeforeInsert = FDTable1BeforeInsert
+    AfterInsert = FDTable1AfterInsert
     BeforePost = FDTable1BeforePost
     IndexFieldNames = 'id'
     Connection = FDConnection1
@@ -23,52 +12,61 @@ object DataModule3: TDataModule3
     TableName = 'item'
     Left = 312
     Top = 64
-    object FDTable1id: TIntegerField
-      FieldName = 'id'
-      Origin = 'id'
+    object FDTable1ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      Required = True
     end
-    object FDTable1category: TWideMemoField
-      FieldName = 'category'
-      Origin = 'category'
-      BlobType = ftWideMemo
+    object FDTable1CATEGORY: TWideStringField
+      FieldName = 'CATEGORY'
+      Origin = 'CATEGORY'
+      Required = True
+      Size = 256
     end
-    object FDTable1name: TWideMemoField
-      FieldName = 'name'
-      Origin = 'name'
-      BlobType = ftWideMemo
+    object FDTable1NAME: TWideStringField
+      FieldName = 'NAME'
+      Origin = 'NAME'
+      Required = True
+      Size = 256
     end
-    object FDTable1comment: TWideMemoField
-      FieldName = 'comment'
-      Origin = '"comment"'
-      BlobType = ftWideMemo
+    object FDTable1COMMENT: TWideStringField
+      FieldName = 'COMMENT'
+      Origin = 'COMMENT'
+      Size = 1024
     end
-    object FDTable1price: TIntegerField
-      FieldName = 'price'
-      Origin = 'price'
+    object FDTable1PRICE: TIntegerField
+      FieldName = 'PRICE'
+      Origin = 'PRICE'
+      Required = True
     end
-    object FDTable1qty: TIntegerField
-      FieldName = 'qty'
-      Origin = 'qty'
+    object FDTable1QTY: TIntegerField
+      FieldName = 'QTY'
+      Origin = 'QTY'
+      Required = True
     end
-    object FDTable1cnt: TIntegerField
-      FieldName = 'cnt'
-      Origin = 'cnt'
+    object FDTable1CNT: TIntegerField
+      FieldName = 'CNT'
+      Origin = 'CNT'
+      Required = True
     end
-    object FDTable1fileext: TWideMemoField
-      FieldName = 'fileext'
-      Origin = 'fileext'
-      BlobType = ftWideMemo
+    object FDTable1FILEEXT: TWideStringField
+      FieldName = 'FILEEXT'
+      Origin = 'FILEEXT'
+      Size = 32
     end
-    object FDTable1image: TBlobField
-      FieldName = 'image'
-      Origin = 'image'
+    object FDTable1IMAGE: TBlobField
+      FieldName = 'IMAGE'
+      Origin = 'IMAGE'
     end
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
+      'Database=E:\fuke\GitHub\2026\mobile-order\MOBILE.IB'
+      'User_Name=sysdba'
+      'Password=masterkey'
       'CharacterSet=UTF8'
-      'Database=mydb'
-      'DriverID=PG')
+      'OpenMode=OpenOrCreate'
+      'DriverID=IB')
     Connected = True
     Left = 160
     Top = 64

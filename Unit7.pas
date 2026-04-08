@@ -14,7 +14,8 @@ uses
   FireDAC.Comp.DataSet, FMX.ListBox, FMX.Layouts, System.Rtti, FMX.Grid.Style,
   FMX.ScrollBox, FMX.Grid, Data.Bind.EngExt, FMX.Bind.DBEngExt, FMX.Bind.Grid,
   System.Bindings.Outputs, FMX.Bind.Editors, Data.Bind.Components,
-  Data.Bind.Grid, Data.Bind.DBScope, System.Actions, FMX.ActnList;
+  Data.Bind.Grid, Data.Bind.DBScope, System.Actions, FMX.ActnList,
+  FireDAC.Phys.IB, FireDAC.Phys.IBDef;
 
 type
   TLocalClass = class
@@ -31,21 +32,7 @@ type
     FDConnection1: TFDConnection;
     DataSource1: TDataSource;
     FDTable2: TFDTable;
-    FDTable2id: TIntegerField;
-    FDTable2category: TWideMemoField;
-    FDTable2name: TWideMemoField;
-    FDTable2comment: TWideMemoField;
-    FDTable2price: TIntegerField;
-    FDTable2qty: TIntegerField;
-    FDTable2cnt: TIntegerField;
-    FDTable2fileext: TWideMemoField;
-    FDTable2image: TBlobField;
     FDTable1: TFDTable;
-    FDTable1tableid: TIntegerField;
-    FDTable1orderid: TIntegerField;
-    FDTable1id: TIntegerField;
-    FDTable1qty: TIntegerField;
-    FDTable1status: TIntegerField;
     FDQuery1: TFDQuery;
     Timer1: TTimer;
     Timer2: TTimer;
@@ -79,7 +66,21 @@ type
     FDQuery2: TFDQuery;
     Panel3: TPanel;
     Button5: TButton;
-    FDTable1timedata: TWideMemoField;
+    FDTable1TABLEID: TIntegerField;
+    FDTable1ORDERID: TIntegerField;
+    FDTable1ID: TIntegerField;
+    FDTable1QTY: TIntegerField;
+    FDTable1TIMEDATA: TWideStringField;
+    FDTable1STATUS: TIntegerField;
+    FDTable2ID: TIntegerField;
+    FDTable2CATEGORY: TWideStringField;
+    FDTable2NAME: TWideStringField;
+    FDTable2COMMENT: TWideStringField;
+    FDTable2PRICE: TIntegerField;
+    FDTable2QTY: TIntegerField;
+    FDTable2CNT: TIntegerField;
+    FDTable2FILEEXT: TWideStringField;
+    FDTable2IMAGE: TWideMemoField;
     procedure RadioButton1Change(Sender: TObject);
     procedure Timer2Timer(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -111,6 +112,7 @@ var
 implementation
 
 {$R *.fmx}
+{$R *.XLgXhdpiTb.fmx ANDROID}
 
 uses info, FMX.DialogService;
 

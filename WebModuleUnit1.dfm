@@ -37,14 +37,18 @@ object WebModule1: TWebModule1
   Width = 415
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'Database=mydb'
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'Database=E:\fuke\GitHub\2026\mobile-order\MOBILE.IB'
       'CharacterSet=UTF8'
-      'DriverID=PG')
+      'OpenMode=OpenOrCreate'
+      'DriverID=IB')
     Connected = True
     Left = 160
     Top = 40
   end
   object FDTable1: TFDTable
+    Active = True
     Filtered = True
     Filter = 'category = '#39'popular'#39
     IndexFieldNames = 'id'
@@ -53,40 +57,56 @@ object WebModule1: TWebModule1
     TableName = 'item'
     Left = 72
     Top = 40
-    object FDTable1category: TWideMemoField
-      FieldName = 'category'
+    object FDTable1ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      Required = True
+    end
+    object FDTable1CATEGORY: TWideStringField
+      FieldName = 'CATEGORY'
+      Origin = 'CATEGORY'
+      Required = True
+      Size = 256
+    end
+    object FDTable1NAME: TWideStringField
+      FieldName = 'NAME'
+      Origin = 'NAME'
+      Required = True
+      Size = 256
+    end
+    object FDTable1COMMENT: TWideStringField
+      FieldName = 'COMMENT'
+      Origin = 'COMMENT'
+      Size = 1024
+    end
+    object FDTable1PRICE: TIntegerField
+      FieldName = 'PRICE'
+      Origin = 'PRICE'
+      Required = True
+    end
+    object FDTable1QTY: TIntegerField
+      FieldName = 'QTY'
+      Origin = 'QTY'
+      Required = True
+    end
+    object FDTable1CNT: TIntegerField
+      FieldName = 'CNT'
+      Origin = 'CNT'
+      Required = True
+    end
+    object FDTable1FILEEXT: TWideStringField
+      FieldName = 'FILEEXT'
+      Origin = 'FILEEXT'
+      Size = 32
+    end
+    object FDTable1IMAGE: TWideMemoField
+      FieldName = 'IMAGE'
+      Origin = 'IMAGE'
       BlobType = ftWideMemo
-    end
-    object FDTable1name: TWideMemoField
-      FieldName = 'name'
-      BlobType = ftWideMemo
-    end
-    object FDTable1comment: TWideMemoField
-      FieldName = 'comment'
-      BlobType = ftWideMemo
-    end
-    object FDTable1price: TIntegerField
-      FieldName = 'price'
-    end
-    object FDTable1qty: TIntegerField
-      FieldName = 'qty'
-    end
-    object FDTable1cnt: TIntegerField
-      FieldName = 'cnt'
-    end
-    object FDTable1fileext: TWideMemoField
-      FieldName = 'fileext'
-      BlobType = ftWideMemo
-    end
-    object FDTable1image: TBlobField
-      FieldName = 'image'
-    end
-    object FDTable1id: TIntegerField
-      FieldName = 'id'
-      Origin = 'id'
     end
   end
   object FDTable3: TFDTable
+    Active = True
     IndexFieldNames = 'id'
     MasterSource = DataSource1
     MasterFields = 'id'
@@ -95,45 +115,52 @@ object WebModule1: TWebModule1
     TableName = 'item'
     Left = 184
     Top = 120
-    object FDTable3category: TWideMemoField
-      FieldName = 'category'
-      Origin = 'category'
+    object FDTable3ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      Required = True
+    end
+    object FDTable3CATEGORY: TWideStringField
+      FieldName = 'CATEGORY'
+      Origin = 'CATEGORY'
+      Required = True
+      Size = 256
+    end
+    object FDTable3NAME: TWideStringField
+      FieldName = 'NAME'
+      Origin = 'NAME'
+      Required = True
+      Size = 256
+    end
+    object FDTable3COMMENT: TWideStringField
+      FieldName = 'COMMENT'
+      Origin = 'COMMENT'
+      Size = 1024
+    end
+    object FDTable3PRICE: TIntegerField
+      FieldName = 'PRICE'
+      Origin = 'PRICE'
+      Required = True
+    end
+    object FDTable3QTY: TIntegerField
+      FieldName = 'QTY'
+      Origin = 'QTY'
+      Required = True
+    end
+    object FDTable3CNT: TIntegerField
+      FieldName = 'CNT'
+      Origin = 'CNT'
+      Required = True
+    end
+    object FDTable3FILEEXT: TWideStringField
+      FieldName = 'FILEEXT'
+      Origin = 'FILEEXT'
+      Size = 32
+    end
+    object FDTable3IMAGE: TWideMemoField
+      FieldName = 'IMAGE'
+      Origin = 'IMAGE'
       BlobType = ftWideMemo
-    end
-    object FDTable3name: TWideMemoField
-      FieldName = 'name'
-      Origin = 'name'
-      BlobType = ftWideMemo
-    end
-    object FDTable3comment: TWideMemoField
-      FieldName = 'comment'
-      Origin = '"comment"'
-      BlobType = ftWideMemo
-    end
-    object FDTable3price: TIntegerField
-      FieldName = 'price'
-      Origin = 'price'
-    end
-    object FDTable3qty: TIntegerField
-      FieldName = 'qty'
-      Origin = 'qty'
-    end
-    object FDTable3cnt: TIntegerField
-      FieldName = 'cnt'
-      Origin = 'cnt'
-    end
-    object FDTable3fileext: TWideMemoField
-      FieldName = 'fileext'
-      Origin = 'fileext'
-      BlobType = ftWideMemo
-    end
-    object FDTable3image: TBlobField
-      FieldName = 'image'
-      Origin = 'image'
-    end
-    object FDTable3id: TIntegerField
-      FieldName = 'id'
-      Origin = 'id'
     end
   end
   object DataSource1: TDataSource
@@ -142,6 +169,7 @@ object WebModule1: TWebModule1
     Top = 120
   end
   object FDTable2: TFDTable
+    Active = True
     Filtered = True
     Filter = 'status <> 2'
     IndexFieldNames = 'orderID'
@@ -150,31 +178,36 @@ object WebModule1: TWebModule1
     TableName = 'kitchen'
     Left = 80
     Top = 120
-    object FDTable2tableid: TIntegerField
-      FieldName = 'tableid'
-      Origin = 'tableid'
+    object FDTable2TABLEID: TIntegerField
+      FieldName = 'TABLEID'
+      Origin = 'TABLEID'
+      Required = True
     end
-    object FDTable2orderid: TIntegerField
-      FieldName = 'orderid'
-      Origin = 'orderid'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    object FDTable2ORDERID: TIntegerField
+      FieldName = 'ORDERID'
+      Origin = 'ORDERID'
+      Required = True
     end
-    object FDTable2id: TIntegerField
-      FieldName = 'id'
-      Origin = 'id'
+    object FDTable2ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      Required = True
     end
-    object FDTable2qty: TIntegerField
-      FieldName = 'qty'
-      Origin = 'qty'
+    object FDTable2QTY: TIntegerField
+      FieldName = 'QTY'
+      Origin = 'QTY'
+      Required = True
     end
-    object FDTable2timedata: TWideMemoField
-      FieldName = 'timedata'
-      Origin = 'timedata'
-      BlobType = ftWideMemo
+    object FDTable2TIMEDATA: TWideStringField
+      FieldName = 'TIMEDATA'
+      Origin = 'TIMEDATA'
+      Required = True
+      Size = 40
     end
-    object FDTable2status: TIntegerField
-      FieldName = 'status'
-      Origin = 'status'
+    object FDTable2STATUS: TIntegerField
+      FieldName = 'STATUS'
+      Origin = 'STATUS'
+      Required = True
     end
   end
   object FDTable4: TFDTable
@@ -185,19 +218,22 @@ object WebModule1: TWebModule1
     TableName = 'uid'
     Left = 296
     Top = 40
-    object FDTable4id: TIntegerField
-      FieldName = 'id'
-      Origin = 'id'
+    object FDTable4ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
-    object FDTable4tableid: TIntegerField
-      FieldName = 'tableid'
-      Origin = 'tableid'
+    object FDTable4TABLEID: TIntegerField
+      FieldName = 'TABLEID'
+      Origin = 'TABLEID'
+      Required = True
     end
-    object FDTable4ip: TWideMemoField
-      FieldName = 'ip'
-      Origin = 'ip'
-      BlobType = ftWideMemo
+    object FDTable4IP: TWideStringField
+      FieldName = 'IP'
+      Origin = 'IP'
+      Required = True
+      Size = 1024
     end
   end
 end

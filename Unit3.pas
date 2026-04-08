@@ -9,24 +9,27 @@ uses
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.Phys.SQLite,
   FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
   FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.VCLUI.Wait, Data.DB,
-  FireDAC.Comp.Client, FireDAC.Comp.DataSet, FireDAC.Phys.PG, FireDAC.Phys.PGDef;
+  FireDAC.Comp.Client, FireDAC.Comp.DataSet, FireDAC.Phys.PG,
+  FireDAC.Phys.PGDef,
+  FireDAC.Phys.IB, FireDAC.Phys.IBDef;
 
 type
   TDataModule3 = class(TDataModule)
-    FDQuery1: TFDQuery;
     FDTable1: TFDTable;
     FDConnection1: TFDConnection;
     DataSource1: TDataSource;
-    FDTable1id: TIntegerField;
-    FDTable1category: TWideMemoField;
-    FDTable1name: TWideMemoField;
-    FDTable1comment: TWideMemoField;
-    FDTable1price: TIntegerField;
-    FDTable1qty: TIntegerField;
-    FDTable1cnt: TIntegerField;
-    FDTable1fileext: TWideMemoField;
-    FDTable1image: TBlobField;
+    FDTable1CATEGORY: TWideStringField;
+    FDTable1NAME: TWideStringField;
+    FDTable1COMMENT: TWideStringField;
+    FDTable1PRICE: TIntegerField;
+    FDTable1QTY: TIntegerField;
+    FDTable1CNT: TIntegerField;
+    FDTable1FILEEXT: TWideStringField;
+    FDTable1IMAGE: TBlobField;
+    FDTable1ID: TIntegerField;
     procedure FDTable1BeforePost(DataSet: TDataSet);
+    procedure FDTable1BeforeInsert(DataSet: TDataSet);
+    procedure FDTable1AfterInsert(DataSet: TDataSet);
   private
     { Private 宣言 }
   public
@@ -43,6 +46,19 @@ implementation
 uses Unit5;
 
 {$R *.dfm}
+
+var
+  id: integer;
+
+procedure TDataModule3.FDTable1AfterInsert(DataSet: TDataSet);
+begin
+  FDTable1.FieldByName('id').AsInteger := id;
+end;
+
+procedure TDataModule3.FDTable1BeforeInsert(DataSet: TDataSet);
+begin
+  id := FDTable1.FieldByName('id').AsInteger + 1;
+end;
 
 procedure TDataModule3.FDTable1BeforePost(DataSet: TDataSet);
 begin

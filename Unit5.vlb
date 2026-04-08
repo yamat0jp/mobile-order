@@ -21,9 +21,6 @@ Coordinates=215,684,59,58
 Visible=False
 Coordinates=98,328,169,36
 
-[DataModule3.FDQuery1]
-Coordinates=397,10,153,58
-
 [DataModule3.FDTable1]
 Coordinates=390,110,151,36
 Visible=False
@@ -49,4 +46,7 @@ Coordinates=238,600,44,58
 [Image1]
 Coordinates=232,10,57,58
 Visible=True
+
+[DataModule3.]
+Coordinates=397,10,153,58
 

@@ -1,0 +1,40 @@
+inherited Form7_XLgXhdpiTb: TForm7_XLgXhdpiTb
+  ClientHeight = 775
+  ClientWidth = 1280
+  DesignerMasterStyle = 0
+  inherited Panel2: TPanel
+    inherited ListBox1: TListBox
+      Viewport.Width = 541.000000000000000000
+      Viewport.Height = 325.000000000000000000
+    end
+    inherited Label3: TLabel
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited ListBox2: TListBox
+      Viewport.Width = 196.000000000000000000
+      Viewport.Height = 156.000000000000000000
+    end
+  end
+  inherited Label4: TLabel
+    TextSettings.Font.StyleExt = {00070000000000000004000000}
+  end
+  inherited Button2: TButton
+    Position.Y = 167.000000000000000000
+  end
+  inherited ListBox3: TListBox
+    Viewport.Width = 196.000000000000000000
+    Viewport.Height = 389.000000000000000000
+  end
+  inherited StringGrid1: TStringGrid
+    Position.Y = 232.000000000000000000
+    Viewport.Width = 793.000000000000000000
+    Viewport.Height = 505.000000000000000000
+  end
+  inherited Panel3: TPanel
+    Size.Height = 137.000000000000000000
+    Size.PlatformDefault = False
+    inherited Button4: TButton
+      Position.Y = 20.000000000000000000
+    end
+  end
+end

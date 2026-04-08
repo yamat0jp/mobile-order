@@ -3100,9 +3100,12 @@ object Form7: TForm7
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'Database=mydb'
-      'CharacterSet=utF8'
-      'DriverID=PG')
+      'Database=E:\fuke\GitHub\2026\mobile-order\MOBILE.IB'
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'CharacterSet=UTF8'
+      'OpenMode=OpenOrCreate'
+      'DriverID=IB')
     Connected = True
     Left = 784
     Top = 200
@@ -3122,45 +3125,52 @@ object Form7: TForm7
     TableName = 'item'
     Left = 944
     Top = 368
-    object FDTable2id: TIntegerField
-      FieldName = 'id'
-      Origin = 'id'
+    object FDTable2ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      Required = True
     end
-    object FDTable2category: TWideMemoField
-      FieldName = 'category'
-      Origin = 'category'
+    object FDTable2CATEGORY: TWideStringField
+      FieldName = 'CATEGORY'
+      Origin = 'CATEGORY'
+      Required = True
+      Size = 256
+    end
+    object FDTable2NAME: TWideStringField
+      FieldName = 'NAME'
+      Origin = 'NAME'
+      Required = True
+      Size = 256
+    end
+    object FDTable2COMMENT: TWideStringField
+      FieldName = 'COMMENT'
+      Origin = 'COMMENT'
+      Size = 1024
+    end
+    object FDTable2PRICE: TIntegerField
+      FieldName = 'PRICE'
+      Origin = 'PRICE'
+      Required = True
+    end
+    object FDTable2QTY: TIntegerField
+      FieldName = 'QTY'
+      Origin = 'QTY'
+      Required = True
+    end
+    object FDTable2CNT: TIntegerField
+      FieldName = 'CNT'
+      Origin = 'CNT'
+      Required = True
+    end
+    object FDTable2FILEEXT: TWideStringField
+      FieldName = 'FILEEXT'
+      Origin = 'FILEEXT'
+      Size = 32
+    end
+    object FDTable2IMAGE: TWideMemoField
+      FieldName = 'IMAGE'
+      Origin = 'IMAGE'
       BlobType = ftWideMemo
-    end
-    object FDTable2name: TWideMemoField
-      FieldName = 'name'
-      Origin = 'name'
-      BlobType = ftWideMemo
-    end
-    object FDTable2comment: TWideMemoField
-      FieldName = 'comment'
-      Origin = '"comment"'
-      BlobType = ftWideMemo
-    end
-    object FDTable2price: TIntegerField
-      FieldName = 'price'
-      Origin = 'price'
-    end
-    object FDTable2qty: TIntegerField
-      FieldName = 'qty'
-      Origin = 'qty'
-    end
-    object FDTable2cnt: TIntegerField
-      FieldName = 'cnt'
-      Origin = 'cnt'
-    end
-    object FDTable2fileext: TWideMemoField
-      FieldName = 'fileext'
-      Origin = 'fileext'
-      BlobType = ftWideMemo
-    end
-    object FDTable2image: TBlobField
-      FieldName = 'image'
-      Origin = 'image'
     end
   end
   object FDTable1: TFDTable
@@ -3171,30 +3181,36 @@ object Form7: TForm7
     TableName = 'kitchen'
     Left = 944
     Top = 272
-    object FDTable1tableid: TIntegerField
-      FieldName = 'tableid'
-      Origin = 'tableid'
+    object FDTable1TABLEID: TIntegerField
+      FieldName = 'TABLEID'
+      Origin = 'TABLEID'
+      Required = True
     end
-    object FDTable1orderid: TIntegerField
-      FieldName = 'orderid'
-      Origin = 'orderid'
+    object FDTable1ORDERID: TIntegerField
+      FieldName = 'ORDERID'
+      Origin = 'ORDERID'
+      Required = True
     end
-    object FDTable1id: TIntegerField
-      FieldName = 'id'
-      Origin = 'id'
+    object FDTable1ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      Required = True
     end
-    object FDTable1qty: TIntegerField
-      FieldName = 'qty'
-      Origin = 'qty'
+    object FDTable1QTY: TIntegerField
+      FieldName = 'QTY'
+      Origin = 'QTY'
+      Required = True
     end
-    object FDTable1timedata: TWideMemoField
-      FieldName = 'timedata'
-      Origin = 'timedata'
-      BlobType = ftWideMemo
+    object FDTable1TIMEDATA: TWideStringField
+      FieldName = 'TIMEDATA'
+      Origin = 'TIMEDATA'
+      Required = True
+      Size = 40
     end
-    object FDTable1status: TIntegerField
-      FieldName = 'status'
-      Origin = 'status'
+    object FDTable1STATUS: TIntegerField
+      FieldName = 'STATUS'
+      Origin = 'STATUS'
+      Required = True
     end
   end
   object FDQuery1: TFDQuery

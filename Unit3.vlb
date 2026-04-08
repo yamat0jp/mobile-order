@@ -8,12 +8,9 @@ Coordinates=198,1,90,33
 Coordinates=81,10,60,177
 Visible=True
 
-[FDQuery1]
-Coordinates=166,10,63,51
-
 [Form5.BindSourceDB1]
 Coordinates=0,0,127,213
 
 []
-Coordinates=341,1,69,33
+Coordinates=166,10,63,51
 
