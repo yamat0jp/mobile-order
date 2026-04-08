@@ -2,7 +2,6 @@ object DataModule3: TDataModule3
   Height = 281
   Width = 413
   object FDTable1: TFDTable
-    Active = True
     BeforeInsert = FDTable1BeforeInsert
     AfterInsert = FDTable1AfterInsert
     BeforePost = FDTable1BeforePost
@@ -66,8 +65,8 @@ object DataModule3: TDataModule3
       'Password=masterkey'
       'CharacterSet=UTF8'
       'OpenMode=OpenOrCreate'
+      'Protocol=TCPIP'
       'DriverID=IB')
-    Connected = True
     Left = 160
     Top = 64
   end
