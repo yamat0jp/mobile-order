@@ -111,6 +111,7 @@ var
 implementation
 
 {$R *.fmx}
+{$R *.XLgXhdpiTb.fmx ANDROID}
 
 uses info, FMX.DialogService;
 
