@@ -33,7 +33,8 @@ inherited Form7_XLgXhdpiTb: TForm7_XLgXhdpiTb
     Viewport.Height = 505.000000000000000000
   end
   inherited Panel3: TPanel
-    Size.Height = 129.000000000000000000
+    Position.Y = 552.000000000000000000
+    Size.Height = 137.000000000000000000
     Size.PlatformDefault = False
     inherited Button4: TButton
       Position.Y = 20.000000000000000000
