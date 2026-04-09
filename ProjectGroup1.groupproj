@@ -3,7 +3,10 @@
         <ProjectGuid>{16F20B4B-31FB-44E5-B55B-FC2CB3283453}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="server.dproj">
+        <Projects Include="mobile.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="cgi.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="menu.dproj">
@@ -12,10 +15,7 @@
         <Projects Include="pwa.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="mobile.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="cgi.dproj">
+        <Projects Include="server.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -26,14 +26,23 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="server">
-        <MSBuild Projects="server.dproj"/>
+    <Target Name="mobile">
+        <MSBuild Projects="mobile.dproj"/>
     </Target>
-    <Target Name="server:Clean">
-        <MSBuild Projects="server.dproj" Targets="Clean"/>
+    <Target Name="mobile:Clean">
+        <MSBuild Projects="mobile.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="server:Make">
-        <MSBuild Projects="server.dproj" Targets="Make"/>
+    <Target Name="mobile:Make">
+        <MSBuild Projects="mobile.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="cgi">
+        <MSBuild Projects="cgi.dproj"/>
+    </Target>
+    <Target Name="cgi:Clean">
+        <MSBuild Projects="cgi.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="cgi:Make">
+        <MSBuild Projects="cgi.dproj" Targets="Make"/>
     </Target>
     <Target Name="menu">
         <MSBuild Projects="menu.dproj"/>
@@ -53,32 +62,23 @@
     <Target Name="pwa:Make">
         <MSBuild Projects="pwa.dproj" Targets="Make"/>
     </Target>
-    <Target Name="mobile">
-        <MSBuild Projects="mobile.dproj"/>
+    <Target Name="server">
+        <MSBuild Projects="server.dproj"/>
     </Target>
-    <Target Name="mobile:Clean">
-        <MSBuild Projects="mobile.dproj" Targets="Clean"/>
+    <Target Name="server:Clean">
+        <MSBuild Projects="server.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="mobile:Make">
-        <MSBuild Projects="mobile.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="cgi">
-        <MSBuild Projects="cgi.dproj"/>
-    </Target>
-    <Target Name="cgi:Clean">
-        <MSBuild Projects="cgi.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="cgi:Make">
-        <MSBuild Projects="cgi.dproj" Targets="Make"/>
+    <Target Name="server:Make">
+        <MSBuild Projects="server.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="server;menu;pwa;mobile;cgi"/>
+        <CallTarget Targets="mobile;cgi;menu;pwa;server"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="server:Clean;menu:Clean;pwa:Clean;mobile:Clean;cgi:Clean"/>
+        <CallTarget Targets="mobile:Clean;cgi:Clean;menu:Clean;pwa:Clean;server:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="server:Make;menu:Make;pwa:Make;mobile:Make;cgi:Make"/>
+        <CallTarget Targets="mobile:Make;cgi:Make;menu:Make;pwa:Make;server:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
