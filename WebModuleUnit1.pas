@@ -80,9 +80,6 @@ implementation
 uses System.JSON, System.IOUtils, System.NetEncoding, webData, Vcl.Graphics,
   info, System.Variants;
 
-const
-  appurl = 'https://react-firebase-9329b.web.app/pwa.html';
-
 function TWebModule1.BlobImageString(DataSet: TDataSet): string;
 var
   blob: TStream;
