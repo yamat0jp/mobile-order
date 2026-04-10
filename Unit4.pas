@@ -46,7 +46,7 @@ implementation
 
 {$R *.dfm}
 
-uses WEBLib.JSON, main;
+uses WEBLib.JSON, main, info;
 
 var
   min: integer;
@@ -96,7 +96,7 @@ begin
   WebImageControl1.URL := Order.ImageBase64;
   WebLabel5.Caption := TotalCost.ToString + ' 円';
   WebSpinEdit1Change(nil);
-  WebHttpRequest1.URL:='http://'+main.server+'/order';
+  WebHttpRequest1.URL := 'http://' + info.server + '/order';
 end;
 
 procedure TForm3.WebHttpRequest1Error(Sender: TObject;

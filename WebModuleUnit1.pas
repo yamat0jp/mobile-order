@@ -172,7 +172,7 @@ begin
       FDTable4.Post;
     end;
     Response.Content := s;
-    Response.SendRedirect('http://localhost:8000/pwa/pwa.html');
+    Response.SendRedirect(myurl);
   end;
 end;
 
@@ -303,6 +303,7 @@ begin
   FDTable1.Open;
   FDTable2.Open;
   FDTable3.Open;
+  FDTable4.Open;
 end;
 
 end.

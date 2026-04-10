@@ -53,7 +53,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, System.Generics.Collections, webdata, Unit4;
+uses Unit1, Unit2, System.Generics.Collections, webdata, Unit4, info;
 
 function NativeIntToCssColor(AColor: NativeInt): string;
 begin
@@ -119,9 +119,9 @@ begin
   document.getElementById('menuHome').addEventListener('click', @Home);
   document.getElementById('menuAbout').addEventListener('click', @About);
 
-  WebHttpRequest1.URL := 'http://' + server + '/?category=popular';
-  WebHttpRequest2.URL := 'http://' + server + '/download';
-  WebHttpRequest3.URL := 'http://' + server + '/uid';
+  WebHttpRequest1.URL := 'http://' + info.server + '/?category=popular';
+  WebHttpRequest2.URL := 'http://' + info.server + '/download';
+  WebHttpRequest3.URL := 'http://' + info.server + '/uid';
   WebHttpRequest3.Execute;
 end;
 
