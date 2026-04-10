@@ -60,6 +60,8 @@ type
     procedure WebModuleCreate(Sender: TObject);
     procedure WebModule1WebActionItem1Action(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModule1WebActionItem3Action(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
   private
     { private 宣言 }
     function BlobImageString(DataSet: TDataSet): string;
@@ -211,6 +213,12 @@ begin
     JSON.Free;
     order.Free;
   end;
+end;
+
+procedure TWebModule1.WebModule1WebActionItem3Action(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+begin
+  Response.Content:='ok';
 end;
 
 procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;

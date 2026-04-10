@@ -8,7 +8,7 @@ object Form7: TForm7
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
-  OnCreate = RadioButton1Change
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   DesignerMasterStyle = 0
   object RadioButton1: TRadioButton
@@ -3102,8 +3102,9 @@ object Form7: TForm7
     Params.Strings = (
       'Database=mydb'
       'CharacterSet=utF8'
+      'User_Name=postgre'
+      'Password=masterkey'
       'DriverID=PG')
-    Connected = True
     Left = 784
     Top = 200
   end
@@ -3113,7 +3114,6 @@ object Form7: TForm7
     Top = 272
   end
   object FDTable2: TFDTable
-    Active = True
     IndexFieldNames = 'id'
     MasterSource = DataSource1
     MasterFields = 'id'
@@ -3164,7 +3164,6 @@ object Form7: TForm7
     end
   end
   object FDTable1: TFDTable
-    Active = True
     IndexFieldNames = 'tableid'
     Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
@@ -3200,13 +3199,13 @@ object Form7: TForm7
   object FDQuery1: TFDQuery
     Connection = FDConnection1
     SQL.Strings = (
-      'drop table kitchen;'
+      ''
       
-        'create table uid(id serial primary key, tableID integer, ip text' +
-        ');'
+        'create table if not exists uid(id serial primary key, tableID in' +
+        'teger, ip text);'
       
-        'create table kitchen(tableID integer, orderID serial PRIMARY KEY' +
-        ', '
+        'create table if not exists kitchen(tableID integer, orderID seri' +
+        'al PRIMARY KEY, '
       '  id integer, qty integer, timedata text, status integer);')
     Left = 888
     Top = 208

@@ -2,7 +2,6 @@ object WebModule1: TWebModule1
   OnCreate = WebModuleCreate
   Actions = <
     item
-      Default = True
       MethodType = mtGet
       Name = 'DefaultHandler'
       PathInfo = '/'
@@ -31,6 +30,12 @@ object WebModule1: TWebModule1
       Name = 'WebActionItem1'
       PathInfo = '/uid'
       OnAction = WebModule1WebActionItem1Action
+    end
+    item
+      Default = True
+      Name = 'WebActionItem3'
+      PathInfo = '/ok'
+      OnAction = WebModule1WebActionItem3Action
     end>
   BeforeDispatch = WebModuleBeforeDispatch
   Height = 230
@@ -39,8 +44,9 @@ object WebModule1: TWebModule1
     Params.Strings = (
       'Database=mydb'
       'CharacterSet=UTF8'
+      'User_Name=postgre'
+      'Password=masterkey'
       'DriverID=PG')
-    Connected = True
     Left = 160
     Top = 40
   end
@@ -178,7 +184,6 @@ object WebModule1: TWebModule1
     end
   end
   object FDTable4: TFDTable
-    Active = True
     IndexFieldNames = 'id'
     Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]

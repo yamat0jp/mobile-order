@@ -27,6 +27,7 @@ type
     FDTable1fileext: TWideMemoField;
     FDTable1image: TBlobField;
     procedure FDTable1BeforePost(DataSet: TDataSet);
+    procedure DataModuleCreate(Sender: TObject);
   private
     { Private 宣言 }
   public
@@ -43,6 +44,13 @@ implementation
 uses Unit5;
 
 {$R *.dfm}
+
+procedure TDataModule3.DataModuleCreate(Sender: TObject);
+begin
+  FDConnection1.Open;
+  FDQuery1.ExecSQL;
+  FDTable1.Open;
+end;
 
 procedure TDataModule3.FDTable1BeforePost(DataSet: TDataSet);
 begin

@@ -67,7 +67,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit3, Jpeg, OKCANCL2, Winapi.ShellAPI, DelphiZXingQRCode;
+uses Unit3, Jpeg, OKCANCL2, Winapi.ShellAPI, DelphiZXingQRCode, info;
 
 procedure GenerateQRCode(const Text: string; const Stream: TStream;
   Size: integer = 300);
@@ -143,7 +143,7 @@ begin
       pos := PenPos;
       TextOut(pos.X + QRSize div 2, pos.Y, i.ToString);
       st.Position := 0;
-      GenerateQRCode('http://localhost:8080/uid?table=' +
+      GenerateQRCode('http://'+server+'/uid?table=' +
         i.ToString, st);
       st.Position := 0;
       QRbmp.LoadFromStream(st);

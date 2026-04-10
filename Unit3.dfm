@@ -1,11 +1,11 @@
 object DataModule3: TDataModule3
+  OnCreate = DataModuleCreate
   Height = 480
   Width = 640
   object FDQuery1: TFDQuery
     Connection = FDConnection1
     SQL.Strings = (
-      'drop table item;'
-      'CREATE TABLE item ('
+      'CREATE TABLE if not exists item ('
       '    id serial primary key,'
       '    category text, name text, comment text,'
       '    price integer, qty integer, cnt integer,'
@@ -15,7 +15,6 @@ object DataModule3: TDataModule3
     Top = 72
   end
   object FDTable1: TFDTable
-    Active = True
     BeforePost = FDTable1BeforePost
     IndexFieldNames = 'id'
     Connection = FDConnection1
@@ -68,8 +67,9 @@ object DataModule3: TDataModule3
     Params.Strings = (
       'CharacterSet=UTF8'
       'Database=mydb'
+      'User_Name=postgre'
+      'Password=masterkey'
       'DriverID=PG')
-    Connected = True
     Left = 160
     Top = 64
   end

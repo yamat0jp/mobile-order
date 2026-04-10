@@ -45,9 +45,6 @@ type
     procedure Order(Sender: TObject);
   end;
 
-const
-  server = 'localhost:8080';
-
 var
   Form1: TForm1;
   tableID: integer;

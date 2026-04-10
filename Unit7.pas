@@ -98,6 +98,7 @@ type
     procedure StringGrid1EditingDone(Sender: TObject;
       const ACol, ARow: integer);
     procedure Button5Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { private 宣言 }
     procedure ListItemClear(AList: TListBox);
@@ -327,6 +328,15 @@ begin
   Button1.Text := total.ToString + ' 円';
   ListBox3.Items.Add('----------------------');
   ListBox3.Items.Add(Button1.Text);
+end;
+
+procedure TForm7.FormCreate(Sender: TObject);
+begin
+  FDConnection1.Open;
+  FDQuery1.ExecSQL;
+  FDTable1.Open;
+  FDTable2.Open;
+  RadioButton1Change(nil);
 end;
 
 procedure TForm7.FormDestroy(Sender: TObject);
