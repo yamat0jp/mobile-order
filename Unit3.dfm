@@ -67,8 +67,7 @@ object DataModule3: TDataModule3
     Params.Strings = (
       'CharacterSet=UTF8'
       'Database=mydb'
-      'User_Name=postgre'
-      'Password=masterkey'
+      'User_Name=postgres'
       'DriverID=PG')
     Left = 160
     Top = 64

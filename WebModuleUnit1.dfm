@@ -44,8 +44,7 @@ object WebModule1: TWebModule1
     Params.Strings = (
       'Database=mydb'
       'CharacterSet=UTF8'
-      'User_Name=postgre'
-      'Password=masterkey'
+      'User_Name=postgres'
       'DriverID=PG')
     Left = 160
     Top = 40
