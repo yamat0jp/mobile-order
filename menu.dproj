@@ -84,7 +84,6 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
-        <DCC_UnitSearchPath>E:\fuke\GitHub\2026\mobile-order\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_Define>FRAMEWORK_VCL;RELEASE;$(DCC_Define)</DCC_Define>
         <Icon_MainIcon>$(ProjectName).Artwork\Windows\AppIcon.ico</Icon_MainIcon>
         <Icns_MainIcns>$(ProjectName).Artwork\Windows\AppIcon.icns</Icns_MainIcns>

@@ -47,6 +47,7 @@ type
     FDTable4id: TIntegerField;
     FDTable4tableid: TIntegerField;
     FDTable4ip: TWideMemoField;
+    FDPhysPgDriverLink1: TFDPhysPgDriverLink;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;
@@ -57,11 +58,13 @@ type
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModule1WebActionItem2Action(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
-    procedure WebModuleCreate(Sender: TObject);
     procedure WebModule1WebActionItem1Action(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModule1WebActionItem3Action(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModuleException(Sender: TObject; E: Exception;
+      var Handled: Boolean);
+    procedure FDPhysPgDriverLink1DriverCreated(Sender: TObject);
   private
     { private 宣言 }
     function BlobImageString(DataSet: TDataSet): string;
@@ -95,6 +98,15 @@ begin
   finally
     blob.Free;
   end;
+end;
+
+procedure TWebModule1.FDPhysPgDriverLink1DriverCreated(Sender: TObject);
+begin
+  FDConnection1.Open;
+  FDTable1.Open;
+  FDTable2.Open;
+  FDTable3.Open;
+  FDTable4.Open;
 end;
 
 procedure TWebModule1.WebModule1DefaultHandlerAction(Sender: TObject;
@@ -215,7 +227,7 @@ end;
 procedure TWebModule1.WebModule1WebActionItem3Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 begin
-  Response.Content:='ok';
+  Response.Content := 'ok';
 end;
 
 procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;
@@ -294,13 +306,19 @@ begin
   Response.SetCustomHeader('Access-Control-Allow-Headers', '*');
 end;
 
-procedure TWebModule1.WebModuleCreate(Sender: TObject);
+procedure TWebModule1.WebModuleException(Sender: TObject; E: Exception;
+  var Handled: Boolean);
 begin
-  FDConnection1.Open;
-  FDTable1.Open;
-  FDTable2.Open;
-  FDTable3.Open;
-  FDTable4.Open;
+  Response.ContentType := 'text/html; charset=UTF-8';
+  Response.StatusCode := 500;
+
+  Response.Content :=
+    '<html><body>' +
+    '<h2>エラーが発生しました</h2>' +
+    '<p>' + E.Message + '</p>' +
+    '</body></html>';
+
+  Handled := True;
 end;
 
 end.

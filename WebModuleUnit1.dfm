@@ -1,5 +1,4 @@
 object WebModule1: TWebModule1
-  OnCreate = WebModuleCreate
   Actions = <
     item
       MethodType = mtGet
@@ -38,6 +37,7 @@ object WebModule1: TWebModule1
       OnAction = WebModule1WebActionItem3Action
     end>
   BeforeDispatch = WebModuleBeforeDispatch
+  OnException = WebModuleException
   Height = 230
   Width = 415
   object FDConnection1: TFDConnection
@@ -143,7 +143,7 @@ object WebModule1: TWebModule1
   end
   object DataSource1: TDataSource
     DataSet = FDTable2
-    Left = 272
+    Left = 296
     Top = 120
   end
   object FDTable2: TFDTable
@@ -203,5 +203,10 @@ object WebModule1: TWebModule1
       Origin = 'ip'
       BlobType = ftWideMemo
     end
+  end
+  object FDPhysPgDriverLink1: TFDPhysPgDriverLink
+    OnDriverCreated = FDPhysPgDriverLink1DriverCreated
+    Left = 232
+    Top = 152
   end
 end
