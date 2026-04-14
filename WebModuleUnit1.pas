@@ -47,8 +47,6 @@ type
     FDTable4id: TIntegerField;
     FDTable4tableid: TIntegerField;
     FDTable4ip: TWideMemoField;
-    FDPhysPgDriverLink1: TFDPhysPgDriverLink;
-    FDManager1: TFDManager;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;
@@ -66,7 +64,6 @@ type
     procedure WebModuleAfterDispatch(Sender: TObject; Request: TWebRequest;
       Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleCreate(Sender: TObject);
-    procedure WebModuleDestroy(Sender: TObject);
   private
     { private 宣言 }
     function BlobImageString(DataSet: TDataSet): string;
@@ -307,10 +304,10 @@ begin
   conn := TFDConnection.Create(nil);
   conn.ConnectionDefName := 'MyPG';
   conn.Open;
-  FDTable1.Connection:=conn;
-  FDTable2.Connection:=conn;
-  FDTable3.Connection:=conn;
-  FDTable4.Connection:=conn;
+  FDTable1.Connection := conn;
+  FDTable2.Connection := conn;
+  FDTable3.Connection := conn;
+  FDTable4.Connection := conn;
   FDTable1.Open;
   FDTable2.Open;
   FDTable3.Open;
@@ -323,8 +320,7 @@ var
 begin
   params := TStringList.Create;
   try
-    params.Add('characterset=utf8');
-    params.Add('driverid=pg');
+    params.Add('CharacterSet=utf8');
     params.Add('server=127.0.0.1');
     params.Add('database=mydb');
     params.Add('user_name=postgres');
@@ -334,15 +330,12 @@ begin
     params.Add('pool_expiretimeout = 30000');
     params.Add('pool_cleanuptimeout = 30000');
 
-    FDManager1.AddConnectionDef('MyPG', 'PG', params);
+    FDManager.Close;
+    FDManager.AddConnectionDef('MyPG', 'PG', params);
   finally
     params.Free;
   end;
-end;
-
-procedure TWebModule1.WebModuleDestroy(Sender: TObject);
-begin
-  FDManager1.Close;
+  FDManager.Open;
 end;
 
 procedure TWebModule1.WebModuleException(Sender: TObject; E: Exception;

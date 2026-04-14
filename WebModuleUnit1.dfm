@@ -1,6 +1,5 @@
 object WebModule1: TWebModule1
   OnCreate = WebModuleCreate
-  OnDestroy = WebModuleDestroy
   Actions = <
     item
       MethodType = mtGet
@@ -35,7 +34,7 @@ object WebModule1: TWebModule1
   BeforeDispatch = WebModuleBeforeDispatch
   AfterDispatch = WebModuleAfterDispatch
   OnException = WebModuleException
-  Height = 325
+  Height = 203
   Width = 415
   object FDTable1: TFDTable
     Filtered = True
@@ -187,18 +186,5 @@ object WebModule1: TWebModule1
       Origin = 'ip'
       BlobType = ftWideMemo
     end
-  end
-  object FDPhysPgDriverLink1: TFDPhysPgDriverLink
-    VendorLib = 'E:\fuke\www\myapp\libpq.dll'
-    Left = 80
-    Top = 208
-  end
-  object FDManager1: TFDManager
-    FormatOptions.AssignedValues = [fvMapRules]
-    FormatOptions.OwnMapRules = True
-    FormatOptions.MapRules = <>
-    Active = True
-    Left = 216
-    Top = 208
   end
 end
