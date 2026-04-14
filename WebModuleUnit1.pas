@@ -11,11 +11,14 @@ uses
   FireDAC.Phys.IB, FireDAC.Phys.IBDef, FireDAC.Phys.SQLite,
   FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
   FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.Phys.PG, FireDAC.Phys.PGDef,
-  FireDAC.Comp.UI;
+  FireDAC.Comp.UI, FireDAC.Phys.MySQLDef, FireDAC.Phys.MySQL;
 
 type
   TWebModule1 = class(TWebModule)
     DataSource1: TDataSource;
+    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
+    FDTable1: TFDTable;
+    FDConnection1: TFDConnection;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;

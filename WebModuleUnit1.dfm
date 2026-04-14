@@ -40,4 +40,25 @@ object WebModule1: TWebModule1
     Left = 144
     Top = 64
   end
+  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
+    VendorLib = 'C:\Users\yamat\scoop\apps\postgresql10\10.23\bin\libpq.dll'
+    Left = 192
+    Top = 88
+  end
+  object FDTable1: TFDTable
+    Connection = FDConnection1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'uid'
+    Left = 344
+    Top = 32
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=mydb'
+      'User_Name=postgres'
+      'DriverID=PG')
+    Connected = True
+    Left = 248
+    Top = 40
+  end
 end
