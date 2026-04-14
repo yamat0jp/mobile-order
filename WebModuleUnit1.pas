@@ -15,38 +15,7 @@ uses
 
 type
   TWebModule1 = class(TWebModule)
-    FDTable1: TFDTable;
-    FDTable3: TFDTable;
     DataSource1: TDataSource;
-    FDTable2: TFDTable;
-    FDTable3category: TWideMemoField;
-    FDTable3name: TWideMemoField;
-    FDTable3comment: TWideMemoField;
-    FDTable3price: TIntegerField;
-    FDTable3qty: TIntegerField;
-    FDTable3cnt: TIntegerField;
-    FDTable3fileext: TWideMemoField;
-    FDTable3image: TBlobField;
-    FDTable1category: TWideMemoField;
-    FDTable1name: TWideMemoField;
-    FDTable1comment: TWideMemoField;
-    FDTable1price: TIntegerField;
-    FDTable1qty: TIntegerField;
-    FDTable1cnt: TIntegerField;
-    FDTable1fileext: TWideMemoField;
-    FDTable1image: TBlobField;
-    FDTable1id: TIntegerField;
-    FDTable3id: TIntegerField;
-    FDTable2tableid: TIntegerField;
-    FDTable2orderid: TIntegerField;
-    FDTable2id: TIntegerField;
-    FDTable2qty: TIntegerField;
-    FDTable2status: TIntegerField;
-    FDTable2timedata: TWideMemoField;
-    FDTable4: TFDTable;
-    FDTable4id: TIntegerField;
-    FDTable4tableid: TIntegerField;
-    FDTable4ip: TWideMemoField;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;
@@ -109,28 +78,35 @@ var
   Data: TJSONArray;
   order: TOrderData;
   img: string;
+  table: TFDTable;
 begin
-  FDTable1.Filter := 'category = ' +
-    QuotedStr(Request.QueryFields.Values['category']);
+  table := TFDTable.Create(nil);
   JSON := TJSONObject.Create;
   order := TOrderData.Create;
   try
+    table.Connection := conn;
+    table.TableName := 'item';
+    table.IndexName := 'id';
+    table.Filter := 'category = ' +
+      QuotedStr(Request.QueryFields.Values['category']);
+    table.Filtered := true;
+    table.Open;
     Data := TJSONArray.Create;
-    FDTable1.First;
-    while not FDTable1.Eof do
+    table.First;
+    while not table.Eof do
     begin
-      img := BlobImageString(FDTable1);
+      img := BlobImageString(table);
 
-      order.category := FDTable1.FieldByName('category').AsString;
-      order.id := FDTable1.FieldByName('id').AsInteger;
-      order.name := FDTable1.FieldByName('name').AsString;
-      order.comment := FDTable1.FieldByName('comment').AsString;
-      order.qty := FDTable1.FieldByName('qty').AsInteger;
-      order.price := FDTable1.FieldByName('price').AsInteger;
-      order.count := FDTable1.FieldByName('cnt').AsInteger;
+      order.category := table.FieldByName('category').AsString;
+      order.id := table.FieldByName('id').AsInteger;
+      order.name := table.FieldByName('name').AsString;
+      order.comment := table.FieldByName('comment').AsString;
+      order.qty := table.FieldByName('qty').AsInteger;
+      order.price := table.FieldByName('price').AsInteger;
+      order.count := table.FieldByName('cnt').AsInteger;
       order.ImageBase64 := img;
       Data.Add(order.toJson);
-      FDTable1.Next;
+      table.Next;
     end;
     if Data.count = 0 then
       Response.Content := '{}'
@@ -143,6 +119,7 @@ begin
   finally
     JSON.Free;
     order.Free;
+    table.Free;
   end;
 end;
 
@@ -153,28 +130,38 @@ var
   ip: string;
   id: integer;
   v: Variant;
+  table: TFDTable;
 begin
-  s := Request.QueryFields.Values['table'];
-  if s = '' then
-  begin
-    v := FDTable4.Lookup('ip', Request.RemoteIP, 'tableID');
-    if not VarIsNull(v) then
-      Response.Content := v;
-  end
-  else
-  begin
-    id := s.ToInteger;
-    ip := Request.RemoteIP;
-    if not FDTable4.Locate('ip', ip) then
-      FDTable4.AppendRecord([nil, id, ip])
+  table := TFDTable.Create(nil);
+  try
+    table.Connection := conn;
+    table.TableName := 'uid';
+    table.IndexName := 'id';
+    table.Open;
+    s := Request.QueryFields.Values['table'];
+    if s = '' then
+    begin
+      v := table.Lookup('ip', Request.RemoteIP, 'tableID');
+      if not VarIsNull(v) then
+        Response.Content := v;
+    end
     else
     begin
-      FDTable4.Edit;
-      FDTable4.FieldByName('tableID').AsInteger := id;
-      FDTable4.Post;
+      id := s.ToInteger;
+      ip := Request.RemoteIP;
+      if not table.Locate('ip', ip) then
+        table.AppendRecord([nil, id, ip])
+      else
+      begin
+        table.Edit;
+        table.FieldByName('tableID').AsInteger := id;
+        table.Post;
+      end;
+      Response.Content := s;
+      Response.SendRedirect(myurl);
     end;
-    Response.Content := s;
-    Response.SendRedirect(myurl);
+  finally
+    table.Free;
   end;
 end;
 
@@ -184,26 +171,45 @@ var
   order: TAdvanceData;
   JSON: TJSONObject;
   arr: TJSONArray;
+  table2, table3, table4: TFDTable;
 begin
-  if not FDTable4.Locate('ip', Request.RemoteIP) then
-    Exit;
-  FDTable2.Filter := 'status < 2 and tableID = ' + FDTable4.FieldByName
-    ('tableID').AsString;
+  table2 := TFDTable.Create(nil);
+  table3 := TFDTable.Create(nil);
+  table4 := TFDTable.Create(nil);
   JSON := TJSONObject.Create;
   order := TAdvanceData.Create;
   try
+    table4.Connection := conn;
+    table4.TableName := 'uid';
+    table4.IndexName := 'id';
+    table4.Open;
+    if not table4.Locate('ip', Request.RemoteIP) then
+      Exit;
+    table2.Connection := conn;
+    table3.Connection := conn;
+    table2.TableName := 'kitchen';
+    table3.TableName := 'item';
+    table3.MasterSource := DataSource1;
+    table3.MasterFields := 'id';
+    table2.IndexName := 'orderID';
+    table3.IndexName := 'id';
+    table2.Filter := 'status < 2 and tableID = ' +
+      table4.FieldByName('tableID').AsString;
+    table2.Filtered := true;
+    table2.Open;
+    table3.Open;
     arr := TJSONArray.Create;
-    FDTable2.First;
-    while not FDTable2.Eof do
+    table2.First;
+    while not table2.Eof do
     begin
-      order.name := FDTable3.FieldByName('name').AsString;
-      order.qty := FDTable2.FieldByName('qty').AsInteger;
-      order.price := FDTable3.FieldByName('price').AsInteger;
-      order.comment := FDTable3.FieldByName('comment').AsString;
-      order.ImageBase64 := BlobImageString(FDTable3);
-      order.time := FDTable2.FieldByName('timedata').AsString;
+      order.name := table3.FieldByName('name').AsString;
+      order.qty := table2.FieldByName('qty').AsInteger;
+      order.price := table3.FieldByName('price').AsInteger;
+      order.comment := table3.FieldByName('comment').AsString;
+      order.ImageBase64 := BlobImageString(table3);
+      order.time := table2.FieldByName('timedata').AsString;
       arr.Add(order.toJson);
-      FDTable2.Next;
+      table2.Next;
     end;
     JSON.AddPair('items', arr);
     Response.ContentType := 'application/json; charset=utf-8';
@@ -214,6 +220,9 @@ begin
   finally
     JSON.Free;
     order.Free;
+    table2.Free;
+    table3.Free;
+    table4.Free;
   end;
 end;
 
@@ -221,35 +230,51 @@ procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
   JSON: TJSONObject;
+  table1, table2, table4: TFDTable;
 begin
-  if not FDTable4.Locate('ip', Request.RemoteIP) then
-    Exit;
   JSON := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
-  FDTable1.Filtered := false;
+  table1 := TFDTable.Create(nil);
+  table2 := TFDTable.Create(nil);
+  table4 := TFDTable.Create(nil);
   try
-    if FDTable1.Locate('id', JSON.GetValue<integer>('id')) then
+    table1.Connection := conn;
+    table2.Connection := conn;
+    table4.Connection := conn;
+    table1.TableName := 'item';
+    table2.TableName := 'kitchen';
+    table4.TableName := 'uid';
+    table1.IndexName := 'id';
+    table2.IndexName := 'orderID';
+    table4.IndexName := 'id';
+    table1.Open;
+    table2.Open;
+    table4.Open;
+    if not table4.Locate('ip', Request.RemoteIP) then
+      Exit;
+    if table1.Locate('id', JSON.GetValue<integer>('id')) then
     begin
-      FDTable1.Edit;
-      FDTable1.FieldByName('cnt').AsInteger := JSON.GetValue<integer>('count');
-      FDTable1.Post;
+      table1.Edit;
+      table1.FieldByName('cnt').AsInteger := JSON.GetValue<integer>('count');
+      table1.Post;
       Response.Content := '注文しました';
 
-      FDTable2.Append;
-      FDTable2.FieldByName('id').AsInteger := FDTable1.FieldByName('id')
+      table2.Append;
+      table2.FieldByName('id').AsInteger := table1.FieldByName('id').AsInteger;
+      table2.FieldByName('tableID').AsInteger := table4.FieldByName('tableID')
         .AsInteger;
-      FDTable2.FieldByName('tableID').AsInteger :=
-        FDTable4.FieldByName('tableID').AsInteger;
-      FDTable2.FieldByName('qty').AsInteger := JSON.GetValue<integer>('qty');
-      FDTable2.FieldByName('timedata').AsString :=
+      table2.FieldByName('qty').AsInteger := JSON.GetValue<integer>('qty');
+      table2.FieldByName('timedata').AsString :=
         FormatDateTime('hh:nn', GetTime);
-      FDTable2.FieldByName('status').AsInteger := Ord(TOrderStatus.pending);
-      FDTable2.Post;
+      table2.FieldByName('status').AsInteger := Ord(TOrderStatus.pending);
+      table2.Post;
     end
     else
       Response.Content := 'エラー： スタッフにお声がけください';
   finally
     JSON.Free;
-    FDTable1.Filtered := true;
+    table1.Free;
+    table2.Free;
+    table4.Free;
   end;
 end;
 
@@ -259,27 +284,38 @@ var
   JSON: TJSONObject;
   tableID: integer;
   i: integer;
+  table2, table4: TFDTable;
 begin
-  if not FDTable4.Locate('ip', Request.RemoteIP) then
-    Exit;
-  tableID := FDTable2.FieldByName('tableID').AsInteger;
+  table2 := TFDTable.Create(nil);
+  table4 := TFDTable.Create(nil);
   JSON := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
   try
-    FDTable2.Filter := 'tableID = ' + tableID.ToString;
-    FDTable2.First;
-    while not FDTable2.Eof do
+    table2.Connection := conn;
+    table4.Connection := conn;
+    table2.TableName := 'kitchen';
+    table4.TableName := 'uid';
+    table2.IndexName := 'orderID';
+    table4.IndexName := 'id';
+    if not table4.Locate('ip', Request.RemoteIP) then
+      Exit;
+    tableID := table2.FieldByName('tableID').AsInteger;
+    table2.Filter := 'tableID = ' + tableID.ToString;
+    table2.First;
+    while not table2.Eof do
     begin
-      FDTable2.Edit;
-      i := FDTable2.FieldByName('status').AsInteger;
+      table2.Edit;
+      i := table2.FieldByName('status').AsInteger;
       if i = 0 then
-        FDTable2.FieldByName('status').AsInteger := 3
+        table2.FieldByName('status').AsInteger := 3
       else if i = 1 then
-        FDTable2.FieldByName('status').AsInteger := Ord(TOrderStatus.billing);
-      FDTable2.Post;
-      FDTable2.Next;
+        table2.FieldByName('status').AsInteger := Ord(TOrderStatus.billing);
+      table2.Post;
+      table2.Next;
     end;
   finally
     JSON.Free;
+    table2.Free;
+    table4.Free;
   end;
   Response.Content := '会計処理ができました';
 end;
@@ -287,10 +323,6 @@ end;
 procedure TWebModule1.WebModuleAfterDispatch(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 begin
-  FDTable1.Close;
-  FDTable2.Close;
-  FDTable3.Close;
-  FDTable4.Close;
   conn.Free;
 end;
 
@@ -304,14 +336,6 @@ begin
   conn := TFDConnection.Create(nil);
   conn.ConnectionDefName := 'MyPG';
   conn.Open;
-  FDTable1.Connection := conn;
-  FDTable2.Connection := conn;
-  FDTable3.Connection := conn;
-  FDTable4.Connection := conn;
-  FDTable1.Open;
-  FDTable2.Open;
-  FDTable3.Open;
-  FDTable4.Open;
 end;
 
 procedure TWebModule1.WebModuleCreate(Sender: TObject);
@@ -321,6 +345,8 @@ begin
   params := TStringList.Create;
   try
     params.Add('CharacterSet=utf8');
+    params.Add('driverid=PG');
+    params.Add('fastcgiapp');
     params.Add('server=127.0.0.1');
     params.Add('database=mydb');
     params.Add('user_name=postgres');
@@ -329,9 +355,13 @@ begin
     params.Add('pool_maximumitems = 6');
     params.Add('pool_expiretimeout = 30000');
     params.Add('pool_cleanuptimeout = 30000');
+    params.Add('LoginTimeout = 15000');
+    params.Add('WaitTimeout = 30000');
+    params.Add('CommandTimeout = 30000');
 
     FDManager.Close;
     FDManager.AddConnectionDef('MyPG', 'PG', params);
+    FDManager.ResourceOptions.SilentMode := true;
   finally
     params.Free;
   end;

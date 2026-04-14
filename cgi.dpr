@@ -5,7 +5,8 @@ program cgi;
 uses
   Web.WebBroker,
   CGIApp,
-  WebModuleUnit1 in 'WebModuleUnit1.pas' {WebModule1: TWebModule};
+  WebModuleUnit1 in 'WebModuleUnit1.pas' {WebModule1: TWebModule},
+  info in 'info.pas';
 
 {$R *.res}
 
