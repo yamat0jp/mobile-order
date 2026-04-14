@@ -10,11 +10,11 @@ uses
   FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   FireDAC.Phys.IB, FireDAC.Phys.IBDef, FireDAC.Phys.SQLite,
   FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
-  FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.Phys.PG, FireDAC.Phys.PGDef;
+  FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.Phys.PG, FireDAC.Phys.PGDef,
+  FireDAC.Comp.UI;
 
 type
   TWebModule1 = class(TWebModule)
-    FDConnection1: TFDConnection;
     FDTable1: TFDTable;
     FDTable3: TFDTable;
     DataSource1: TDataSource;
@@ -48,6 +48,8 @@ type
     FDTable4tableid: TIntegerField;
     FDTable4ip: TWideMemoField;
     FDPhysPgDriverLink1: TFDPhysPgDriverLink;
+    FDConnection1: TFDConnection;
+    FDManager1: TFDManager;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;
@@ -60,11 +62,12 @@ type
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModule1WebActionItem1Action(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
-    procedure WebModule1WebActionItem3Action(Sender: TObject;
-      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleException(Sender: TObject; E: Exception;
       var Handled: Boolean);
-    procedure FDPhysPgDriverLink1DriverCreated(Sender: TObject);
+    procedure WebModuleAfterDispatch(Sender: TObject; Request: TWebRequest;
+      Response: TWebResponse; var Handled: Boolean);
+    procedure WebModuleCreate(Sender: TObject);
+    procedure WebModuleDestroy(Sender: TObject);
   private
     { private 宣言 }
     function BlobImageString(DataSet: TDataSet): string;
@@ -98,15 +101,6 @@ begin
   finally
     blob.Free;
   end;
-end;
-
-procedure TWebModule1.FDPhysPgDriverLink1DriverCreated(Sender: TObject);
-begin
-  FDConnection1.Open;
-  FDTable1.Open;
-  FDTable2.Open;
-  FDTable3.Open;
-  FDTable4.Open;
 end;
 
 procedure TWebModule1.WebModule1DefaultHandlerAction(Sender: TObject;
@@ -224,12 +218,6 @@ begin
   end;
 end;
 
-procedure TWebModule1.WebModule1WebActionItem3Action(Sender: TObject;
-  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
-begin
-  Response.Content := 'ok';
-end;
-
 procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
@@ -297,6 +285,16 @@ begin
   Response.Content := '会計処理ができました';
 end;
 
+procedure TWebModule1.WebModuleAfterDispatch(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+begin
+  FDTable1.Close;
+  FDTable2.Close;
+  FDTable3.Close;
+  FDTable4.Close;
+  FDConnection1.Close;
+end;
+
 procedure TWebModule1.WebModuleBeforeDispatch(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 begin
@@ -304,6 +302,40 @@ begin
   Response.SetCustomHeader('Access-Control-Allow-Methods',
     'GET, POST, PUT, DELETE, OPTIONS');
   Response.SetCustomHeader('Access-Control-Allow-Headers', '*');
+  FDConnection1.Open;
+  FDTable1.Open;
+  FDTable2.Open;
+  FDTable3.Open;
+  FDTable4.Open;
+end;
+
+procedure TWebModule1.WebModuleCreate(Sender: TObject);
+var
+  params: TStrings;
+begin
+  params := TStringList.Create;
+  try
+    params.Add('characterset=utf8');
+    params.Add('driverid=pg');
+    params.Add('server=127.0.0.1');
+    params.Add('database=mydb');
+    params.Add('user_name=postgres');
+    params.Add('port=5432');
+    params.Add('pooled = true');
+    params.Add('pool_maximumitems = 6');
+    params.Add('pool_expiretimeout = 30000');
+    params.Add('pool_cleanuptimeout = 30000');
+
+    FDManager1.AddConnectionDef('MyPG', 'PG', params);
+  finally
+    params.Free;
+  end;
+  FDConnection1.ConnectionDefName := 'MyPG';
+end;
+
+procedure TWebModule1.WebModuleDestroy(Sender: TObject);
+begin
+  FDManager1.Close;
 end;
 
 procedure TWebModule1.WebModuleException(Sender: TObject; E: Exception;
@@ -312,13 +344,12 @@ begin
   Response.ContentType := 'text/html; charset=UTF-8';
   Response.StatusCode := 500;
 
-  Response.Content :=
-    '<html><body>' +
-    '<h2>エラーが発生しました</h2>' +
-    '<p>' + E.Message + '</p>' +
-    '</body></html>';
+  Response.Content := '<html><body>' + '<h2>エラーが発生しました</h2>' + '<p>' + E.Message
+    + '</p>' + '</body></html>';
 
-  Handled := True;
+  Handled := true;
+
+  FDConnection1.Close;
 end;
 
 end.

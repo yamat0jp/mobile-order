@@ -1,4 +1,6 @@
 object WebModule1: TWebModule1
+  OnCreate = WebModuleCreate
+  OnDestroy = WebModuleDestroy
   Actions = <
     item
       MethodType = mtGet
@@ -29,26 +31,12 @@ object WebModule1: TWebModule1
       Name = 'WebActionItem1'
       PathInfo = '/uid'
       OnAction = WebModule1WebActionItem1Action
-    end
-    item
-      Default = True
-      Name = 'WebActionItem3'
-      PathInfo = '/ok'
-      OnAction = WebModule1WebActionItem3Action
     end>
   BeforeDispatch = WebModuleBeforeDispatch
+  AfterDispatch = WebModuleAfterDispatch
   OnException = WebModuleException
-  Height = 230
+  Height = 325
   Width = 415
-  object FDConnection1: TFDConnection
-    Params.Strings = (
-      'Database=mydb'
-      'CharacterSet=UTF8'
-      'User_Name=postgres'
-      'DriverID=PG')
-    Left = 160
-    Top = 40
-  end
   object FDTable1: TFDTable
     Filtered = True
     Filter = 'category = '#39'popular'#39
@@ -205,8 +193,25 @@ object WebModule1: TWebModule1
     end
   end
   object FDPhysPgDriverLink1: TFDPhysPgDriverLink
-    OnDriverCreated = FDPhysPgDriverLink1DriverCreated
-    Left = 232
-    Top = 152
+    VendorLib = 'E:\fuke\www\myapp\libpq.dll'
+    Left = 80
+    Top = 208
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=mydb'
+      'CharacterSet=UTF8'
+      'User_Name=postgres'
+      'DriverID=PG')
+    Left = 184
+    Top = 40
+  end
+  object FDManager1: TFDManager
+    FormatOptions.AssignedValues = [fvMapRules]
+    FormatOptions.OwnMapRules = True
+    FormatOptions.MapRules = <>
+    Active = True
+    Left = 216
+    Top = 208
   end
 end

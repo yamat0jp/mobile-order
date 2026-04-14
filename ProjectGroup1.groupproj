@@ -6,9 +6,6 @@
         <Projects Include="mobile.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="cgi.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="menu.dproj">
             <Dependencies/>
         </Projects>
@@ -16,6 +13,9 @@
             <Dependencies/>
         </Projects>
         <Projects Include="server.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="cgi.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -34,15 +34,6 @@
     </Target>
     <Target Name="mobile:Make">
         <MSBuild Projects="mobile.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="cgi">
-        <MSBuild Projects="cgi.dproj"/>
-    </Target>
-    <Target Name="cgi:Clean">
-        <MSBuild Projects="cgi.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="cgi:Make">
-        <MSBuild Projects="cgi.dproj" Targets="Make"/>
     </Target>
     <Target Name="menu">
         <MSBuild Projects="menu.dproj"/>
@@ -71,14 +62,23 @@
     <Target Name="server:Make">
         <MSBuild Projects="server.dproj" Targets="Make"/>
     </Target>
+    <Target Name="cgi">
+        <MSBuild Projects="cgi.dproj"/>
+    </Target>
+    <Target Name="cgi:Clean">
+        <MSBuild Projects="cgi.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="cgi:Make">
+        <MSBuild Projects="cgi.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="mobile;cgi;menu;pwa;server"/>
+        <CallTarget Targets="mobile;menu;pwa;server;cgi"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="mobile:Clean;cgi:Clean;menu:Clean;pwa:Clean;server:Clean"/>
+        <CallTarget Targets="mobile:Clean;menu:Clean;pwa:Clean;server:Clean;cgi:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="mobile:Make;cgi:Make;menu:Make;pwa:Make;server:Make"/>
+        <CallTarget Targets="mobile:Make;menu:Make;pwa:Make;server:Make;cgi:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
