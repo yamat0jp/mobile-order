@@ -113,6 +113,7 @@ implementation
 
 {$R *.fmx}
 {$R *.XLgXhdpiTb.fmx ANDROID}
+{$R *.NmXhdpiPh.fmx ANDROID}
 
 uses info, FMX.DialogService;
 

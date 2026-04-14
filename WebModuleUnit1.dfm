@@ -41,7 +41,6 @@ object WebModule1: TWebModule1
     Filtered = True
     Filter = 'category = '#39'popular'#39
     IndexFieldNames = 'id'
-    Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
     TableName = 'item'
     Left = 72
@@ -83,7 +82,6 @@ object WebModule1: TWebModule1
     IndexFieldNames = 'id'
     MasterSource = DataSource1
     MasterFields = 'id'
-    Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
     TableName = 'item'
     Left = 184
@@ -138,7 +136,6 @@ object WebModule1: TWebModule1
     Filtered = True
     Filter = 'status <> 2'
     IndexFieldNames = 'orderID'
-    Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
     TableName = 'kitchen'
     Left = 80
@@ -172,7 +169,6 @@ object WebModule1: TWebModule1
   end
   object FDTable4: TFDTable
     IndexFieldNames = 'id'
-    Connection = FDConnection1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
     TableName = 'uid'
     Left = 296
@@ -196,15 +192,6 @@ object WebModule1: TWebModule1
     VendorLib = 'E:\fuke\www\myapp\libpq.dll'
     Left = 80
     Top = 208
-  end
-  object FDConnection1: TFDConnection
-    Params.Strings = (
-      'Database=mydb'
-      'CharacterSet=UTF8'
-      'User_Name=postgres'
-      'DriverID=PG')
-    Left = 184
-    Top = 40
   end
   object FDManager1: TFDManager
     FormatOptions.AssignedValues = [fvMapRules]

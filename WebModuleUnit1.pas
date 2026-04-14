@@ -48,7 +48,6 @@ type
     FDTable4tableid: TIntegerField;
     FDTable4ip: TWideMemoField;
     FDPhysPgDriverLink1: TFDPhysPgDriverLink;
-    FDConnection1: TFDConnection;
     FDManager1: TFDManager;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
@@ -85,6 +84,9 @@ implementation
 
 uses System.JSON, System.IOUtils, System.NetEncoding, webData, Vcl.Graphics,
   info, System.Variants;
+
+var
+  conn: TFDConnection;
 
 function TWebModule1.BlobImageString(DataSet: TDataSet): string;
 var
@@ -292,7 +294,7 @@ begin
   FDTable2.Close;
   FDTable3.Close;
   FDTable4.Close;
-  FDConnection1.Close;
+  conn.Free;
 end;
 
 procedure TWebModule1.WebModuleBeforeDispatch(Sender: TObject;
@@ -302,7 +304,13 @@ begin
   Response.SetCustomHeader('Access-Control-Allow-Methods',
     'GET, POST, PUT, DELETE, OPTIONS');
   Response.SetCustomHeader('Access-Control-Allow-Headers', '*');
-  FDConnection1.Open;
+  conn := TFDConnection.Create(nil);
+  conn.ConnectionDefName := 'MyPG';
+  conn.Open;
+  FDTable1.Connection:=conn;
+  FDTable2.Connection:=conn;
+  FDTable3.Connection:=conn;
+  FDTable4.Connection:=conn;
   FDTable1.Open;
   FDTable2.Open;
   FDTable3.Open;
@@ -330,7 +338,6 @@ begin
   finally
     params.Free;
   end;
-  FDConnection1.ConnectionDefName := 'MyPG';
 end;
 
 procedure TWebModule1.WebModuleDestroy(Sender: TObject);
@@ -349,7 +356,8 @@ begin
 
   Handled := true;
 
-  FDConnection1.Close;
+  if Assigned(conn) then
+    conn.Free;
 end;
 
 end.
