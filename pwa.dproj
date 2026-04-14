@@ -84,11 +84,11 @@
         <SanitizedProjectName>pwa</SanitizedProjectName>
         <VerInfo_Locale>1041</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <TMSPWAManifestFile>Manifest.json</TMSPWAManifestFile>
+        <DCC_UnitSearchPath>modules\.dcp;modules\.dcu;modules;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <TMSWebPWAServiceWorkerFile>serviceworker.js</TMSWebPWAServiceWorkerFile>
+        <TMSPWAManifestFile>Manifest.json</TMSPWAManifestFile>
         <TMSWebPWAResIconHighFile>IconResHigh.png</TMSWebPWAResIconHighFile>
         <TMSWebPWAResIconLowFile>IconResLow.png</TMSWebPWAResIconLowFile>
-        <DCC_UnitSearchPath>modules\.dcp;modules\.dcu;modules;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <TMSWebPWAResIconMidFile>IconResMid.png</TMSWebPWAResIconMidFile>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
@@ -121,7 +121,7 @@
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+        <DCC_Define>DEBUG;LOCAL;$(DCC_Define)</DCC_Define>
         <DCC_DebugDCUs>true</DCC_DebugDCUs>
         <DCC_Optimize>false</DCC_Optimize>
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
@@ -140,6 +140,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>

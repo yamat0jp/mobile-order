@@ -86,7 +86,7 @@ begin
   try
     table.Connection := conn;
     table.TableName := 'item';
-    table.IndexName := 'id';
+    table.IndexFieldNames := 'id';
     table.Filter := 'category = ' +
       QuotedStr(Request.QueryFields.Values['category']);
     table.Filtered := true;
@@ -136,7 +136,7 @@ begin
   try
     table.Connection := conn;
     table.TableName := 'uid';
-    table.IndexName := 'id';
+    table.IndexFieldNames := 'id';
     table.Open;
     s := Request.QueryFields.Values['table'];
     if s = '' then
@@ -181,7 +181,7 @@ begin
   try
     table4.Connection := conn;
     table4.TableName := 'uid';
-    table4.IndexName := 'id';
+    table4.IndexFieldNames := 'id';
     table4.Open;
     if not table4.Locate('ip', Request.RemoteIP) then
       Exit;
@@ -189,6 +189,7 @@ begin
     table3.Connection := conn;
     table2.TableName := 'kitchen';
     table3.TableName := 'item';
+    DataSource1.DataSet := table2;
     table3.MasterSource := DataSource1;
     table3.MasterFields := 'id';
     table2.IndexName := 'orderID';
@@ -243,7 +244,7 @@ begin
     table1.TableName := 'item';
     table2.TableName := 'kitchen';
     table4.TableName := 'uid';
-    table1.IndexName := 'id';
+    table1.IndexFieldNames := 'id';
     table2.IndexName := 'orderID';
     table4.IndexName := 'id';
     table1.Open;
@@ -294,8 +295,8 @@ begin
     table4.Connection := conn;
     table2.TableName := 'kitchen';
     table4.TableName := 'uid';
-    table2.IndexName := 'orderID';
-    table4.IndexName := 'id';
+    table2.IndexFieldNames := 'orderID';
+    table4.IndexFieldNames := 'id';
     if not table4.Locate('ip', Request.RemoteIP) then
       Exit;
     tableID := table2.FieldByName('tableID').AsInteger;
