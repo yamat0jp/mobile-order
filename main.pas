@@ -200,13 +200,13 @@ var
   URL: string;
 begin
   if Sender = WebPanel1 then
-    URL := 'http://' + server + '/?category=drink'
+    URL := 'http://' + info.server + '/?category=drink'
   else if Sender = WebPanel2 then
-    URL := 'http://' + server + '/?category=setmenu'
+    URL := 'http://' + info.server + '/?category=setmenu'
   else if Sender = WebPanel3 then
-    URL := 'http://' + server + '/?category=popular'
+    URL := 'http://' + info.server + '/?category=popular'
   else if Sender = WebPanel4 then
-    URL := 'http://' + server + '/?category=softdrink';
+    URL := 'http://' + info.server + '/?category=softdrink';
   WebHttpRequest1.URL := URL;
   WebWaitMessage1.Show;
   WebHttpRequest1.Execute;

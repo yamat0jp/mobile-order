@@ -374,10 +374,7 @@ procedure TWebModule1.WebModuleException(Sender: TObject; E: Exception;
 begin
   Response.ContentType := 'text/html; charset=UTF-8';
   Response.StatusCode := 500;
-
-  Response.Content := '<html><body>' + '<h2>エラーが発生しました</h2>' + '<p>' + E.Message
-    + '</p>' + '</body></html>';
-
+  Response.Content := E.Message+' {'+info.server+'}';
   Handled := true;
 
   if Assigned(conn) then
