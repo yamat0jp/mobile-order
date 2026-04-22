@@ -8,7 +8,7 @@ object Form7: TForm7
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
-  OnCreate = FormCreate
+  OnCreate = RadioButton1Change
   OnDestroy = FormDestroy
   DesignerMasterStyle = 0
   object RadioButton1: TRadioButton
@@ -3098,117 +3098,6 @@ object Form7: TForm7
       OnClick = Button5Click
     end
   end
-  object FDConnection1: TFDConnection
-    Params.Strings = (
-      'Database=mydb'
-      'CharacterSet=utF8'
-      'User_Name=postgres'
-      'DriverID=PG')
-    Left = 784
-    Top = 200
-  end
-  object DataSource1: TDataSource
-    DataSet = FDTable1
-    Left = 1040
-    Top = 272
-  end
-  object FDTable2: TFDTable
-    IndexFieldNames = 'id'
-    MasterSource = DataSource1
-    MasterFields = 'id'
-    Connection = FDConnection1
-    ResourceOptions.AssignedValues = [rvEscapeExpand]
-    TableName = 'item'
-    Left = 944
-    Top = 368
-    object FDTable2id: TIntegerField
-      FieldName = 'id'
-      Origin = 'id'
-    end
-    object FDTable2category: TWideMemoField
-      FieldName = 'category'
-      Origin = 'category'
-      BlobType = ftWideMemo
-    end
-    object FDTable2name: TWideMemoField
-      FieldName = 'name'
-      Origin = 'name'
-      BlobType = ftWideMemo
-    end
-    object FDTable2comment: TWideMemoField
-      FieldName = 'comment'
-      Origin = '"comment"'
-      BlobType = ftWideMemo
-    end
-    object FDTable2price: TIntegerField
-      FieldName = 'price'
-      Origin = 'price'
-    end
-    object FDTable2qty: TIntegerField
-      FieldName = 'qty'
-      Origin = 'qty'
-    end
-    object FDTable2cnt: TIntegerField
-      FieldName = 'cnt'
-      Origin = 'cnt'
-    end
-    object FDTable2fileext: TWideMemoField
-      FieldName = 'fileext'
-      Origin = 'fileext'
-      BlobType = ftWideMemo
-    end
-    object FDTable2image: TBlobField
-      FieldName = 'image'
-      Origin = 'image'
-    end
-  end
-  object FDTable1: TFDTable
-    IndexFieldNames = 'tableid'
-    Connection = FDConnection1
-    ResourceOptions.AssignedValues = [rvEscapeExpand]
-    TableName = 'kitchen'
-    Left = 944
-    Top = 272
-    object FDTable1tableid: TIntegerField
-      FieldName = 'tableid'
-      Origin = 'tableid'
-    end
-    object FDTable1orderid: TIntegerField
-      FieldName = 'orderid'
-      Origin = 'orderid'
-    end
-    object FDTable1id: TIntegerField
-      FieldName = 'id'
-      Origin = 'id'
-    end
-    object FDTable1qty: TIntegerField
-      FieldName = 'qty'
-      Origin = 'qty'
-    end
-    object FDTable1timedata: TWideMemoField
-      FieldName = 'timedata'
-      Origin = 'timedata'
-      BlobType = ftWideMemo
-    end
-    object FDTable1status: TIntegerField
-      FieldName = 'status'
-      Origin = 'status'
-    end
-  end
-  object FDQuery1: TFDQuery
-    Connection = FDConnection1
-    SQL.Strings = (
-      ''
-      
-        'create table if not exists uid(id serial primary key, tableID in' +
-        'teger, ip text);'
-      
-        'create table if not exists kitchen(tableID integer, orderID seri' +
-        'al PRIMARY KEY, '
-      '  id integer, qty integer, timedata text, status integer);')
-    Left = 888
-    Top = 208
-  end
   object ActionList1: TActionList
     Left = 736
     Top = 144
@@ -3225,9 +3114,96 @@ object Form7: TForm7
       OnExecute = Action3Execute
     end
   end
-  object FDQuery2: TFDQuery
-    Connection = FDConnection1
-    Left = 816
-    Top = 136
+  object PgConnection1: TPgConnection
+    Username = 'postgres'
+    Database = 'mydb'
+    Connected = True
+    Left = 320
+    Top = 64
+  end
+  object PgTable1: TPgTable
+    TableName = 'kitchen'
+    Connection = PgConnection1
+    Active = True
+    Left = 424
+    Top = 64
+    object PgTable1tableid: TIntegerField
+      FieldName = 'tableid'
+    end
+    object PgTable1orderid: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'orderid'
+    end
+    object PgTable1id: TIntegerField
+      FieldName = 'id'
+    end
+    object PgTable1qty: TIntegerField
+      FieldName = 'qty'
+    end
+    object PgTable1timedata: TMemoField
+      FieldName = 'timedata'
+      BlobType = ftMemo
+    end
+    object PgTable1status: TIntegerField
+      FieldName = 'status'
+    end
+  end
+  object PgTable2: TPgTable
+    TableName = 'item'
+    Connection = PgConnection1
+    Active = True
+    Left = 520
+    Top = 64
+    object PgTable2id: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'id'
+    end
+    object PgTable2category: TMemoField
+      FieldName = 'category'
+      BlobType = ftMemo
+    end
+    object PgTable2name: TMemoField
+      FieldName = 'name'
+      BlobType = ftMemo
+    end
+    object PgTable2comment: TMemoField
+      FieldName = 'comment'
+      BlobType = ftMemo
+    end
+    object PgTable2price: TIntegerField
+      FieldName = 'price'
+    end
+    object PgTable2qty: TIntegerField
+      FieldName = 'qty'
+    end
+    object PgTable2cnt: TIntegerField
+      FieldName = 'cnt'
+    end
+    object PgTable2fileext: TMemoField
+      FieldName = 'fileext'
+      BlobType = ftMemo
+    end
+    object PgTable2image: TBlobField
+      FieldName = 'image'
+    end
+  end
+  object PgQuery1: TPgQuery
+    Connection = PgConnection1
+    SQL.Strings = (
+      ''
+      
+        'create table if not exists uid(id serial primary key, tableID in' +
+        'teger, ip text);'
+      
+        'create table if not exists kitchen(tableID integer, orderID seri' +
+        'al PRIMARY KEY, '
+      '  id integer, qty integer, timedata text, status integer);')
+    Left = 608
+    Top = 64
+  end
+  object PgQuery2: TPgQuery
+    Connection = PgConnection1
+    Left = 704
+    Top = 64
   end
 end

@@ -14,7 +14,8 @@ uses
   FireDAC.Comp.DataSet, FMX.ListBox, FMX.Layouts, System.Rtti, FMX.Grid.Style,
   FMX.ScrollBox, FMX.Grid, Data.Bind.EngExt, FMX.Bind.DBEngExt, FMX.Bind.Grid,
   System.Bindings.Outputs, FMX.Bind.Editors, Data.Bind.Components,
-  Data.Bind.Grid, Data.Bind.DBScope, System.Actions, FMX.ActnList;
+  Data.Bind.Grid, Data.Bind.DBScope, System.Actions, FMX.ActnList, PgAccess,
+  MemDS, DBAccess;
 
 type
   TLocalClass = class
@@ -28,25 +29,6 @@ type
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
-    FDConnection1: TFDConnection;
-    DataSource1: TDataSource;
-    FDTable2: TFDTable;
-    FDTable2id: TIntegerField;
-    FDTable2category: TWideMemoField;
-    FDTable2name: TWideMemoField;
-    FDTable2comment: TWideMemoField;
-    FDTable2price: TIntegerField;
-    FDTable2qty: TIntegerField;
-    FDTable2cnt: TIntegerField;
-    FDTable2fileext: TWideMemoField;
-    FDTable2image: TBlobField;
-    FDTable1: TFDTable;
-    FDTable1tableid: TIntegerField;
-    FDTable1orderid: TIntegerField;
-    FDTable1id: TIntegerField;
-    FDTable1qty: TIntegerField;
-    FDTable1status: TIntegerField;
-    FDQuery1: TFDQuery;
     Timer1: TTimer;
     Timer2: TTimer;
     Panel1: TPanel;
@@ -76,10 +58,28 @@ type
     Action2: TAction;
     Action3: TAction;
     StringColumn1: TStringColumn;
-    FDQuery2: TFDQuery;
     Panel3: TPanel;
     Button5: TButton;
-    FDTable1timedata: TWideMemoField;
+    PgConnection1: TPgConnection;
+    PgTable1: TPgTable;
+    PgTable2: TPgTable;
+    PgQuery1: TPgQuery;
+    PgQuery2: TPgQuery;
+    PgTable1tableid: TIntegerField;
+    PgTable1orderid: TIntegerField;
+    PgTable1id: TIntegerField;
+    PgTable1qty: TIntegerField;
+    PgTable1timedata: TMemoField;
+    PgTable1status: TIntegerField;
+    PgTable2id: TIntegerField;
+    PgTable2category: TMemoField;
+    PgTable2name: TMemoField;
+    PgTable2comment: TMemoField;
+    PgTable2price: TIntegerField;
+    PgTable2qty: TIntegerField;
+    PgTable2cnt: TIntegerField;
+    PgTable2fileext: TMemoField;
+    PgTable2image: TBlobField;
     procedure RadioButton1Change(Sender: TObject);
     procedure Timer2Timer(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -98,7 +98,6 @@ type
     procedure StringGrid1EditingDone(Sender: TObject;
       const ACol, ARow: integer);
     procedure Button5Click(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { private 宣言 }
     procedure ListItemClear(AList: TListBox);
@@ -127,14 +126,14 @@ begin
   ComboBox1.Items.Clear;
   ComboBox1.Items.Add('テーブル番号で選択してください');
   ComboBox1.ItemIndex := 0;
-  FDTable1.Filter := 'status = 2';
-  FDTable1.First;
-  while not FDTable1.Eof do
+  PgTable1.Filter := 'status = 2';
+  PgTable1.First;
+  while not PgTable1.Eof do
   begin
-    s := FDTable1.FieldByName('tableID').AsString;
+    s := PgTable1.FieldByName('tableID').AsString;
     if ComboBox1.Items.IndexOf(s) = -1 then
       ComboBox1.Items.Add(s);
-    FDTable1.Next;
+    PgTable1.Next;
   end;
 
   if RadioButton1.IsChecked then
@@ -154,16 +153,16 @@ var
 begin
   ListBox3.Clear;
   ListItemClear(ListBox1);
-  FDTable1.Filter := 'status = 0';
-  FDTable1.Filtered := true;
-  FDTable1.First;
-  while not FDTable1.Eof do
+  PgTable1.Filter := 'status = 0';
+  PgTable1.Filtered := true;
+  PgTable1.First;
+  while not PgTable1.Eof do
   begin
-    s := Format(fmt, [FDTable1.FieldByName('tableID').AsInteger,
-      FDTable2.FieldByName('name').AsString, FDTable1.FieldByName('qty')
+    s := Format(fmt, [PgTable1.FieldByName('tableID').AsInteger,
+      PgTable2.FieldByName('name').AsString, PgTable1.FieldByName('qty')
       .AsInteger]);
     local := TLocalClass.Create;
-    local.orderID := FDTable1.FieldByName('orderID').AsInteger;
+    local.orderID := PgTable1.FieldByName('orderID').AsInteger;
     item := TListBoxItem.Create(Self);
     item.Parent := ListBox1;
     item.TagObject := local;
@@ -171,7 +170,7 @@ begin
     item.TextSettings.Font.Size := 35;
     item.Height := 35;
     item.Text := s;
-    FDTable1.Next;
+    PgTable1.Next;
   end;
   for var n := 0 to ListBox2.count - 1 do
   begin
@@ -189,26 +188,26 @@ procedure TForm7.Action3Execute(Sender: TObject);
 var
   cnt: integer;
 begin
-  FDQuery2.Close;
+  PgQuery2.Close;
   if RadioButton2.IsChecked then
-    FDQuery2.SQL.Text := Format(SQL, [' and status = 2 '])
+    PgQuery2.SQL.Text := Format(SQL, [' and status = 2 '])
   else
-    FDQuery2.SQL.Text := Format(SQL, ['']);
+    PgQuery2.SQL.Text := Format(SQL, ['']);
   for var j := 0 to StringGrid1.RowCount - 1 do
     for var i := 0 to StringGrid1.ColumnCount - 1 do
       StringGrid1.Cells[i, j] := '';
   cnt := 0;
-  FDQuery2.Open;
-  while not FDQuery2.Eof do
+  PgQuery2.Open;
+  while not PgQuery2.Eof do
   begin
-    StringGrid1.Cells[0, cnt] := FDQuery2.Fields[0].AsString;
-    StringGrid1.Cells[1, cnt] := FDQuery2.Fields[1].AsString;
-    StringGrid1.Cells[2, cnt] := FDQuery2.Fields[2].AsString;
-    StringGrid1.Cells[3, cnt] := FDQuery2.Fields[3].AsString;
-    StringGrid1.Cells[4, cnt] := FDQuery2.Fields[4].AsString;
-    StringGrid1.Cells[5, cnt] := FDQuery2.Fields[5].AsString;
+    StringGrid1.Cells[0, cnt] := PgQuery2.Fields[0].AsString;
+    StringGrid1.Cells[1, cnt] := PgQuery2.Fields[1].AsString;
+    StringGrid1.Cells[2, cnt] := PgQuery2.Fields[2].AsString;
+    StringGrid1.Cells[3, cnt] := PgQuery2.Fields[3].AsString;
+    StringGrid1.Cells[4, cnt] := PgQuery2.Fields[4].AsString;
+    StringGrid1.Cells[5, cnt] := PgQuery2.Fields[5].AsString;
     StringGrid1.Cells[6, cnt] := '';
-    FDQuery2.Next;
+    PgQuery2.Next;
     inc(cnt);
   end;
 end;
@@ -217,12 +216,12 @@ procedure TForm7.Button1Click(Sender: TObject);
 begin
   if ComboBox1.ItemIndex < 1 then
     Exit;
-  FDTable1.First;
-  while not FDTable1.Eof do
+  PgTable1.First;
+  while not PgTable1.Eof do
   begin
-    FDTable1.Edit;
-    FDTable1.FieldByName('status').AsInteger := Ord(TOrderStatus.archive);
-    FDTable1.Post;
+    PgTable1.Edit;
+    PgTable1.FieldByName('status').AsInteger := Ord(TOrderStatus.archive);
+    PgTable1.Post;
   end;
   Action1.Execute;
 end;
@@ -242,28 +241,28 @@ begin
   item.Height := 15;
   local := item.TagObject as TLocalClass;
   local.time := GetTime;
-  if FDTable1.Locate('orderID', local.orderID) then
+  if PgTable1.Locate('orderID', local.orderID, []) then
   begin
-    FDTable1.Edit;
-    FDTable1.FieldByName('status').AsInteger := Ord(TOrderStatus.eating);
-    FDTable1.Post;
+    PgTable1.Edit;
+    PgTable1.FieldByName('status').AsInteger := Ord(TOrderStatus.eating);
+    PgTable1.Post;
   end;
 end;
 
 procedure TForm7.Button4Click(Sender: TObject);
 begin
-  FDQuery1.SQL.Text := 'select count(*) as cnt from kitchen where status < 4;';
-  FDQuery1.Open;
-  if FDQuery1.FieldByName('cnt').AsInteger = 0 then
+  PgQuery1.SQL.Text := 'select count(*) as cnt from kitchen where status < 4;';
+  PgQuery1.Open;
+  if PgQuery1.FieldByName('cnt').AsInteger = 0 then
   begin
-    FDTable1.First;
-    while not FDTable1.Eof do
-      FDTable1.Delete;
+    PgTable1.First;
+    while not PgTable1.Eof do
+      PgTable1.Delete;
     Showmessage('終了. おつかれさまでした.');
   end
   else
     Showmessage('オーダーや支払い状態が不正です');
-  FDQuery1.Close;
+  PgQuery1.Close;
   Action1.Execute;
 end;
 
@@ -271,8 +270,8 @@ procedure TForm7.Button5Click(Sender: TObject);
 begin
   for var i := 0 to StringGrid1.RowCount - 1 do
     if (StringGrid1.Cells[6, i] = 'false') and
-      FDQuery2.Locate('orderID', StringGrid1.Cells[1, i]) then
-      FDQuery2.Delete;
+      PgQuery2.Locate('orderID', StringGrid1.Cells[1, i], []) then
+      PgQuery2.Delete;
   Action1.Execute;
 end;
 
@@ -286,23 +285,23 @@ begin
   ListBox3.Clear;
   if ComboBox1.ItemIndex < 1 then
     Exit;
-  FDTable1.Filter := 'status = 2 and tableID = ' + ComboBox1.Items
+  PgTable1.Filter := 'status = 2 and tableID = ' + ComboBox1.Items
     [ComboBox1.ItemIndex];
   kind := '';
-  FDTable1.First;
-  while not FDTable1.Eof do
+  PgTable1.First;
+  while not PgTable1.Eof do
   begin
-    cnt := FDTable1.FieldByName('qty').AsInteger;
-    FDTable2.First;
-    while not FDTable2.Eof do
+    cnt := PgTable1.FieldByName('qty').AsInteger;
+    PgTable2.First;
+    while not PgTable2.Eof do
     begin
-      kind := FDTable2.FieldByName('name').AsString;
+      kind := PgTable2.FieldByName('name').AsString;
       num := ListBox3.Items.IndexOf(kind);
       if num = -1 then
       begin
         local := TLocalClass.Create;
         local.count := cnt;
-        local.price := FDTable2.FieldByName('price').AsInteger;
+        local.price := PgTable2.FieldByName('price').AsInteger;
         item := TListBoxItem.Create(ListBox3);
         item.Parent := ListBox3;
         item.Text := kind;
@@ -313,9 +312,9 @@ begin
         local := ListBox3.ListItems[num].TagObject as TLocalClass;
         local.count := Local.count + cnt;
       end;
-      FDTable2.Next;
+      PgTable2.Next;
     end;
-    FDTable1.Next;
+    PgTable1.Next;
   end;
   total := 0;
   for var i := 0 to ListBox3.count - 1 do
@@ -331,15 +330,6 @@ begin
   ListBox3.Items.Add(Button1.Text);
 end;
 
-procedure TForm7.FormCreate(Sender: TObject);
-begin
-  FDConnection1.Open;
-  FDQuery1.ExecSQL;
-  FDTable1.Open;
-  FDTable2.Open;
-  RadioButton1Change(nil);
-end;
-
 procedure TForm7.FormDestroy(Sender: TObject);
 begin
   ListItemClear(ListBox1);
@@ -349,7 +339,7 @@ end;
 procedure TForm7.Grid1DragDrop(Sender: TObject; const Data: TDragObject;
   const Point: TPointF);
 begin
-  FDQuery1.Delete;
+  PgQuery1.Delete;
 end;
 
 procedure TForm7.ListItemClear(AList: TListBox);
@@ -373,24 +363,24 @@ begin
   Timer1.Enabled := true;
   if RadioButton1.IsChecked then
   begin
-    FDTable1.IndexFieldNames := 'orderID';
-    FDTable1.Filter := 'status = 0';
-    FDTable1.Filtered := true;
+    PgTable1.IndexFieldNames := 'orderID';
+    PgTable1.Filter := 'status = 0';
+    PgTable1.Filtered := true;
     Panel2.Visible := true;
   end
   else if RadioButton2.IsChecked then
   begin
     ListBox1.Items.Clear;
-    FDTable1.IndexFieldNames := 'tableID';
-    FDTable1.Filter := 'status = 2';
-    FDTable1.Filtered := true;
-    FDTable1.First;
-    while not FDTable1.Eof do
+    PgTable1.IndexFieldNames := 'tableID';
+    PgTable1.Filter := 'status = 2';
+    PgTable1.Filtered := true;
+    PgTable1.First;
+    while not PgTable1.Eof do
     begin
-      s := FDTable1.FieldByName('tableID').AsString;
+      s := PgTable1.FieldByName('tableID').AsString;
       if ComboBox1.Items.IndexOf(s) = -1 then
         ComboBox1.Items.Add(s);
-      FDTable1.Next;
+      PgTable1.Next;
     end;
     Panel1.Visible := true;;
     StringGrid1.Visible := true;
@@ -399,8 +389,8 @@ begin
   end
   else if RadioButton3.IsChecked then
   begin
-    FDTable1.IndexFieldNames := 'timedata';
-    FDTable1.Filtered := false;
+    PgTable1.IndexFieldNames := 'timedata';
+    PgTable1.Filtered := false;
     StringGrid1.Visible := true;
     StringGrid1.ReadOnly := false;
     Panel3.Visible := true;
@@ -413,11 +403,11 @@ procedure TForm7.StringGrid1EditingDone(Sender: TObject;
   const ACol, ARow: integer);
 begin
   if (StringGrid1.ColumnByIndex(ACol).Header = 'status') and
-    FDQuery2.Locate('orderID', StringGrid1.Cells[1, ARow]) then
+    PgQuery2.Locate('orderID', StringGrid1.Cells[1, ARow], []) then
   begin
-    FDQuery2.Edit;
-    FDQuery2.Fields[ACol].AsString := StringGrid1.Cells[ACol, ARow];
-    FDQuery2.Post;
+    PgQuery2.Edit;
+    PgQuery2.Fields[ACol].AsString := StringGrid1.Cells[ACol, ARow];
+    PgQuery2.Post;
   end;
 end;
 
@@ -444,29 +434,30 @@ begin
   cnt := 0;
   if RadioButton1.IsChecked then
   begin
-    FDQuery1.SQL.Text := 'select count(*) from kitchen where status = 0;';
+    PgQuery1.SQL.Text := 'select count(*) from kitchen where status = 0;';
     cnt := ListBox3.count;
   end
   else if RadioButton2.IsChecked then
   begin
-    FDQuery1.SQL.Text := 'select count(*) from kitchen where status = 2;';
+    PgQuery1.SQL.Text := 'select count(*) from kitchen where status = 2;';
     cnt := 0;
   end;
-  FDQuery1.Open;
-  if FDQuery1.Fields[0].AsInteger > cnt then
+  PgQuery1.Open;
+  if PgQuery1.Fields[0].AsInteger > cnt then
     Button2.Text := '更新'
   else
     Button2.Text := '';
-  FDQuery1.Close;
+  PgQuery1.Close;
 end;
 
 procedure TForm7.Timer2Timer(Sender: TObject);
 begin
-  if not FDQuery1.Active then
+  if not PgQuery1.Active then
   begin
-    FDQuery1.Open('select count(*) as cnt from kitchen where status = 3');
-    Label4.Visible := FDQuery1.FieldByName('cnt').AsInteger > 0;
-    FDQuery1.Close;
+    PgQuery1.SQL.Text := 'select count(*) as cnt from kitchen where status = 3';
+    PgQuery1.Open;
+    Label4.Visible := PgQuery1.FieldByName('cnt').AsInteger > 0;
+    PgQuery1.Close;
   end;
 end;
 

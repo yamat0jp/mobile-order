@@ -1,7 +1,7 @@
 inherited Form7_XLgXhdpiTb: TForm7_XLgXhdpiTb
   ActiveControl = RadioButton1
-  ClientHeight = 775
-  ClientWidth = 1280
+  ClientHeight = 1255
+  ClientWidth = 800
   DesignerMasterStyle = 0
   inherited Panel2: TPanel
     inherited ListBox1: TListBox

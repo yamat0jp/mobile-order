@@ -1,71 +1,23 @@
-﻿[DataSource1]
-Coordinates=112,440,77,33
-
-[ListBox3]
+﻿[ListBox3]
 Coordinates=91,10,116,177
 
 [ListBox1]
 Coordinates=240,10,116,177
 
-[FDTable2qty]
-Coordinates=455,463,76,33
-
 [RadioButton3]
 Coordinates=242,344,81,33
-
-[FDTable2cnt]
-Coordinates=455,573,76,33
 
 [Timer2]
 Coordinates=455,628,48,33
 
-[FDTable1qty]
-Coordinates=436,668,76,33
-
-[FDTable2comment]
-Coordinates=632,1,106,33
-
 [Timer1]
 Coordinates=377,668,48,33
-
-[FDTable2category]
-Coordinates=632,56,103,33
-
-[FDTable1id]
-Coordinates=288,668,69,33
 
 [Button1]
 Coordinates=73,276,53,51
 
-[FDTable1orderid]
-Coordinates=169,668,96,33
-
-[FDTable1status]
-Coordinates=60,668,91,33
-
-[FDTable2fileext]
-Coordinates=632,111,90,33
-
-[FDTable2image]
-Coordinates=632,166,90,33
-
-[FDTable2price]
-Coordinates=632,221,85,33
-
-[FDQuery1]
-Coordinates=503,220,63,51
-
-[FDTable2]
-Coordinates=10,10,60,213
-
-[FDTable2name]
-Coordinates=632,276,87,33
-
 [Label2]
 Coordinates=533,276,46,51
-
-[FDTable1tableid]
-Coordinates=632,331,93,33
 
 [ListBox2]
 Coordinates=389,10,116,177
@@ -79,23 +31,14 @@ Coordinates=140,344,81,33
 [Label3]
 Coordinates=344,276,46,51
 
-[FDConnection1]
-Coordinates=632,496,90,33
-
 [Panel1]
 Coordinates=75,344,47,33
-
-[FDTable2id]
-Coordinates=632,551,69,33
 
 [Panel2]
 Coordinates=10,344,47,33
 
 [Label1]
 Coordinates=142,276,46,51
-
-[FDTable1]
-Coordinates=540,10,60,159
 
 [RadioButton1]
 Coordinates=596,276,81,33
@@ -104,7 +47,7 @@ Coordinates=596,276,81,33
 Coordinates=10,276,46,51
 
 []
-Coordinates=632,661,103,33
+Coordinates=112,440,77,33
 Visible=True
 
 [Button3]
