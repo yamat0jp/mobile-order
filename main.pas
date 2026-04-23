@@ -199,14 +199,15 @@ procedure TForm1.WebPanel1Click(Sender: TObject);
 var
   URL: string;
 begin
+  URL := 'http://' + info.server;
   if Sender = WebPanel1 then
-    URL := 'http://' + info.server + '/?category=drink'
+    URL := URL + '/?category=drink'
   else if Sender = WebPanel2 then
-    URL := 'http://' + info.server + '/?category=setmenu'
+    URL := URL + '/?category=setmenu'
   else if Sender = WebPanel3 then
-    URL := 'http://' + info.server + '/?category=popular'
+    URL := URL + '/?category=popular'
   else if Sender = WebPanel4 then
-    URL := 'http://' + info.server + '/?category=softdrink';
+    URL := URL + '/?category=softdrink';
   WebHttpRequest1.URL := URL;
   WebWaitMessage1.Show;
   WebHttpRequest1.Execute;

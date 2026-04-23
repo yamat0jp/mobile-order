@@ -3116,10 +3116,12 @@ object Form7: TForm7
   end
   object PgConnection1: TPgConnection
     Username = 'postgres'
+    Server = '192.168.68.54'
     Database = 'mydb'
     Connected = True
     Left = 320
     Top = 64
+    EncryptedPassword = '92FF9EFF8CFF8BFF9AFF8DFF94FF9AFF86FF'
   end
   object PgTable1: TPgTable
     TableName = 'kitchen'

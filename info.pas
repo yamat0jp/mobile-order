@@ -9,7 +9,7 @@ const
 {$IFDEF LOCAL}
   server = 'localhost:8080';
 {$ELSE}
-  server = 'localhost:88/myapp/cgi.exe';
+  server = '192.168.68.54:88/myapp/cgi.exe';
 {$ENDIF}
   myurl = 'https://react-firebase-9329b.web.app/pwa.html';
 

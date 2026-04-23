@@ -348,9 +348,10 @@ begin
     params.Add('CharacterSet=utf8');
     params.Add('driverid=PG');
     params.Add('fastcgiapp');
-    params.Add('server=127.0.0.1');
+    params.Add('server=localhost');
     params.Add('database=mydb');
     params.Add('user_name=postgres');
+    params.Add('password=masterkey');
     params.Add('port=5432');
     params.Add('pooled = true');
     params.Add('pool_maximumitems = 6');
