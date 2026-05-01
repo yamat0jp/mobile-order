@@ -160,7 +160,6 @@ object Form2: TForm2
     Command = httpPOST
     Headers.Strings = (
       'Content-Type:application/json')
-    URL = 'http://localhost:8080/checkout'
     OnResponse = WebHttpRequest1Response
     Left = 360
     Top = 392

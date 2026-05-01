@@ -76,7 +76,6 @@ object Form1: TForm1
         Style = '1fr'
         Width = 530
       end>
-    ExplicitTop = -6
     DesignSize = (
       959
       313)
@@ -447,7 +446,6 @@ object Form1: TForm1
   object WebHttpRequest1: TWebHttpRequest
     Headers.Strings = (
       'Accept=application/json')
-    URL = 'http://localhost:8080//?category=popular'
     OnResponse = WebHttpRequest1Response
     Left = 376
     Top = 376
@@ -456,7 +454,6 @@ object Form1: TForm1
     Command = httpPOST
     Headers.Strings = (
       'Accept:application/json')
-    URL = 'http://localhost:8080/download'
     OnResponse = WebHttpRequest2Response
     Left = 520
     Top = 376

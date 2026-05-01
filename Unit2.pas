@@ -125,8 +125,8 @@ begin
     WebPanel5.Visible := false;
     WebListControl1ItemClick(nil, WebListControl1.Items[0]);
   end;
-  WebLabel5.Caption := GetTotalPrice.ToString+ ' 円';
-  WebHttpRequest1.URL:='http://'+server+'/checkout';
+  WebLabel5.Caption := GetTotalPrice.ToString + ' 円';
+  WebHttpRequest1.URL := 'http://' + info.server + '/checkout';
 end;
 
 procedure TForm2.WebHttpRequest1Response(Sender: TObject; AResponse: string);
@@ -148,7 +148,7 @@ begin
       order := List[I];
       WebLabel1.Caption := order.name;
       WebLabel2.Caption := order.comment;
-      WebLabel6.Caption := order.price.ToString+' 円';
+      WebLabel6.Caption := order.price.ToString + ' 円';
       WebImageControl1.URL := order.ImageBase64;
     end;
 end;

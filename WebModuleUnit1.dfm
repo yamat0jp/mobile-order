@@ -142,6 +142,46 @@ object WebModule1: TWebModule1
     TableName = 'item'
     Left = 264
     Top = 112
+    object FDTable3id: TIntegerField
+      FieldName = 'id'
+      Origin = 'id'
+    end
+    object FDTable3category: TWideMemoField
+      FieldName = 'category'
+      Origin = 'category'
+      BlobType = ftWideMemo
+    end
+    object FDTable3name: TWideMemoField
+      FieldName = 'name'
+      Origin = 'name'
+      BlobType = ftWideMemo
+    end
+    object FDTable3comment: TWideMemoField
+      FieldName = 'comment'
+      Origin = '"comment"'
+      BlobType = ftWideMemo
+    end
+    object FDTable3price: TIntegerField
+      FieldName = 'price'
+      Origin = 'price'
+    end
+    object FDTable3qty: TIntegerField
+      FieldName = 'qty'
+      Origin = 'qty'
+    end
+    object FDTable3cnt: TIntegerField
+      FieldName = 'cnt'
+      Origin = 'cnt'
+    end
+    object FDTable3fileext: TWideMemoField
+      FieldName = 'fileext'
+      Origin = 'fileext'
+      BlobType = ftWideMemo
+    end
+    object FDTable3image: TBlobField
+      FieldName = 'image'
+      Origin = 'image'
+    end
   end
   object FDTable4: TFDTable
     Active = True

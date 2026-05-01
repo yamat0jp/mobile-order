@@ -39,6 +39,15 @@ type
     FDTable4id: TIntegerField;
     FDTable4tableid: TIntegerField;
     FDTable4ip: TWideMemoField;
+    FDTable3id: TIntegerField;
+    FDTable3category: TWideMemoField;
+    FDTable3name: TWideMemoField;
+    FDTable3comment: TWideMemoField;
+    FDTable3price: TIntegerField;
+    FDTable3qty: TIntegerField;
+    FDTable3cnt: TIntegerField;
+    FDTable3fileext: TWideMemoField;
+    FDTable3image: TBlobField;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;

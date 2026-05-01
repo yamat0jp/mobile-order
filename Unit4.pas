@@ -34,7 +34,6 @@ type
     { Private declarations }
   public
     { Public declarations }
-    constructor Create(Sender: TComponent; AOrder: TOrderData); overload;
     property TotalCost: integer read GetTotalCost;
   end;
 
@@ -50,12 +49,6 @@ uses WEBLib.JSON, main, info;
 
 var
   min: integer;
-
-constructor TForm3.Create(Sender: TComponent; AOrder: TOrderData);
-begin
-  inherited Create(Sender);
-  Order.Assign(AOrder);
-end;
 
 function TForm3.GetTotalCost: integer;
 begin
@@ -103,7 +96,7 @@ procedure TForm3.WebHttpRequest1Error(Sender: TObject;
   ARequest: TJSXMLHttpRequestRecord; Event: TJSEventRecord;
   var Handled: Boolean);
 begin
-  WebButton2Click(Sender);
+  WebButton2Click(nil);
   Showmessage('通信エラー');
 end;
 
