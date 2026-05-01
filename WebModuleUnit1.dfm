@@ -44,6 +44,8 @@ object WebModule1: TWebModule1
       'Database=mydb'
       'User_Name=postgres'
       'CharacterSet=UTF8'
+      'Server=192.168.68.54'
+      'Password=masterkey'
       'DriverID=PG')
     Connected = True
     Left = 168

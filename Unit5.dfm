@@ -9392,7 +9392,7 @@ object Form5: TForm5
     Width = 121
     Height = 23
     TabOrder = 2
-    Text = '240'
+    Text = '220'
   end
   object Memo1: TMemo
     Left = 250
@@ -9400,7 +9400,7 @@ object Form5: TForm5
     Width = 185
     Height = 89
     Lines.Strings = (
-      #21335#22269#12398#12472#12517#12540#12473)
+      #21335#22269#12398#12501#12523#12540#12484#12472#12517#12540#12473)
     TabOrder = 5
   end
   object Edit4: TEdit
@@ -9417,7 +9417,7 @@ object Form5: TForm5
     Width = 121
     Height = 23
     TabOrder = 4
-    Text = '467'
+    Text = '50'
     OnChange = Edit5Change
   end
   object BindSourceDB1: TBindSourceDB

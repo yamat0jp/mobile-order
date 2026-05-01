@@ -15,6 +15,7 @@ object DataModule3: TDataModule3
     Top = 72
   end
   object FDTable1: TFDTable
+    Active = True
     BeforePost = FDTable1BeforePost
     IndexFieldNames = 'id'
     Connection = FDConnection1
@@ -69,6 +70,7 @@ object DataModule3: TDataModule3
       'Database=mydb'
       'User_Name=postgres'
       'DriverID=PG')
+    Connected = True
     Left = 160
     Top = 64
   end
