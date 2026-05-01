@@ -15,9 +15,6 @@
         <Projects Include="server.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="cgi.dproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -62,23 +59,14 @@
     <Target Name="server:Make">
         <MSBuild Projects="server.dproj" Targets="Make"/>
     </Target>
-    <Target Name="cgi">
-        <MSBuild Projects="cgi.dproj"/>
-    </Target>
-    <Target Name="cgi:Clean">
-        <MSBuild Projects="cgi.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="cgi:Make">
-        <MSBuild Projects="cgi.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="mobile;menu;pwa;server;cgi"/>
+        <CallTarget Targets="mobile;menu;pwa;server"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="mobile:Clean;menu:Clean;pwa:Clean;server:Clean;cgi:Clean"/>
+        <CallTarget Targets="mobile:Clean;menu:Clean;pwa:Clean;server:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="mobile:Make;menu:Make;pwa:Make;server:Make;cgi:Make"/>
+        <CallTarget Targets="mobile:Make;menu:Make;pwa:Make;server:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -113,7 +113,6 @@ object Form3: TForm3
     Headers.Strings = (
       'Content-Type=application/json')
     Timeout = 3500
-    URL = 'http://localhost:8080/order'
     OnError = WebHttpRequest1Error
     OnResponse = WebHttpRequest1Response
     OnTimeout = WebHttpRequest1Timeout

@@ -76,6 +76,7 @@ object Form1: TForm1
         Style = '1fr'
         Width = 530
       end>
+    ExplicitTop = -6
     DesignSize = (
       959
       313)
