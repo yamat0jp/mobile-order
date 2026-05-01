@@ -37,7 +37,7 @@ object WebModule1: TWebModule1
   Height = 203
   Width = 415
   object DataSource1: TDataSource
-    Left = 144
-    Top = 64
+    Left = 112
+    Top = 40
   end
 end
