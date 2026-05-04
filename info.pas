@@ -7,11 +7,12 @@ type
 
 const
 {$IFDEF DEBUG}
-  server = 'localhost:8080';
+  server = 'localhost:88/myapp/Project1.dll';
+  myurl = 'http://localhost:88/js/pwa.html?category=softdrink';
 {$ELSE}
-  server = 'localhost:88/myapp/Project1.dll/?category=softdrink';
+  server = '192.168.68.54:88/myapp/Project1.dll';
+  myurl = 'http://192.168.68.54:88/js/pwa.html?category=softdrink';
 {$ENDIF}
-  myurl = 'http://localhost:88/js/pwa.html';
 
 implementation
 
