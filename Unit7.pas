@@ -14,7 +14,7 @@ uses
   FMX.ScrollBox, FMX.Grid, Data.Bind.EngExt, FMX.Bind.DBEngExt, FMX.Bind.Grid,
   System.Bindings.Outputs, FMX.Bind.Editors, Data.Bind.Components,
   Data.Bind.Grid, Data.Bind.DBScope, System.Actions, FMX.ActnList, PgAccess,
-  MemDS, DBAccess;
+  MemDS, DBAccess, FireDAC.Comp.UI;
 
 type
   TLocalClass = class
@@ -79,6 +79,8 @@ type
     PgTable2cnt: TIntegerField;
     PgTable2fileext: TMemoField;
     PgTable2image: TBlobField;
+    DataSource1: TDataSource;
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
     procedure RadioButton1Change(Sender: TObject);
     procedure Timer2Timer(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -97,6 +99,7 @@ type
     procedure StringGrid1EditingDone(Sender: TObject;
       const ACol, ARow: integer);
     procedure Button5Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { private 宣言 }
     procedure ListItemClear(AList: TListBox);
@@ -125,7 +128,10 @@ begin
   ComboBox1.Items.Clear;
   ComboBox1.Items.Add('テーブル番号で選択してください');
   ComboBox1.ItemIndex := 0;
+  PgTable1.Close;
   PgTable1.Filter := 'status = 2';
+  PgTable1.Filtered := true;
+  PgTable1.Open;
   PgTable1.First;
   while not PgTable1.Eof do
   begin
@@ -139,7 +145,6 @@ begin
     Action2.Execute
   else
     Action3.Execute;
-  Timer1Timer(nil);
 end;
 
 procedure TForm7.Action2Execute(Sender: TObject);
@@ -152,8 +157,11 @@ var
 begin
   ListBox3.Clear;
   ListItemClear(ListBox1);
+  PgTable1.Close;
+  PgTable1.IndexFieldNames := 'orderID';
   PgTable1.Filter := 'status = 0';
   PgTable1.Filtered := true;
+  PgTable1.Open;
   PgTable1.First;
   while not PgTable1.Eof do
   begin
@@ -240,6 +248,7 @@ begin
   item.Height := 15;
   local := item.TagObject as TLocalClass;
   local.time := GetTime;
+  PgTable1.Filtered := false;
   if PgTable1.Locate('orderID', local.orderID, []) then
   begin
     PgTable1.Edit;
@@ -254,6 +263,7 @@ begin
   PgQuery1.Open;
   if PgQuery1.FieldByName('cnt').AsInteger = 0 then
   begin
+    PgTable1.Filtered := false;
     PgTable1.First;
     while not PgTable1.Eof do
       PgTable1.Delete;
@@ -262,7 +272,7 @@ begin
   else
     Showmessage('オーダーや支払い状態が不正です');
   PgQuery1.Close;
-  Action1.Execute;
+  Action3.Execute;
 end;
 
 procedure TForm7.Button5Click(Sender: TObject);
@@ -284,8 +294,11 @@ begin
   ListBox3.Clear;
   if ComboBox1.ItemIndex < 1 then
     Exit;
+  PgTable1.Close;
   PgTable1.Filter := 'status = 2 and tableID = ' + ComboBox1.Items
     [ComboBox1.ItemIndex];
+  PgTable1.Filtered := true;
+  PgTable1.Open;
   kind := '';
   PgTable1.First;
   while not PgTable1.Eof do
@@ -329,6 +342,15 @@ begin
   ListBox3.Items.Add(Button1.Text);
 end;
 
+procedure TForm7.FormCreate(Sender: TObject);
+begin
+  PgConnection1.Open;
+  PgTable1.Open;
+  PgTable2.Open;
+  PgQuery1.Execute;
+  RadioButton1Change(nil);
+end;
+
 procedure TForm7.FormDestroy(Sender: TObject);
 begin
   ListItemClear(ListBox1);
@@ -350,8 +372,6 @@ begin
 end;
 
 procedure TForm7.RadioButton1Change(Sender: TObject);
-var
-  s: string;
 begin
   Panel1.Visible := false;
   ListBox3.Visible := false;
@@ -359,28 +379,10 @@ begin
   Panel2.Visible := false;
   StringGrid1.Visible := false;
   Panel3.Visible := false;
-  Timer1.Enabled := true;
   if RadioButton1.IsChecked then
-  begin
-    PgTable1.IndexFieldNames := 'orderID';
-    PgTable1.Filter := 'status = 0';
-    PgTable1.Filtered := true;
-    Panel2.Visible := true;
-  end
+    Panel2.Visible := true
   else if RadioButton2.IsChecked then
   begin
-    ListBox1.Items.Clear;
-    PgTable1.IndexFieldNames := 'tableID';
-    PgTable1.Filter := 'status = 2';
-    PgTable1.Filtered := true;
-    PgTable1.First;
-    while not PgTable1.Eof do
-    begin
-      s := PgTable1.FieldByName('tableID').AsString;
-      if ComboBox1.Items.IndexOf(s) = -1 then
-        ComboBox1.Items.Add(s);
-      PgTable1.Next;
-    end;
     Panel1.Visible := true;;
     StringGrid1.Visible := true;
     StringGrid1.ReadOnly := true;
@@ -388,12 +390,9 @@ begin
   end
   else if RadioButton3.IsChecked then
   begin
-    PgTable1.IndexFieldNames := 'timedata';
-    PgTable1.Filtered := false;
     StringGrid1.Visible := true;
     StringGrid1.ReadOnly := false;
     Panel3.Visible := true;
-    Timer1.Enabled := false;
   end;
   Action1.Execute;
 end;
@@ -430,7 +429,6 @@ procedure TForm7.Timer1Timer(Sender: TObject);
 var
   cnt: integer;
 begin
-  cnt := 0;
   if RadioButton1.IsChecked then
   begin
     PgQuery1.SQL.Text := 'select count(*) from kitchen where status = 0;';
@@ -440,12 +438,12 @@ begin
   begin
     PgQuery1.SQL.Text := 'select count(*) from kitchen where status = 2;';
     cnt := 0;
-  end;
+  end
+  else
+    Exit;
   PgQuery1.Open;
   if PgQuery1.Fields[0].AsInteger > cnt then
-    Button2.Text := '更新'
-  else
-    Button2.Text := '';
+    Action1.Execute;
   PgQuery1.Close;
 end;
 
@@ -453,7 +451,7 @@ procedure TForm7.Timer2Timer(Sender: TObject);
 begin
   if not PgQuery1.Active then
   begin
-    PgQuery1.SQL.Text := 'select count(*) as cnt from kitchen where status = 3';
+    PgQuery1.SQL.Text := 'select count(*) as cnt from kitchen where status = 3;';
     PgQuery1.Open;
     Label4.Visible := PgQuery1.FieldByName('cnt').AsInteger > 0;
     PgQuery1.Close;

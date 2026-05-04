@@ -48,6 +48,8 @@ type
     FDTable3cnt: TIntegerField;
     FDTable3fileext: TWideMemoField;
     FDTable3image: TBlobField;
+    FDPhysPgDriverLink1: TFDPhysPgDriverLink;
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject; Request: TWebRequest;
@@ -170,7 +172,7 @@ begin
       FDTable4.Post;
     end;
     Response.Content := s;
-    Response.SendRedirect(myurl);
+    Response.SendRedirect(info.myurl);
   end;
 end;
 
@@ -193,7 +195,7 @@ begin
     FDTable1.First;
     while not FDTable1.Eof do
     begin
-      order.name := FDTable1.FieldByName('name').AsString;
+      order.name := FDTable2.FieldByName('name').AsString;
       order.qty := FDTable1.FieldByName('qty').AsInteger;
       order.price := FDTable2.FieldByName('price').AsInteger;
       order.comment := FDTable2.FieldByName('comment').AsString;
@@ -242,7 +244,7 @@ begin
       FDTable1.Post;
     end
     else
-      Response.Content := 'エラー： スタッフにお声がけください';
+      Response.Content := 'エラー：しばらく待ってご注文ください';
   finally
     JSON.Free;
   end;

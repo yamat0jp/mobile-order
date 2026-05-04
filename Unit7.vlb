@@ -1,77 +1,177 @@
 ﻿[ListBox3]
-Coordinates=91,10,116,177
+Coordinates=91,10,139,212
 
 [ListBox1]
-Coordinates=240,10,116,177
+Coordinates=240,10,139,212
 
 [RadioButton3]
-Coordinates=242,344,81,33
+Coordinates=242,344,92,36
 
 [Timer2]
-Coordinates=455,628,48,33
+Coordinates=455,628,55,36
 
 [Timer1]
-Coordinates=377,668,48,33
+Coordinates=377,668,55,36
 
 [Button1]
-Coordinates=73,276,53,51
+Coordinates=73,276,59,58
 
 [Label2]
-Coordinates=533,276,46,51
+Coordinates=533,276,53,58
 
 [ListBox2]
-Coordinates=389,10,116,177
+Coordinates=389,10,139,212
 
 [Button2]
-Coordinates=407,276,53,51
+Coordinates=407,276,59,58
 
 [RadioButton2]
-Coordinates=140,344,81,33
+Coordinates=140,344,92,36
 
 [Label3]
-Coordinates=344,276,46,51
+Coordinates=344,276,53,58
 
 [Panel1]
-Coordinates=75,344,47,33
+Coordinates=75,344,55,36
 
 [Panel2]
-Coordinates=10,344,47,33
+Coordinates=10,344,55,36
 
 [Label1]
-Coordinates=142,276,46,51
+Coordinates=142,276,53,58
 
 [RadioButton1]
-Coordinates=596,276,81,33
+Coordinates=596,276,92,36
 
 [Label4]
-Coordinates=10,276,46,51
+Coordinates=10,276,53,58
 
 []
-Coordinates=112,440,77,33
+Coordinates=768,276,141,36
 Visible=True
 
 [Button3]
-Coordinates=476,276,53,51
+Coordinates=476,276,59,58
 
 [ComboBox1]
-Coordinates=619,10,84,123
+Coordinates=619,10,101,146
 
 [ListBoxItem1]
 Coordinates=245,206,79,33
 Visible=True
 
 [Button4]
-Coordinates=89,206,53,51
+Coordinates=89,206,59,58
 
 [StyleBook1]
-Coordinates=435,408,70,33
+Coordinates=435,408,80,36
 
 [ActionList1]
-Coordinates=356,418,70,33
+Coordinates=356,418,78,36
 
 [Action1]
-Coordinates=297,418,52,33
+Coordinates=297,418,58,36
 
 [StringGrid1]
-Coordinates=245,258,70,51
+Coordinates=245,258,80,58
+
+[PgTable2]
+Coordinates=88,1,69,256
+
+[Action3]
+Coordinates=358,372,58,36
+
+[PgTable2price]
+Coordinates=624,175,98,36
+
+[CheckColumn1]
+Coordinates=624,230,102,36
+
+[IntegerColumn1]
+Coordinates=624,331,106,36
+
+[IntegerColumn4]
+Coordinates=624,386,106,36
+
+[Action2]
+Coordinates=566,441,58,36
+
+[PgTable1id]
+Coordinates=547,482,80,36
+
+[TimeColumn1]
+Coordinates=448,482,94,36
+
+[PgQuery1]
+Coordinates=268,241,72,58
+
+[PgTable2qty]
+Coordinates=359,482,87,36
+
+[PgTable2comment]
+Coordinates=230,482,122,36
+
+[PgTable2name]
+Coordinates=121,482,101,36
+
+[Panel3]
+Coordinates=566,175,55,36
+
+[StringColumn1]
+Coordinates=12,482,100,36
+
+[PgTable1tableid]
+Coordinates=768,1,108,36
+
+[PgTable1qty]
+Coordinates=768,56,87,36
+
+[PgTable1orderid]
+Coordinates=768,111,110,36
+
+[IntegerColumn3]
+Coordinates=768,166,106,36
+
+[PgTable2category]
+Coordinates=768,221,119,36
+
+[IntegerColumn2]
+Coordinates=768,331,106,36
+Visible=True
+
+[PgTable1status]
+Coordinates=768,386,104,36
+
+[PgQuery2]
+Coordinates=417,353,72,58
+
+[PgConnection1]
+Coordinates=768,441,102,36
+
+[PgTable2image]
+Coordinates=768,496,104,36
+
+[PgTable1]
+Coordinates=0,0,69,190
+
+[DataSource1]
+Coordinates=176,1,89,36
+
+[Button5]
+Coordinates=19,209,59,58
+
+[PgTable1timedata]
+Coordinates=768,551,119,36
+
+[PgTable2fileext]
+Coordinates=659,556,104,36
+
+[FDGUIxWaitCursor1]
+Coordinates=520,556,132,36
+
+[PgTable2id]
+Coordinates=431,556,80,36
+
+[PgTable2cnt]
+Coordinates=342,556,87,36
 

@@ -1,5 +1,4 @@
 object DataModule3: TDataModule3
-  OnCreate = DataModuleCreate
   Height = 480
   Width = 640
   object FDQuery1: TFDQuery

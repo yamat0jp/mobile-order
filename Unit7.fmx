@@ -8,7 +8,7 @@ object Form7: TForm7
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
-  OnCreate = RadioButton1Change
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   DesignerMasterStyle = 0
   object RadioButton1: TRadioButton
@@ -3116,9 +3116,7 @@ object Form7: TForm7
   end
   object PgConnection1: TPgConnection
     Username = 'postgres'
-    Server = '192.168.68.54'
     Database = 'mydb'
-    Connected = True
     Left = 320
     Top = 64
     EncryptedPassword = '92FF9EFF8CFF8BFF9AFF8DFF94FF9AFF86FF'
@@ -3126,7 +3124,6 @@ object Form7: TForm7
   object PgTable1: TPgTable
     TableName = 'kitchen'
     Connection = PgConnection1
-    Active = True
     Left = 424
     Top = 64
     object PgTable1tableid: TIntegerField
@@ -3152,10 +3149,19 @@ object Form7: TForm7
   end
   object PgTable2: TPgTable
     TableName = 'item'
+    MasterFields = 'id'
+    DetailFields = 'id'
+    MasterSource = DataSource1
     Connection = PgConnection1
-    Active = True
     Left = 520
     Top = 64
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+        Value = 2
+      end>
     object PgTable2id: TIntegerField
       AutoGenerateValue = arAutoInc
       FieldName = 'id'
@@ -3207,5 +3213,15 @@ object Form7: TForm7
     Connection = PgConnection1
     Left = 704
     Top = 64
+  end
+  object DataSource1: TDataSource
+    DataSet = PgTable1
+    Left = 424
+    Top = 128
+  end
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'FMX'
+    Left = 320
+    Top = 136
   end
 end

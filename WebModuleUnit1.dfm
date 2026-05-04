@@ -32,7 +32,7 @@ object WebModule1: TWebModule1
     end>
   BeforeDispatch = WebModuleBeforeDispatch
   OnException = WebModuleException
-  Height = 203
+  Height = 245
   Width = 415
   object DataSource1: TDataSource
     DataSet = FDTable1
@@ -44,8 +44,7 @@ object WebModule1: TWebModule1
       'Database=mydb'
       'User_Name=postgres'
       'CharacterSet=UTF8'
-      'Server=192.168.68.54'
-      'Password=masterkey'
+      'Server='
       'DriverID=PG')
     Connected = True
     Left = 168
@@ -206,5 +205,14 @@ object WebModule1: TWebModule1
       Origin = 'ip'
       BlobType = ftWideMemo
     end
+  end
+  object FDPhysPgDriverLink1: TFDPhysPgDriverLink
+    Left = 280
+    Top = 40
+  end
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 152
+    Top = 176
   end
 end
