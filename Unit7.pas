@@ -347,7 +347,7 @@ begin
   PgConnection1.Open;
   PgTable1.Open;
   PgTable2.Open;
-  PgQuery1.Execute;
+  //PgQuery1.Execute;
   RadioButton1Change(nil);
 end;
 

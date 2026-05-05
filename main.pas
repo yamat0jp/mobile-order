@@ -6,8 +6,8 @@ uses
   System.SysUtils, System.Classes, JS, Web, WEBLib.Graphics,
   WEBLib.Forms, WEBLib.Dialogs, WEBLib.ExtCtrls, WEBLib.CSS,
   WEBLib.Controls, WEBLib.StdCtrls, WEBLib.WebCtrls, WEBLib.JSON,
-  WEBLib.Slider, WEBLib.REST,
-  WEBLib.Menus, Vcl.Imaging.GIFImg, Vcl.Controls, Vcl.StdCtrls;
+  WEBLib.Slider, WEBLib.REST, WEBLib.Menus, Vcl.Imaging.GIFImg, Vcl.Controls,
+  Vcl.StdCtrls;
 
 type
   TForm1 = class(TWebForm)
@@ -83,7 +83,6 @@ begin
     procedure(mr: TModalResult)
     begin
       WebHttpRequest2.PostData := tableID.ToString;
-      WebHttpRequest1.Execute;
       WebHttpRequest2.Execute;
     end);
 end;
@@ -174,6 +173,7 @@ var
   i: integer;
   Order: TAdvanceData;
 begin
+  WebHttpRequest1.Execute;
   Unit2.List.Clear;
   JSON := TJSONObject.ParseJSONValue(AResponse) as TJSONObject;
   try
@@ -190,7 +190,6 @@ end;
 
 procedure TForm1.WebHttpRequest3Response(Sender: TObject; AResponse: string);
 begin
-  WebHttpRequest1.Execute;
   WebHttpRequest2.Execute;
   WebLabel1.Caption := '  ' + AResponse + ' 番テーブル';
 end;

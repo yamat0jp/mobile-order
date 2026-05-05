@@ -15,39 +15,7 @@ uses
 
 type
   TWebModule1 = class(TWebModule)
-    DataSource1: TDataSource;
     FDConnection1: TFDConnection;
-    FDTable1: TFDTable;
-    FDTable2: TFDTable;
-    FDTable2id: TIntegerField;
-    FDTable2category: TWideMemoField;
-    FDTable2name: TWideMemoField;
-    FDTable2comment: TWideMemoField;
-    FDTable2price: TIntegerField;
-    FDTable2qty: TIntegerField;
-    FDTable2cnt: TIntegerField;
-    FDTable2fileext: TWideMemoField;
-    FDTable2image: TBlobField;
-    FDTable1tableid: TIntegerField;
-    FDTable1orderid: TIntegerField;
-    FDTable1id: TIntegerField;
-    FDTable1qty: TIntegerField;
-    FDTable1timedata: TWideMemoField;
-    FDTable1status: TIntegerField;
-    FDTable3: TFDTable;
-    FDTable4: TFDTable;
-    FDTable4id: TIntegerField;
-    FDTable4tableid: TIntegerField;
-    FDTable4ip: TWideMemoField;
-    FDTable3id: TIntegerField;
-    FDTable3category: TWideMemoField;
-    FDTable3name: TWideMemoField;
-    FDTable3comment: TWideMemoField;
-    FDTable3price: TIntegerField;
-    FDTable3qty: TIntegerField;
-    FDTable3cnt: TIntegerField;
-    FDTable3fileext: TWideMemoField;
-    FDTable3image: TBlobField;
     FDPhysPgDriverLink1: TFDPhysPgDriverLink;
     FDGUIxWaitCursor1: TFDGUIxWaitCursor;
     procedure WebModule1DefaultHandlerAction(Sender: TObject;
@@ -65,8 +33,11 @@ type
     procedure WebModuleException(Sender: TObject; E: Exception;
       var Handled: Boolean);
   private
-    { private 宣言 }
+    function GetOrCreateSessionID(Request: TWebRequest;
+      Response: TWebResponse): string;
     function BlobImageString(DataSet: TDataSet): string;
+    function NewConnection: TFDConnection;
+    { private 宣言 }
   public
     { public 宣言 }
   end;
@@ -80,7 +51,7 @@ implementation
 {$R *.dfm}
 
 uses System.JSON, System.IOUtils, System.NetEncoding, webData, Vcl.Graphics,
-  info, System.Variants;
+  info, System.Variants, System.Hash;
 
 function TWebModule1.BlobImageString(DataSet: TDataSet): string;
 var
@@ -91,194 +62,333 @@ begin
   try
     SetLength(bytes, blob.Size);
     blob.ReadBuffer(bytes, 0, blob.Size);
-    Result := Format('data:image/%s;base64,',
-      [DataSet.FieldByName('fileext').AsString]) +
-      TNetEncoding.Base64.EncodeBytesToString(bytes);
+    result := 'data:image/' + DataSet.FieldByName('fileext').AsString +
+      ';base64,' + TNetEncoding.Base64.EncodeBytesToString(bytes);
   finally
     blob.Free;
   end;
 end;
 
+function TWebModule1.GetOrCreateSessionID(Request: TWebRequest;
+  Response: TWebResponse): string;
+const
+  CookieName = 'SESSION_ID';
+var
+  cookie: string;
+begin
+  cookie := Request.CookieFields.Values[CookieName];
+
+  if cookie <> '' then
+    Exit(cookie);
+
+  // 新規発行（適当なランダム文字列）
+  result := THashMD5.GetHashString(IntToStr(Random(MaxInt)) + DateTimeToStr(Now)
+    + Request.RemoteIP);
+
+  // Cookie にセット（有効期限は適宜）
+  with Response.Cookies.Add do
+  begin
+    Name := CookieName;
+    Value := result;
+    Path := '/';
+    HttpOnly := true;
+//    SameSite := TCookieSameSite.Lax;
+    Expires := Now + 1;
+  end;
+end;
+
+function TWebModule1.NewConnection: TFDConnection;
+begin
+  result := TFDConnection.Create(nil);
+  result.Params.Assign(FDConnection1.Params);
+  result.Connected := true;
+end;
+
 procedure TWebModule1.WebModule1DefaultHandlerAction(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
+  Conn: TFDConnection;
+  Q: TFDQuery;
   JSON: TJSONObject;
   Data: TJSONArray;
   order: TOrderData;
-  img: string;
 begin
   JSON := TJSONObject.Create;
+  Data := TJSONArray.Create;
   order := TOrderData.Create;
-  try
-    FDTable3.Filter := 'category = ' +
-      QuotedStr(Request.QueryFields.Values['category']);
-    FDTable3.Filtered := true;
-    Data := TJSONArray.Create;
-    FDTable3.First;
-    while not FDTable3.Eof do
-    begin
-      img := BlobImageString(FDTable3);
 
-      order.category := FDTable3.FieldByName('category').AsString;
-      order.id := FDTable3.FieldByName('id').AsInteger;
-      order.name := FDTable3.FieldByName('name').AsString;
-      order.comment := FDTable3.FieldByName('comment').AsString;
-      order.qty := FDTable3.FieldByName('qty').AsInteger;
-      order.price := FDTable3.FieldByName('price').AsInteger;
-      order.count := FDTable3.FieldByName('cnt').AsInteger;
-      order.ImageBase64 := img;
+  Conn := NewConnection;
+  Q := TFDQuery.Create(nil);
+
+  try
+    // 接続設定をコピー
+    Conn.Params.Assign(FDConnection1.Params);
+    Conn.Connected := true;
+
+    Q.Connection := Conn;
+    Q.SQL.Text :=
+      'SELECT id, category, name, comment, qty, price, cnt, fileext, image ' +
+      'FROM item WHERE category = :cat order by id';
+    Q.ParamByName('cat').AsString := Request.QueryFields.Values['category'];
+    Q.Open;
+
+    while not Q.Eof do
+    begin
+      // Blob → Base64
+      order.ImageBase64 := BlobImageString(Q);
+      // JSON オブジェクトへ
+      order.category := Q.FieldByName('category').AsString;
+      order.id := Q.FieldByName('id').AsInteger;
+      order.name := Q.FieldByName('name').AsString;
+      order.comment := Q.FieldByName('comment').AsString;
+      order.qty := Q.FieldByName('qty').AsInteger;
+      order.price := Q.FieldByName('price').AsInteger;
+      order.count := Q.FieldByName('cnt').AsInteger;
+      order.ImageBase64 := BlobImageString(Q);
+
       Data.Add(order.toJson);
-      FDTable3.Next;
+      Q.Next;
     end;
+
     if Data.count = 0 then
       Response.Content := '{}'
     else
     begin
       JSON.AddPair('items', Data);
-      Response.ContentType := 'applicatrion/json; charset=utf-8';
+      Response.ContentType := 'application/json; charset=utf-8';
       Response.Content := JSON.toJson;
     end;
+
   finally
-    JSON.Free;
+    Q.Free;
+    Conn.Free;
     order.Free;
+    JSON.Free;
   end;
 end;
 
 procedure TWebModule1.WebModule1WebActionItem1Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
-  s: string;
-  ip: string;
-  id: integer;
-  v: Variant;
+  tableStr: string;
+  sessionID: string;
+  Conn: TFDConnection;
+  Q: TFDQuery;
 begin
-  s := Request.QueryFields.Values['table'];
-  if s = '' then
-  begin
-    v := FDTable4.Lookup('ip', Request.RemoteIP, 'tableID');
-    if not VarIsNull(v) then
-      Response.Content := v;
-  end
-  else
-  begin
-    id := s.ToInteger;
-    ip := Request.RemoteIP;
-    if not FDTable4.Locate('ip', ip) then
-      FDTable4.AppendRecord([nil, id, ip])
+  sessionID := GetOrCreateSessionID(Request, Response);
+  tableStr := Request.QueryFields.Values['table'];
+
+  Conn := NewConnection;
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := Conn;
+    if tableStr = '' then
+    begin
+      Q.SQL.Text := 'SELECT tableID FROM uid WHERE session_id = :sid';
+      Q.ParamByName('sid').AsString := sessionID;
+      Q.Open;
+
+      if not Q.Eof then
+        Response.Content := Q.FieldByName('tableID').AsString
+      else
+        Response.Content := '';
+    end
     else
     begin
-      FDTable4.Edit;
-      FDTable4.FieldByName('tableID').AsInteger := id;
-      FDTable4.Post;
+      // テーブル設定
+      Q.SQL.Text := 'INSERT INTO uid (session_id, tableID) VALUES (:sid, :tid) ' +
+        'ON CONFLICT (session_id) DO UPDATE SET tableID = EXCLUDED.tableID';
+
+      Q.ParamByName('sid').AsString := sessionID;
+      Q.ParamByName('tid').AsInteger := tableStr.ToInteger;
+      Q.ExecSQL;
+
+      Response.Content := tableStr;
+      Response.SendRedirect(info.myurl);
     end;
-    Response.Content := s;
-    Response.SendRedirect(info.myurl);
+  finally
+    Conn.Free;
+    Q.Free;
   end;
 end;
 
 procedure TWebModule1.WebModule1WebActionItem2Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
-  order: TAdvanceData;
+  Conn: TFDConnection;
+  Q: TFDQuery;
   JSON: TJSONObject;
   arr: TJSONArray;
+  order: TAdvanceData;
+  sessionID: string;
+  tableID: integer;
 begin
+  sessionID := GetOrCreateSessionID(Request, Response);
+
+  Conn := NewConnection;
+  Q := TFDQuery.Create(nil);
   JSON := TJSONObject.Create;
+  arr := TJSONArray.Create;
   order := TAdvanceData.Create;
+
   try
-    if not FDTable4.Locate('ip', Request.RemoteIP) then
-      Exit;
-    FDTable1.Filter := 'status < 2 and tableID = ' + FDTable4.FieldByName
-      ('tableID').AsString;
-    FDTable1.Filtered := true;
-    arr := TJSONArray.Create;
-    FDTable1.First;
-    while not FDTable1.Eof do
+    Q.Connection := Conn;
+
+    // 1. セッションID → tableID を取得
+    Q.SQL.Text := 'SELECT tableID FROM uid WHERE session_id = :sid';
+    Q.ParamByName('sid').AsString := sessionID;
+    Q.Open;
+
+    if Q.Eof then
     begin
-      order.name := FDTable2.FieldByName('name').AsString;
-      order.qty := FDTable1.FieldByName('qty').AsInteger;
-      order.price := FDTable2.FieldByName('price').AsInteger;
-      order.comment := FDTable2.FieldByName('comment').AsString;
-      order.ImageBase64 := BlobImageString(FDTable2);
-      order.time := FDTable1.FieldByName('timedata').AsString;
-      arr.Add(order.toJson);
-      FDTable1.Next;
+      Response.Content := '{}';
+      Exit;
     end;
+
+    tableID := Q.FieldByName('tableID').AsInteger;
+
+    // 2. 注文一覧を JOIN で取得
+    Q.Close;
+    Q.SQL.Text :=
+      'SELECT kitchen.qty, timedata, name, price, comment, fileext, image '
+      + 'FROM kitchen JOIN item ON kitchen.id = item.id ' +
+      'WHERE tableID = :tid AND status < 2 ORDER BY timedata';
+    Q.ParamByName('tid').AsInteger := tableID;
+    Q.Open;
+
+    // 3. JSON 生成
+    while not Q.Eof do
+    begin
+      order.name := Q.FieldByName('name').AsString;
+      order.qty := Q.FieldByName('qty').AsInteger;
+      order.price := Q.FieldByName('price').AsInteger;
+      order.comment := Q.FieldByName('comment').AsString;
+      order.time := Q.FieldByName('timedata').AsString;
+
+      order.ImageBase64 := BlobImageString(Q);
+
+      arr.Add(order.toJson);
+      Q.Next;
+    end;
+
     JSON.AddPair('items', arr);
     Response.ContentType := 'application/json; charset=utf-8';
+
     if arr.count = 0 then
       Response.Content := '{}'
     else
       Response.Content := JSON.toJson;
+
   finally
-    JSON.Free;
     order.Free;
+    JSON.Free;
+    Q.Free;
+    Conn.Free;
   end;
 end;
 
 procedure TWebModule1.WebModule1WebActionItem4Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
+  Conn: TFDConnection;
+  Q: TFDQuery;
   JSON: TJSONObject;
+  sessionID: string;
+  tableID, itemID, qty, count: integer;
 begin
   JSON := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
-  try
-    if not FDTable4.Locate('ip', Request.RemoteIP) then
-      Exit;
-    if FDTable3.Locate('id', JSON.GetValue<integer>('id')) then
-    begin
-      FDTable3.Edit;
-      FDTable3.FieldByName('cnt').AsInteger := JSON.GetValue<integer>('count');
-      FDTable3.Post;
-      Response.Content := '注文しました';
+  sessionID := GetOrCreateSessionID(Request, Response);
 
-      FDTable1.Append;
-      FDTable1.FieldByName('id').AsInteger := FDTable3.FieldByName('id')
-        .AsInteger;
-      FDTable1.FieldByName('tableID').AsInteger :=
-        FDTable4.FieldByName('tableID').AsInteger;
-      FDTable1.FieldByName('qty').AsInteger := JSON.GetValue<integer>('qty');
-      FDTable1.FieldByName('timedata').AsString :=
-        FormatDateTime('hh:nn', GetTime);
-      FDTable1.FieldByName('status').AsInteger := Ord(TOrderStatus.pending);
-      FDTable1.Post;
-    end
-    else
-      Response.Content := 'エラー：しばらく待ってご注文ください';
+  Conn := NewConnection;
+  Q := TFDQuery.Create(nil);
+
+  try
+    // テーブルID取得
+    Q.Connection := Conn;
+    Q.SQL.Text := 'SELECT tableID FROM uid WHERE session_id = :sid';
+    Q.ParamByName('sid').AsString := sessionID;
+    Q.Open;
+
+    if Q.Eof then
+    begin
+      Response.Content := 'テーブル未設定です';
+      Exit;
+    end;
+
+    tableID := Q.FieldByName('tableID').AsInteger;
+
+    // JSON から値取得
+    itemID := JSON.GetValue<integer>('id');
+    qty := JSON.GetValue<integer>('qty');
+    count := JSON.GetValue<integer>('count');
+
+    // cnt 更新
+    Q.SQL.Text := 'UPDATE item SET cnt = :c WHERE id = :id';
+    Q.ParamByName('c').AsInteger := count;
+    Q.ParamByName('id').AsInteger := itemID;
+    Q.ExecSQL;
+
+    // 注文追加
+    Q.SQL.Text := 'INSERT INTO kitchen (id, tableID, qty, timedata, status) ' +
+      'VALUES (:id, :tid, :qty, :time, :status)';
+    Q.ParamByName('id').AsInteger := itemID;
+    Q.ParamByName('tid').AsInteger := tableID;
+    Q.ParamByName('qty').AsInteger := qty;
+    Q.ParamByName('time').AsString := FormatDateTime('hh:nn', Now);
+    Q.ParamByName('status').AsInteger := 0; // pending
+    Q.ExecSQL;
+
+    Response.Content := '注文しました';
+
   finally
     JSON.Free;
+    Q.Free;
+    Conn.Free;
   end;
 end;
 
 procedure TWebModule1.WebModule1WebActionItem5Action(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
-  JSON: TJSONObject;
+  Conn: TFDConnection;
+  Q: TFDQuery;
+  sessionID: string;
   tableID: integer;
-  i: integer;
 begin
-  JSON := TJSONObject.ParseJSONValue(Request.Content) as TJSONObject;
+  sessionID := GetOrCreateSessionID(Request, Response);
+
+  Conn := NewConnection;
+  Q := TFDQuery.Create(nil);
+
   try
-    if not FDTable4.Locate('ip', Request.RemoteIP) then
-      Exit;
-    tableID := FDTable1.FieldByName('tableID').AsInteger;
-    FDTable1.Filter := 'tableID = ' + tableID.ToString;
-    FDTable1.First;
-    while not FDTable1.Eof do
+    // テーブルID取得
+    Q.Connection := Conn;
+    Q.SQL.Text := 'SELECT tableID FROM uid WHERE session_id = :sid';
+    Q.ParamByName('sid').AsString := sessionID;
+    Q.Open;
+
+    if Q.Eof then
     begin
-      FDTable1.Edit;
-      i := FDTable1.FieldByName('status').AsInteger;
-      if i = 0 then
-        FDTable1.FieldByName('status').AsInteger := 3
-      else if i = 1 then
-        FDTable1.FieldByName('status').AsInteger := Ord(TOrderStatus.billing);
-      FDTable1.Post;
-      FDTable1.Next;
+      Response.Content := 'テーブル未設定です';
+      Exit;
     end;
+
+    tableID := Q.FieldByName('tableID').AsInteger;
+
+    // 会計処理
+    Q.SQL.Text := 'UPDATE kitchen SET status = ' + 'CASE WHEN status = 0 THEN 3 '
+      + // pending → canceled?
+      '     WHEN status = 1 THEN 2 ' + // cooking → billing
+      '     ELSE status END ' + 'WHERE tableID = :tid';
+    Q.ParamByName('tid').AsInteger := tableID;
+    Q.ExecSQL;
+
+    Response.Content := '会計処理ができました';
+
   finally
-    JSON.Free;
+    Q.Free;
+    Conn.Free;
   end;
-  Response.Content := '会計処理ができました';
 end;
 
 procedure TWebModule1.WebModuleBeforeDispatch(Sender: TObject;
@@ -295,7 +405,7 @@ procedure TWebModule1.WebModuleException(Sender: TObject; E: Exception;
 begin
   Response.ContentType := 'text/html; charset=UTF-8';
   Response.StatusCode := 500;
-  Response.Content := E.Message + ' {' + info.server + '}';
+  Response.Content := E.Message;
   Handled := true;
 end;
 

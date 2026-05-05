@@ -42,6 +42,5 @@ inherited Form7_XLgXhdpiTb: TForm7_XLgXhdpiTb
   end
   inherited PgConnection1: TPgConnection
     Pooling = True
-    EncryptedPassword = '92FF9EFF8CFF8BFF9AFF8DFF94FF9AFF86FF'
   end
 end

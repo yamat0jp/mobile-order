@@ -26,7 +26,4 @@ inherited Form7_NmXhdpiPh: TForm7_NmXhdpiPh
     Viewport.Width = 793.000000000000000000
     Viewport.Height = 505.000000000000000000
   end
-  inherited PgConnection1: TPgConnection
-    EncryptedPassword = '92FF9EFF8CFF8BFF9AFF8DFF94FF9AFF86FF'
-  end
 end

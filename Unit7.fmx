@@ -3116,10 +3116,11 @@ object Form7: TForm7
   end
   object PgConnection1: TPgConnection
     Username = 'postgres'
+    Server = 'localhost'
     Database = 'mydb'
+    Connected = True
     Left = 320
     Top = 64
-    EncryptedPassword = '92FF9EFF8CFF8BFF9AFF8DFF94FF9AFF86FF'
   end
   object PgTable1: TPgTable
     TableName = 'kitchen'
@@ -3155,13 +3156,6 @@ object Form7: TForm7
     Connection = PgConnection1
     Left = 520
     Top = 64
-    ParamData = <
-      item
-        DataType = ftInteger
-        Name = 'id'
-        ParamType = ptInput
-        Value = 2
-      end>
     object PgTable2id: TIntegerField
       AutoGenerateValue = arAutoInc
       FieldName = 'id'
@@ -3201,11 +3195,14 @@ object Form7: TForm7
       ''
       
         'create table if not exists uid(id serial primary key, tableID in' +
-        'teger, ip text);'
+        'teger, session_id text not null);'
       
         'create table if not exists kitchen(tableID integer, orderID seri' +
         'al PRIMARY KEY, '
-      '  id integer, qty integer, timedata text, status integer);')
+      '  id integer, qty integer, timedata text, status integer);'
+      ''
+      'ALTER TABLE uid'
+      'ADD CONSTRAINT uq_uid_session UNIQUE (session_id);')
     Left = 608
     Top = 64
   end
